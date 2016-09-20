@@ -1,0 +1,4 @@
+-meet with team and discuss the direction and name of the app
+-work on deliverable one(document and presentation)
+-get familiar with android sdk
+-get android studio project template on github
