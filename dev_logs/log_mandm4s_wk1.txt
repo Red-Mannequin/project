@@ -1,0 +1,2 @@
+* Contributed towards deliverable one
+* Becoming accustomed to Android development platform
