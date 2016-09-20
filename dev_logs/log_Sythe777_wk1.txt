@@ -1,0 +1,4 @@
+* Discussed deliverable1
+* Created dev_logs directory
+* Researched android APIs
+* Researched audio manipulation APIs
