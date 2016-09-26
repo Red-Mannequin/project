@@ -1,2 +1,3 @@
 * Contributed towards deliverable one
 * Becoming accustomed to Android development platform
+* Had team meeting to discuss current/future goals, and deliverable 01
