@@ -1,0 +1,5 @@
+- Did the presentation
+- Familiarization with Android Studio 
+- Team  Meeting
+  - Split up tasks to work on
+  
