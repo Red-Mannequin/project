@@ -1,1 +1,8 @@
-...
+Duties for this week:
+- finish user scenarios for Deliverable 1
+- add functional and non-functional properties to Deliverable 1
+- work on slide show for presentation
+
+Achievements for this week:
+- Finished Deliverable 1 pdf
+- Finished Deliverable 1 slide show
