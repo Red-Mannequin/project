@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_6f96ddb3f94e3ef3590d168fd5acb19f8c3bb56a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="cd978fc97fac8897e67dcae0c37c153ac8e1bc92">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_5868aafeb1bdc7c26dc28acaa37f3541cf1669c6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_5f6442532c3eafd8373bddf5fda0f97733d5d36e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_ec892b6b659d8bcf101242f5e5f8888b271c072c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_368b8a6cc395008cad2404b0d57d79a42e44d0ae\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_d525192706829f277329b0be81a37e405ade1889\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.2.1_582880e4753ccca0e2728ae2e31ec816dc2a58f5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_dffe1378bf2e65e143e3417b958848df6c9e6446\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_459629f380e8351a9b5a3c3e0d078bdb52454592\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_1dfbab83751e8e376a1bcf7d9045a52b6213cb66\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_8beaccc16f29dd972a6810ac2ddb47871d0e86b0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_badcaf0816505cfea90b8e427265414b1fb4fe94\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\design\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.2.1_b2a56a3d2833222401bbe3f86955f4114e44a399\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_1947e54f4b1c8ea5519468932fcb9f2836d14c50\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_b06b4942c235daafbd771aaffd05bd603e72bbc5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_faef018b2ca3eeef430bdcdb46f575bbd2507b8e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.1_86102a723c5ed163180e35afa53a371282809568\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="243bc1467bf3473cede98a40b1802a97bc586979">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_975088bcf324bc4843db1ba09304235ef57cd818\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="C:\Users\Tom\Documents\GitHub\project\Resonance\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_f0dd8e58dfa111faca00d1eb5a1f239fbe77cfd1\classes.dex" />
+    </item>
+
+</items>
