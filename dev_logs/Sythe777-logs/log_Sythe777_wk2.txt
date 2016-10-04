@@ -1,4 +1,0 @@
-* Completed presentation slides for deliverable 1
-* Presented deliverable 1
-* Read up on android studio usage
-* Assigned workloads for first week
