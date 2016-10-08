@@ -1,0 +1,5 @@
+working on test project to learn android development 
+create a panel for the audio visualization
+create buttons for the audio playback and record
+
+working with matt walker to crate the UI
