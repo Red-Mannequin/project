@@ -1,0 +1,2 @@
+* Made new branch "Recording"
+* Implemented functions to capture audio
