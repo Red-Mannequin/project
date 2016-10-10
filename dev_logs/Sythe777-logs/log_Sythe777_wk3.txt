@@ -1,0 +1,2 @@
+* Learned about how events are programmed and handled in android
+* Implemented basic functions with regards to project objectives
