@@ -1,0 +1,4 @@
+Duties for this week:
+- implement feature menu
+
+Achievements for this week:
