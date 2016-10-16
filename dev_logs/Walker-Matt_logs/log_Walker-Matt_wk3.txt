@@ -1,0 +1,6 @@
+Duties for this week:
+- work on features menu
+- research swipe gresture functionality
+
+Achievements for this week:
+- got swipe feature to work
