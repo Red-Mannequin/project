@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Resonance</string>
+    <string name="section_format">effect #%1$d</string>
 </resources>
