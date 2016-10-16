@@ -8,12 +8,11 @@
     android:layout_height="match_parent"
     tools:context="com.redmannequin.resonance.MainActivity">
 
-    <LinearLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="0.4"
-        android:background="#003cff">
-    </LinearLayout>
+        android:layout_weight="0.4" />
 
 
     <com.redmannequin.resonance.AudioWaveView
