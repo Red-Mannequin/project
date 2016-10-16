@@ -1,0 +1,9 @@
+-got basic ui for track view to work
+-planning out the flow of the ui
+-binding buttons from track view to function calls
+
+-planes for next week:
+  -get audio wave into track view
+  -get playback and record buttons working 
+  -add the start screen 
+
