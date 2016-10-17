@@ -12,14 +12,13 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="0.4" />
+        android:layout_weight="0.4"/>
 
 
     <com.redmannequin.resonance.AudioWaveView
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="0.5"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,21 +30,21 @@
         <Button
             android:text="play"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/play_button"
             android:layout_weight="1" />
 
         <Button
             android:text="record"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/record_button"
             android:layout_weight="1" />
 
         <Button
             android:text="stop"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/stop_button"
             android:layout_weight="1" />
 
