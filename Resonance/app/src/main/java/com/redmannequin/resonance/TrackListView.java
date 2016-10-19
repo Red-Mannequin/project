@@ -8,14 +8,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainMenu extends AppCompatActivity {
+public class TrackListView extends AppCompatActivity {
 
     String[] trackList = {"track 1", "track 2", "track 3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_track_list_view);
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_tacklist, trackList);
         ListView trackView = (ListView) findViewById(R.id.tack_list);
