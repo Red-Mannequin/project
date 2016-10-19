@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:orientation="vertical"
-    android:padding="2dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.redmannequin.resonance.MainActivity">

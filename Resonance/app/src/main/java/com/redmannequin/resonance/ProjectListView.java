@@ -9,5 +9,6 @@ public class ProjectListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list_view);
+
     }
 }
