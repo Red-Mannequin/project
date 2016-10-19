@@ -1,0 +1,20 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.redmannequin.resonance.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="This is effect #1, it has a slider."
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
