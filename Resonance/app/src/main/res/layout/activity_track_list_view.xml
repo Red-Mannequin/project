@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.redmannequin.resonance.MainMenu">
+    tools:context="com.redmannequin.resonance.TrackListView">
 
     <ListView
         android:id="@+id/tack_list"
