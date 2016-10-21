@@ -13,6 +13,8 @@ import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 
+import com.redmannequin.resonance.BackendTesting.Track;
+
 public class MainActivity extends AppCompatActivity {
 
     private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
@@ -22,11 +24,16 @@ public class MainActivity extends AppCompatActivity {
     private Button stop_button;
     private AudioWaveView waveView;
 
+    private Track track;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        track = getIntent().getParcelableExtra("track");
+        setTitle(track.getName());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
