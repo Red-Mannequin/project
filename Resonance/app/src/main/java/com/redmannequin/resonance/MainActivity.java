@@ -31,10 +31,13 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        final Track audio = new Track();
+
         final Button play_button = (Button) findViewById(R.id.play_button);
         play_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                audio.togglePlay();
             }
         });
 
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         stop_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                audio.stop();
             }
         });
 
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         record_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                audio.toggleRecord();
             }
         });
 
