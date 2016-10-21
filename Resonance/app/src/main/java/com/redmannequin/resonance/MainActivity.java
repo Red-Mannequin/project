@@ -18,10 +18,15 @@ public class MainActivity extends AppCompatActivity {
     private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
+    private Button play_button;
+    private Button stop_button;
+    private AudioWaveView waveView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -42,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button stop_button = (Button) findViewById(R.id.stop_button);
+        // listener for the stop button
+        stop_button = (Button) findViewById(R.id.stop_button);
         stop_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -58,6 +64,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        // used to update waveView
+        waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
+            MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            return rootView;
+        }
     }
 
     //Returns pages/effects specified by the ViewPager

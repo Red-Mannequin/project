@@ -16,7 +16,8 @@
     <com.redmannequin.resonance.AudioWaveView
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.5"
+        android:id="@+id/track_wave_view"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,13 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/play_button"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="record"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/record_button"
             android:layout_weight="1" />
 
         <Button
