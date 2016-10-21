@@ -23,7 +23,6 @@ public class TrackListView extends AppCompatActivity {
 
         project = (Project) getIntent().getParcelableExtra("project");
 
-
         // creates a list with the track names
         ArrayList<String> trackList = project.getTrackNames();
         trackList.add("+");
