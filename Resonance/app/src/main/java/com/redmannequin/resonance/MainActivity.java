@@ -6,11 +6,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     //Returns pages/effects specified by the ViewPager
@@ -73,15 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment out;
-            if(position == 0) {
-                out = Effect1.getFragment();
-            } else if(position == 1) {
-                out = Effect2.getFragment();
-            } else {
-                out = Effect3.getFragment();
-            }
-            return out;
+            Fragment[] effects;
+            effects = new Fragment[3];
+            effects[0] = Effect1.getFragment();
+            effects[1] = Effect2.getFragment();
+            effects[2] = Effect3.getFragment();
+            return effects[position];
         }
 
         @Override
