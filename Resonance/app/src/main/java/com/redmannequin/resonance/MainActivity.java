@@ -1,5 +1,6 @@
 package com.redmannequin.resonance;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button play_button;
     private Button stop_button;
     private AudioWaveView waveView;
+    private Intent intent;
 
     private Track track;
     private Project project;
@@ -81,6 +83,17 @@ public class MainActivity extends AppCompatActivity {
         // used to update waveView
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        // send changes back to previous activity
+        intent = new Intent(this, TrackListView.class);
+        intent.putExtra("project", project);
+        intent.putExtra("backend", backend);
+        startActivity(intent);
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.
