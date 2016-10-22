@@ -7,16 +7,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.redmannequin.resonance.BackendTesting.TrackB;
 import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 
 import com.redmannequin.resonance.BackendTesting.Backend;
 import com.redmannequin.resonance.BackendTesting.Project;
-import com.redmannequin.resonance.BackendTesting.Track;
+import com.redmannequin.resonance.BackendTesting.TrackB;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private AudioWaveView waveView;
     private Intent intent;
 
-    private Track track;
+    private TrackB track;
     private Project project;
     private Backend backend;
 
@@ -71,15 +75,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button record_button = (Button) findViewById(R.id.record_button);
-        record_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                audio.toggleRecord();
-            }
-        });
-
-
         // used to update waveView
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
     }
@@ -92,42 +87,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("project", project);
         intent.putExtra("backend", backend);
         startActivity(intent);
-    }
-
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
-            MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
     }
 
     //Returns pages/effects specified by the ViewPager

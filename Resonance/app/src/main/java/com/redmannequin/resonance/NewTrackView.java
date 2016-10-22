@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.redmannequin.resonance.BackendTesting.Backend;
 import com.redmannequin.resonance.BackendTesting.Project;
-import com.redmannequin.resonance.BackendTesting.Track;
+import com.redmannequin.resonance.BackendTesting.TrackB;
 
 public class NewTrackView extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class NewTrackView extends AppCompatActivity {
     private EditText trackNameInput;
     private Intent intent;
 
-    private Track track;
+    private TrackB track;
     private Project project;
     private Backend backend;
 
@@ -36,7 +36,7 @@ public class NewTrackView extends AppCompatActivity {
             public void onClick(View v) {
 
                 String trackName = trackNameInput.getText().toString();
-                track = new Track(trackName);
+                track = new TrackB(trackName);
                 project.add(track);
 
                 // switches to the TackListView

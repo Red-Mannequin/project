@@ -1,6 +1,5 @@
 package com.redmannequin.resonance;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
 import java.io.File;
