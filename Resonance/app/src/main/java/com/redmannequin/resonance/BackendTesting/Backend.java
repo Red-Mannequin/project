@@ -32,7 +32,7 @@ public class Backend implements Parcelable {
                 JSONArray tracks = project.optJSONArray("tracks");
                 for (int j=0; j < project.length(); ++j) {
                     JSONObject track = tracks.getJSONObject(j);
-                    Track newTrack = new Track(track.optString("name").toString());
+                    TrackB newTrack = new TrackB(track.optString("name").toString());
                     newProject.add(newTrack);
                 }
                 this.projects.add(newProject);

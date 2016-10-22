@@ -12,31 +12,31 @@ import java.util.ArrayList;
 public class Project implements Parcelable{
 
     private String name;
-    private ArrayList<Track> tracks;
+    private ArrayList<TrackB> tracks;
 
     public Project(String name) {
         this.name = name;
-        this.tracks = new ArrayList<Track>();
+        this.tracks = new ArrayList<TrackB>();
     }
 
     protected Project(Parcel in) {
         name = in.readString();
-        tracks = in.readArrayList(Track.class.getClassLoader());
+        tracks = in.readArrayList(TrackB.class.getClassLoader());
     }
 
-    public void add(Track track) {
+    public void add(TrackB track) {
         tracks.add(track);
     }
 
     public ArrayList<String> getTrackNames() {
         ArrayList<String> trackNames = new ArrayList<String>();
-        for (Track track: tracks) {
+        for (TrackB track: tracks) {
             trackNames.add(track.getName());
         }
         return trackNames;
     }
 
-    public Track getTrack(int i) {
+    public TrackB getTrack(int i) {
         return tracks.get(i);
     }
 
