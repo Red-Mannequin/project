@@ -2,14 +2,12 @@ package com.redmannequin.resonance.BackendTesting;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Backend implements Parcelable {
 
@@ -48,12 +46,14 @@ public class Backend implements Parcelable {
         return projects.get(i);
     }
 
+    public void add(Project project) {
+        projects.add(project);
+    }
+
     public ArrayList<String> getProjectList() {
-        Log.w("Backend: ", "getting projects");
         ArrayList<String> list = new ArrayList<String>();
         for (Project project : projects) {
             list.add(project.getName());
-            Log.w("Backend : project : ", project.getName());
         }
         return list;
     }

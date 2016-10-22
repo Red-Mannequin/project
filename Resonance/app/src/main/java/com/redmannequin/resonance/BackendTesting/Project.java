@@ -1,11 +1,11 @@
 package com.redmannequin.resonance.BackendTesting;
 
+// android
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.SystemClock;
 import android.util.Log;
-import android.widget.Toast;
 
+// java
 import java.util.ArrayList;
 
 
@@ -32,7 +32,6 @@ public class Project implements Parcelable{
         ArrayList<String> trackNames = new ArrayList<String>();
         for (Track track: tracks) {
             trackNames.add(track.getName());
-            Log.w("Project Track:", track.getName());
         }
         return trackNames;
     }

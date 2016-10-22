@@ -33,7 +33,10 @@
         <activity
             android:name=".NewProjectView"
             android:label="New Project" />
-        <activity android:name=".NewTrackView"></activity>
+        <activity
+            android:name=".NewTrackView"
+            android:label="New Track"
+            />
     </application>
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
