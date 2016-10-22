@@ -48,12 +48,14 @@ public class TrackListView extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == parent.getCount()-1) {
+                    finish();
                     // switch to NewTrackView and passes project and backend
                     intent = new Intent(getApplicationContext(), NewTrackView.class);
                     intent.putExtra("project", project);
                     intent.putExtra("backend", backend);
                     startActivity(intent);
                 } else {
+                    finish();
                     // switch to MainActivity and passes project and backend
                     intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("track", project.getTrack(position));
@@ -67,12 +69,11 @@ public class TrackListView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
         // send changes back to previous activity
-        intent = new Intent();
-        intent.putExtra("project", project);
+        intent = new Intent(this, ProjectListView.class);
         intent.putExtra("backend", backend);
-        setResult(RESULT_OK, intent);
-        super.onBackPressed();
+        startActivity(intent);
     }
 
 }

@@ -15,6 +15,7 @@ public class NewTrackView extends AppCompatActivity {
 
     private Button create;
     private EditText trackNameInput;
+    private Intent intent;
 
     private Track track;
     private Project project;
@@ -44,9 +45,9 @@ public class NewTrackView extends AppCompatActivity {
                 intent.putExtra("project", project);
                 intent.putExtra("backend", backend);
                 startActivity(intent);
-
+                finish();
             }
         });
-
     }
+
 }

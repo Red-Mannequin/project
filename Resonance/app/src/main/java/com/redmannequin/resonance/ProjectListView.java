@@ -18,30 +18,43 @@ import java.util.ArrayList;
 public class ProjectListView extends AppCompatActivity {
 
     private Backend backend;
-    private ArrayList<Project> project;
+
+    private ArrayList<String> projectList;
+    private ArrayAdapter adapter;
+    private ListView projectView;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list_view);
 
-        backend = (Backend) getIntent().getParcelableExtra("backend");
+        backend = getIntent().getParcelableExtra("backend");
 
         // creates a list with the track names
-        ArrayList<String> projectList = backend.getProjectList();
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_tacklist, projectList);
+        projectList = backend.getProjectList();
+        adapter = new ArrayAdapter(this, R.layout.activity_tacklist, projectList);
 
         // create the list view with track names
-        ListView projectView = (ListView) findViewById(R.id.project_list);
+        projectView = (ListView) findViewById(R.id.project_list);
         projectView.setAdapter(adapter);
         projectView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), TrackListView.class);
+                intent = new Intent(getApplicationContext(), TrackListView.class);
                 intent.putExtra("project", backend.getProject(position));
                 startActivity(intent);
             }
         });
-
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        // send changes back to previous activity
+        intent = new Intent(this, MainMenueView.class);
+        intent.putExtra("backend", backend);
+        startActivity(intent);
+    }
+
 }

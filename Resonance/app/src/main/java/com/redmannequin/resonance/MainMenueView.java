@@ -27,7 +27,8 @@ public class MainMenueView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_view);
 
-        init();
+        testing = getIntent().getParcelableExtra("backend");
+        if (testing == null) init();
 
         new_project_button = (Button) findViewById(R.id.newProjcet);
         new_project_button.setOnClickListener(new View.OnClickListener() {
