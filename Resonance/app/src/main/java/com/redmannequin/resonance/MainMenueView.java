@@ -33,6 +33,7 @@ public class MainMenueView extends AppCompatActivity {
         new_project_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewProjectView.class);
+                intent.putExtra("backend", testing);
                 startActivity(intent);
             }
         });
@@ -50,6 +51,7 @@ public class MainMenueView extends AppCompatActivity {
         setting_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SettingsView.class);
+                intent.putExtra("backend", testing);
                 startActivity(intent);
             }
         });

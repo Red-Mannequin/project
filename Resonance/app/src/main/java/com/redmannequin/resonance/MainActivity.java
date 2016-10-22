@@ -13,6 +13,8 @@ import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 
+import com.redmannequin.resonance.BackendTesting.Backend;
+import com.redmannequin.resonance.BackendTesting.Project;
 import com.redmannequin.resonance.BackendTesting.Track;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private AudioWaveView waveView;
 
     private Track track;
+    private Project project;
+    private Backend backend;
 
 
     @Override
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         track = getIntent().getParcelableExtra("track");
+        project = getIntent().getParcelableExtra("project");
+        backend = getIntent().getParcelableExtra("backend");
         setTitle(track.getName());
 
         // Create the adapter that will return a fragment for each of the three
