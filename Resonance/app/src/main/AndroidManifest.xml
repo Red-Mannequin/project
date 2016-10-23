@@ -8,35 +8,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainMenueView">
+
+        <activity
+            android:name="com.redmannequin.resonance.Views.MainMenuView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".TrackListView"
-            android:label="Tack List" />
-        <activity
-            android:name=".MainActivity"
-            android:label="Tack View" />
-        <activity
-            android:name=".ProjectListView"
-            android:label="Load Project" />
-        <activity
-            android:name=".SettingsView"
-            android:label="Settings" />
-        <activity
-            android:name=".RecordView"
-            android:label="Record" />
-        <activity
-            android:name=".NewProjectView"
-            android:label="New Project" />
-        <activity
-            android:name=".NewTrackView"
-            android:label="New Track"
-            />
+        <activity android:name="com.redmannequin.resonance.Views.ProjectListView" />
+        <activity android:name="com.redmannequin.resonance.Views.TrackListView" />
+        <activity android:name="com.redmannequin.resonance.Views.NewTrackView" />
+        <activity android:name="com.redmannequin.resonance.Views.RecordTrackView" />
+        <activity android:name="com.redmannequin.resonance.Views.TrackView" />
+        <activity android:name="com.redmannequin.resonance.Views.NewProjectView"></activity>
+
     </application>
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />

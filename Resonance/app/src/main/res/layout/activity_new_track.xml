@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_track_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.redmannequin.resonance.NewTrackView">
+
+    <TextView
+        android:text="Name"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/track_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/track_name_input" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/track_name_input"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/track_text" />
+
+    <Button
+        android:text="create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/track_name_input"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/create_track_button" />
+
+</RelativeLayout>
