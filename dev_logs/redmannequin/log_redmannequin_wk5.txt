@@ -1,0 +1,10 @@
+work:
+- basic ui flow working
+- data communication between views to work
+- basic backend for testing 
+- basic json file for testing
+
+to-do:
+- get record view working
+- get loading files working
+- populate views
