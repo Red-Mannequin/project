@@ -1,0 +1,7 @@
+#Wed Oct 26 12:15:59 EDT 2016
+base.0=C\:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_39e23b892672a640a871a841174bdde958b56e23
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=C\:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_ca8a6f639cd328c78436dddc576d120176bf3670\\classes.dex
+base.1=C\:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_ca8a6f639cd328c78436dddc576d120176bf3670
+file.0=C\:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_39e23b892672a640a871a841174bdde958b56e23\\classes.dex

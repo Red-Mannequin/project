@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="C:\Users\Tom\Downloads\Fileexplorer1\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-v4-18.0.0_7f73517bcfd9df317c9b51f796ad80ac2272eaf7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Downloads\Fileexplorer1\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="cd13f0f5b3a009a4bd63e801ef4524a9fbaf784f">
+        <dex dex="C:\Users\Tom\Downloads\Fileexplorer1\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_39e23b892672a640a871a841174bdde958b56e23\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tom\Downloads\Fileexplorer1\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="3f1bfb6920cf9ba82541355252f1abbf48acb861">
+        <dex dex="C:\Users\Tom\Downloads\Fileexplorer1\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_ca8a6f639cd328c78436dddc576d120176bf3670\classes.dex" />
+    </item>
+
+</items>

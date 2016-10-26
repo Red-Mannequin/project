@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\directory_icon.png",
+        "source": "C:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\src\\main\\res\\drawable\\directory_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\directory_up.png",
+        "source": "C:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\src\\main\\res\\drawable\\directory_up.png"
+    },
+    {
+        "merged": "C:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\file_icon.png",
+        "source": "C:\\Users\\Tom\\Downloads\\Fileexplorer1\\app\\src\\main\\res\\drawable\\file_icon.png"
+    }
+]
