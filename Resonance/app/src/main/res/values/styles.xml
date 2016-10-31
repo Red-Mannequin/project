@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.AppCompat">
+
+    </style>
+
+    <style name="AppTheme.Dark.NoTitleBar" parent="Theme.AppCompat.NoActionBar">
+
+    </style>
+
 </resources>
