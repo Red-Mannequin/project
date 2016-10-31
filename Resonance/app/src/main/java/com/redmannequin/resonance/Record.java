@@ -1,12 +1,5 @@
 package com.redmannequin.resonance;
 
-import android.os.Bundle;
-import android.os.Environment;
-import java.io.File;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.*;
-import android.widget.Button;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
 import java.io.IOException;
