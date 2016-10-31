@@ -1,6 +1,7 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
+import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,6 @@ import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
-
 
 public class TrackView extends AppCompatActivity {
 
@@ -44,6 +44,8 @@ public class TrackView extends AppCompatActivity {
     private Handler handle;
     private Runnable seek;
 
+    private AudioTrack audio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,8 @@ public class TrackView extends AppCompatActivity {
         project = backend.getProject(projectID);
         track = project.getTrack(trackID);
 
+        setTitle(track.getName());
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         // Create the adapter that will return a fragment for each of the effect windows.
@@ -64,8 +68,6 @@ public class TrackView extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        setTitle(track.getName());
 
         mPlayer = MediaPlayer.create(this, R.raw.rapping2u);
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
