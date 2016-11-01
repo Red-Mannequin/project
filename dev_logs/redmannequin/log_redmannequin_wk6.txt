@@ -1,0 +1,9 @@
+work:
+ - did research on android sdk
+ - added audio file to test playback
+ - changed style of the app
+ 
+ to-do:
+   - load file
+   - save file
+   - record
