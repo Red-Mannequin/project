@@ -19,6 +19,7 @@ public class Project implements Parcelable{
     private int BPM;
     //trackinfo
     private ArrayList<Track> tracks;
+    private int numTracks;
 
     public Project(String name) {
         this.name = name;
@@ -51,7 +52,8 @@ public class Project implements Parcelable{
         tracks = in.readArrayList(Track.class.getClassLoader());
     }
 
-    public void add(Track track) {
+    public void add(Track track)
+    {
         tracks.add(track);
     }
 

@@ -16,7 +16,8 @@ import java.io.InputStreamReader;
 
 public class MainMenuView extends AppCompatActivity {
 
-    String json; // holds projects and tracks info
+    String projectJson; // holds projects
+    String trackJson; // holds track info
     Backend backend; // backend oject
 
     // get ui elements
@@ -32,8 +33,9 @@ public class MainMenuView extends AppCompatActivity {
         // sets title
         setTitle("Main Menu");
 
-        json = loadJson(); // load json
-        backend = new Backend(json); // init backend
+        projectJson = loadJson("projects"); // load json
+        trackJson = loadJson("tracks");
+        backend = new Backend(projectJson, trackJson); // init backend
 
         // loads NewProjectView when newProject is clicked
         newProject = (Button) findViewById(R.id.newProjcet);
@@ -66,9 +68,21 @@ public class MainMenuView extends AppCompatActivity {
     }
 
     // loads the json file for testing only
-    private String loadJson() {
+    //Input projects to open projects json file
+    //Input tracks to open tracks json file
+    private String loadJson(String name) {
         String str = new String();
-        InputStream ins = getResources().openRawResource(R.raw.test);
+        InputStream ins;
+        if (name == "projects") {
+            ins = getResources().openRawResource(R.raw.projects);
+        }
+        else if (name == "tracks") {
+            ins = getResources().openRawResource(R.raw.tracks);
+        }
+        else {
+            //Implement some sort of error handler instead of calling test - this will result in an error
+            ins = getResources().openRawResource(R.raw.test);
+        }
         BufferedReader br = new BufferedReader(new InputStreamReader(ins));
         try {
             for (String line = br.readLine(); line != null; line = br.readLine()) {
