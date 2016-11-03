@@ -1,0 +1,5 @@
+Created recording capabilities for the app. 
+Implemented storage of app state, which includes saving project and track details to be loaded at a future time. 
+    - This included implementing a JSON loading/writing system
+Worked on Track, Project, Backend, JSONCreator classes
+Added members to Track and Project classes to store details on the respective objects
