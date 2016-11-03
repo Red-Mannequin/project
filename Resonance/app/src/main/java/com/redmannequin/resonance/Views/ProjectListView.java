@@ -87,7 +87,6 @@ public class ProjectListView extends AppCompatActivity {
     private void outputToFile(String data, String name) {
         try {
             FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
-            Log.w("Blah", "Writing to file: ");
             file.write(data.getBytes());
             file.close();
         } catch (IOException e) {

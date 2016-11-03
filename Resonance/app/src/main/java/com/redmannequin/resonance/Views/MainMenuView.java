@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
 
-
 public class MainMenuView extends AppCompatActivity {
 
     String projectJson; // holds projects
@@ -75,10 +74,9 @@ public class MainMenuView extends AppCompatActivity {
     private String loadJson(String name) {
         StringBuilder text = new StringBuilder();
         try {
-            File file = new File(this.getFilesDir().getAbsolutePath()+name+".json");
+            File file = new File(this.getFilesDir(), name+".json");
             if (!file.exists()) {
-                Log.w("blah", "creating file: " + file.getAbsolutePath());
-                this.openFileOutput(name+".json", this.MODE_PRIVATE).close();
+                file.createNewFile();
             } else {
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
