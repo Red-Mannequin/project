@@ -11,11 +11,13 @@ import java.util.ArrayList;
 
 public class Backend implements Parcelable {
 
-    private String jsonStr;
+    private String projectJsonStr;
+    private String trackJsonStr;
     private ArrayList<Project> projects;
 
-    public Backend(String json) {
-        this.jsonStr = json;
+    public Backend(String projectJson, String trackJson) {
+        this.projectJsonStr = projectJson;
+        this.trackJsonStr = trackJson;
         this.projects = null;
         init();
     }
@@ -24,22 +26,45 @@ public class Backend implements Parcelable {
         this.projects = new ArrayList<Project>();
 
         try {
-            JSONObject root = new JSONObject(jsonStr);
-            JSONArray projects = root.optJSONArray("projects");
-            for (int i=0; i < projects.length(); ++i) {
-                JSONObject project = projects.getJSONObject(i);
-                Project newProject = new Project(project.optString("name").toString());
-                JSONArray tracks = project.optJSONArray("tracks");
-                for (int j=0; j < project.length(); ++j) {
-                    JSONObject track = tracks.getJSONObject(j);
-                    Track newTrack = new Track(track.optString("name").toString());
+            //Create JSONarray's containing the data in R.raw.projects and R.raw.tracks
+            JSONObject projectRoot = new JSONObject(projectJsonStr);
+            JSONObject trackRoot = new JSONObject(trackJsonStr);
+            JSONArray projects = projectRoot.optJSONArray("projects");
+            JSONArray tracks = trackRoot.optJSONArray("tracks");
+
+            for (int i= 0; i < projects.length(); i++) {
+                JSONObject currProject = projects.getJSONObject(i);
+                Project newProject = new Project(currProject.optString("name"),
+                                                 currProject.optString("author"),
+                                                 Integer.parseInt(currProject.optString("BPM")),
+                                                 Integer.parseInt(currProject.optString("duration")));
+
+                JSONArray trackIDs = currProject.optJSONArray("trackIDs");
+
+                for (int j = 0; j < trackIDs.length(); j++) {
+                    JSONObject currID = trackIDs.getJSONObject(j);
+                    JSONObject track = tracks.getJSONObject(currID.optInt("id"));
+                    Track newTrack = new Track( track.optString("name"),
+                                                track.optString("path"),
+                                                track.optInt("duration"),
+                                                track.optInt("localEndTime"),
+                                                track.optInt("localStartTime"),
+                                                track.optInt("globalEndTime"),
+                                                track.optInt("globalStartTime"),
+                                                track.optInt("sampleRate"));
                     newProject.add(newTrack);
                 }
                 this.projects.add(newProject);
             }
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
 
         }
+    }
+
+    public String[] toWrite() {
+        JSONCreator creator = new JSONCreator(this);
+        return creator.create();
     }
 
     public Project getProject(int i) {
@@ -52,8 +77,10 @@ public class Backend implements Parcelable {
 
     public ArrayList<String> getProjectList() {
         ArrayList<String> list = new ArrayList<String>();
-        for (Project project : projects) {
-            list.add(project.getName());
+        if (projects != null) {
+            for (Project project : projects) {
+                list.add(project.getName());
+            }
         }
         return list;
     }
@@ -64,7 +91,7 @@ public class Backend implements Parcelable {
 
 
     protected Backend(Parcel in) {
-        jsonStr = in.readString();
+       // jsonStr = in.readString();
         projects = in.readArrayList(Project.class.getClassLoader());
     }
 
@@ -87,7 +114,7 @@ public class Backend implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(jsonStr);
+        //dest.writeString(jsonStr);
         dest.writeList(projects);
     }
 }
