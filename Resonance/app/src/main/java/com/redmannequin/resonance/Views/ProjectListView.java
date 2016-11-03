@@ -3,15 +3,17 @@ package com.redmannequin.resonance.Views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import java.io.*;
 
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.R;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProjectListView extends AppCompatActivity {
@@ -85,6 +87,7 @@ public class ProjectListView extends AppCompatActivity {
     private void outputToFile(String data, String name) {
         try {
             FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
+            Log.w("Blah", "Writing to file: ");
             file.write(data.getBytes());
             file.close();
         } catch (IOException e) {
