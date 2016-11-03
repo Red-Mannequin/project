@@ -60,24 +60,11 @@ public class Backend implements Parcelable {
         catch (JSONException e) {
 
         }
-/*
-        try {
-            JSONObject root = new JSONObject(jsonStr);
-            JSONArray projects = root.optJSONArray("projects");
-            for (int i=0; i < projects.length(); ++i) {
-                JSONObject project = projects.getJSONObject(i);
-                Project newProject = new Project(project.optString("name").toString());
-                JSONArray tracks = project.optJSONArray("tracks");
-                for (int j=0; j < project.length(); ++j) {
-                    JSONObject track = tracks.getJSONObject(j);
-                    Track newTrack = new Track(track.optString("name").toString());
-                    newProject.add(newTrack);
-                }
-                this.projects.add(newProject);
-            }
-        } catch (JSONException e) {
+    }
 
-        }*/
+    public String[] toWrite() {
+        JSONCreator creator = new JSONCreator(this);
+        return creator.create();
     }
 
     public Project getProject(int i) {
@@ -90,10 +77,7 @@ public class Backend implements Parcelable {
 
     public ArrayList<String> getProjectList() {
         ArrayList<String> list = new ArrayList<String>();
-        if (projects == null) {
-
-        }
-        else {
+        if (projects != null) {
             for (Project project : projects) {
                 list.add(project.getName());
             }

@@ -67,6 +67,11 @@ public class ProjectListView extends AppCompatActivity {
     // when back is pressed send backend and finish activity
     @Override
     public void onBackPressed() {
+
+        //JSONfiles[0] = JSON meant for the projects .json file
+        //JSONfiles[1] = JSON meant for the tracks .json file
+        String[] JSONfiles = backend.toWrite();
+
         Intent intent = new Intent();
         intent.putExtra("backend", backend);
         setResult(RESULT_OK, intent);
