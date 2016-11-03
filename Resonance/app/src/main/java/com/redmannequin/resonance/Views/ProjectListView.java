@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import java.io.File;
-import android.os.Environment;
-import java.io.OutputStreamWriter;
 import java.io.*;
 
 import com.redmannequin.resonance.Backend.Backend;
@@ -76,19 +73,8 @@ public class ProjectListView extends AppCompatActivity {
         //JSONfiles[1] = JSON meant for the tracks .json file
         String[] JSONfiles = backend.toWrite();
 
-        String path =
-                Environment.getExternalStorageDirectory() + File.separator  + "Resonance";
-        // Create the folder.
-        File folder = new File(path);
-        folder.mkdirs();
-
-        // Create the file.
-        File projectsFile = new File(folder, "projects.json");
-        File tracksFile = new File(folder, "tracks.json");
-
-        outputToFile(JSONfiles[0], projectsFile);
-        outputToFile(JSONfiles[1], tracksFile);
-
+        outputToFile(JSONfiles[0], "projects");
+        outputToFile(JSONfiles[1], "tracks");
 
         Intent intent = new Intent();
         intent.putExtra("backend", backend);
@@ -96,18 +82,13 @@ public class ProjectListView extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void outputToFile(String data, File file) {
-        try
-        {
-            file.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(file);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
-
-            myOutWriter.close();
-
-            fOut.flush();
-            fOut.close();
-        } catch (IOException e) {}
+    private void outputToFile(String data, String name) {
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
