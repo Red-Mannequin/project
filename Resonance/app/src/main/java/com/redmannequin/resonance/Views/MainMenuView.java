@@ -3,17 +3,15 @@ package com.redmannequin.resonance.Views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.os.Environment;
 
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileReader;
 
@@ -75,42 +73,21 @@ public class MainMenuView extends AppCompatActivity {
     //Input projects to open projects json file
     //Input tracks to open tracks json file
     private String loadJson(String name) {
-        /*
-        String str = new String();
-        InputStream ins;
-        if (name == "projects") {
-            ins = getResources().openRawResource(R.raw.projects);
-        }
-        else if (name == "tracks") {
-            ins = getResources().openRawResource(R.raw.tracks);
-        }
-        else {
-            //Implement some sort of error handler instead of calling test - this will result in an error
-            ins = getResources().openRawResource(R.raw.test);
-        }
-        BufferedReader br = new BufferedReader(new InputStreamReader(ins));
-        try {
-            for (String line = br.readLine(); line != null; line = br.readLine()) {
-                str += line;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return str;
-        */
-
         StringBuilder text = new StringBuilder();
         try {
-            File path =  new File(Environment.getExternalStorageDirectory() + File.separator  + "Resonance");
-            File file = new File(path, name + ".json");
-
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
+            File file = new File(this.getFilesDir().getAbsolutePath()+name+".json");
+            if (!file.exists()) {
+                Log.w("blah", "creating file: " + file.getAbsolutePath());
+                this.openFileOutput(name+".json", this.MODE_PRIVATE).close();
+            } else {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close();
             }
-            br.close() ;
         }catch (IOException e) {
             e.printStackTrace();
         }
