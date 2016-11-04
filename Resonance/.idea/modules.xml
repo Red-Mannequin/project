@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Resonance.iml" filepath="$PROJECT_DIR$/Resonance.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///mnt/data/school/comp/3004/github/project/Resonance/Resonance.iml" filepath="/mnt/data/school/comp/3004/github/project/Resonance/Resonance.iml" />
+      <module fileurl="file:///mnt/data/school/comp/3004/github/project/Resonance/app/app.iml" filepath="/mnt/data/school/comp/3004/github/project/Resonance/app/app.iml" />
     </modules>
   </component>
 </project>
