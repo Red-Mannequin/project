@@ -11,7 +11,6 @@ import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.R;
-import com.redmannequin.resonance.Record;
 
 public class NewTrackView extends AppCompatActivity {
 
@@ -49,15 +48,15 @@ public class NewTrackView extends AppCompatActivity {
         // load TrackView when createTrackButton is pressed
         createTrackButton = (Button) findViewById(R.id.create_track_button);
 
+        setListeners();
+
     }
 
     private void setListeners() {
 
         trackPathInput.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), Record.class);
-                intent.putExtra("trackID", backend);
-                intent.putExtra("backend", backend);
+                Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
                 startActivityForResult(intent, 0);
             }
         });
