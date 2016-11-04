@@ -11,12 +11,17 @@ import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.R;
+import com.redmannequin.resonance.Record;
 
 public class NewTrackView extends AppCompatActivity {
 
-    // ui elements
     private String trackName;
+    private String trackAuthor;
+    private String trackPath;
+    // ui elements
     private EditText trackNameInput;
+    private EditText trackAuthorInput;
+    private EditText trackPathInput;
     private Button createTrackButton;
 
     // backend
@@ -34,21 +39,39 @@ public class NewTrackView extends AppCompatActivity {
         // get backend info
         backend = getIntent().getParcelableExtra("backend");
         projectID = getIntent().getIntExtra("projectID", 0);
-        project = backend.getProject(projectID);
+        if (projectID != -1) project = backend.getProject(projectID);
 
         // get ui textfild
         trackNameInput = (EditText) findViewById(R.id.track_name_input);
+        trackAuthorInput = (EditText) findViewById(R.id.track_author_input);
+        trackPathInput = (EditText) findViewById(R.id.track_path_input);
 
         // load TrackView when createTrackButton is pressed
         createTrackButton = (Button) findViewById(R.id.create_track_button);
+
+    }
+
+    private void setListeners() {
+
+        trackPathInput.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), Record.class);
+                intent.putExtra("trackID", backend);
+                intent.putExtra("backend", backend);
+                startActivityForResult(intent, 0);
+            }
+        });
+
         createTrackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 trackName = trackNameInput.getText().toString();
-                Track track = new Track(trackName);
-                project.add(track);
+                trackAuthor = trackAuthorInput.getText().toString();
+                trackPath = trackPathInput.getText().toString();
+                Track track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, 0);
+                if (projectID != -1) project.add(track);
                 Intent intent = new Intent(getApplicationContext(), TrackView.class);
                 // send backend info to TackView
-                intent.putExtra("trackID", project.getTrackListSize()-1);
+                intent.putExtra("trackID", 0);
                 intent.putExtra("projectID", projectID);
                 intent.putExtra("backend", backend);
                 startActivityForResult(intent, 0);

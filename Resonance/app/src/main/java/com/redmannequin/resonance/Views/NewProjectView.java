@@ -15,6 +15,10 @@ public class NewProjectView extends AppCompatActivity {
 
     // ui elements
     private EditText projectNameInput;
+    private EditText projectAuthorInput;
+    private EditText projectDurationInput;
+    private EditText projectSampleRateInput;
+    private EditText projectBPMInput;
     private Button createProjectButton;
 
     // backend

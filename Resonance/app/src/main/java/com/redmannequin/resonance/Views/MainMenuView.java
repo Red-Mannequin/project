@@ -22,9 +22,9 @@ public class MainMenuView extends AppCompatActivity {
     Backend backend; // backend oject
 
     // ui elements
-    private Button record;
+    private Button newTrack;
     private Button newProject;
-    private Button loadProject;
+    private Button load;
     private Button settings;
 
     @Override
@@ -37,9 +37,9 @@ public class MainMenuView extends AppCompatActivity {
         backend = new Backend(projectJson, trackJson); // init backend
 
         // gets ui elements from layout
-        record = (Button) findViewById(R.id.recordNow);
+        newTrack = (Button) findViewById(R.id.newTrack);
         newProject = (Button) findViewById(R.id.newProjcet);
-        loadProject = (Button) findViewById(R.id.loadProject);
+        load = (Button) findViewById(R.id.load);
         settings = (Button) findViewById(R.id.setting);
         setListeners();
 
@@ -47,10 +47,12 @@ public class MainMenuView extends AppCompatActivity {
 
     private void setListeners() {
 
-        record.setOnClickListener(new View.OnClickListener() {
+        newTrack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getApplicationContext(), NewTrackView.class);
+                //intent.putExtra("prijectID", -1);
+                //intent.putExtra("backend", backend);
+                //startActivityForResult(intent, 0);
             }
         });
 
@@ -62,7 +64,7 @@ public class MainMenuView extends AppCompatActivity {
             }
         });
 
-        loadProject.setOnClickListener(new View.OnClickListener() {
+        load.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProjectListView.class);
                 intent.putExtra("backend", backend); // send backend
