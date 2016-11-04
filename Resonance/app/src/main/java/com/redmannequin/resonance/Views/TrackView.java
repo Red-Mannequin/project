@@ -160,8 +160,8 @@ public class TrackView extends AppCompatActivity {
     }
 
     public void stop() {
-        mPlayer.pause();
         mPlayer.seekTo(0);
+        mPlayer.pause();
         waveView.update(0);
     }
 
