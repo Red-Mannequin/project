@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.redmannequin.resonance.Views.MainMenuView"
+    android:theme="@style/AppTheme.Dark.NoTitleBar"
     android:background="@mipmap/bj"
     >
 
@@ -37,10 +38,10 @@
         android:orientation="vertical">
 
         <Button
-            android:text="record now"
+            android:text="New Track"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recordNow" />
+            android:id="@+id/newTrack" />
 
         <Button
             android:text="New Project"
@@ -49,10 +50,10 @@
             android:id="@+id/newProjcet" />
 
         <Button
-            android:text="Load Project"
+            android:text="Load"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loadProject" />
+            android:id="@+id/load" />
 
         <Button
             android:text="Settings"
