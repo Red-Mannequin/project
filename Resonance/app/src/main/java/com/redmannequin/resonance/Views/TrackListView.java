@@ -68,6 +68,14 @@ public class TrackListView extends AppCompatActivity {
                 }
             }
         });
+
+        if(project.getTrackListSize() == 0) {
+            Intent intent = new Intent();
+            intent = new Intent(getApplicationContext(), NewTrackView.class);
+            intent.putExtra("projectID", projectID);
+            intent.putExtra("backend", backend);
+            startActivityForResult(intent, 0);
+        }
     }
 
     // wait for project to pressed and load TrackListView
