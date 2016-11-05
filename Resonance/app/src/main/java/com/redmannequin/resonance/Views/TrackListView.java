@@ -49,7 +49,7 @@ public class TrackListView extends AppCompatActivity {
 
         // wait for track to pressed and load TrackView or NewTrack
         trackView.setAdapter(adapter);
-
+        setListeners();
 
         if(project.getTrackListSize() == 0) {
             Intent intent = new Intent();
