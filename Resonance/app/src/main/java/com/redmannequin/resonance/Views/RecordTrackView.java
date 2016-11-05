@@ -2,7 +2,6 @@ package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,6 +60,7 @@ public class RecordTrackView extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
     }
 
     private void initRecorder() {
