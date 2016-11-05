@@ -56,8 +56,8 @@ public class NewTrackView extends AppCompatActivity {
 
         // load TrackView when createTrackButton is pressed
         createTrackButton = (Button) findViewById(R.id.create_track_button);
-
         setListeners();
+        createTrackButton.setEnabled (false);
 
     }
 
@@ -74,8 +74,9 @@ public class NewTrackView extends AppCompatActivity {
 
                     trackPath = file.getPath();
                     trackPathInput.setText(file.getPath());
-                    trackPathInput.setFocusable(false);
+                    trackPathInput.setClickable(false);
 
+                    createTrackButton.setEnabled(true);
 
                     Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
                     intent.putExtra("path", file.getPath());
@@ -87,7 +88,6 @@ public class NewTrackView extends AppCompatActivity {
         createTrackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 trackAuthor = trackAuthorInput.getText().toString();
-
                 Track track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, 0);
                 if (projectID != -1) project.add(track);
                 Intent intent = new Intent(getApplicationContext(), TrackView.class);

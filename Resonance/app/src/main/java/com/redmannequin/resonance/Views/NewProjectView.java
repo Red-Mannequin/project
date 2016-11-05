@@ -3,7 +3,6 @@ package com.redmannequin.resonance.Views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,14 +43,13 @@ public class NewProjectView extends AppCompatActivity {
         projectSampleRateInput = null;
         projectBPMInput = null;
         createProjectButton = (Button) findViewById(R.id.create_project_button);
-
+        setListeners();
     }
 
     private void setListeners() {
         createProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String projectName = projectNameInput.getText().toString();
-                Log.w("blah", projectName);
                 if (checkName(projectName)) {
 
                     backend.add(new Project(projectName));
@@ -67,8 +65,7 @@ public class NewProjectView extends AppCompatActivity {
 
     private boolean checkName(String projectName) {
         ArrayList<String> names = backend.getProjectList();
-        if (names.contains(projectName) && !names.isEmpty()) {
-            Log.w("blah", "fasle");
+        if (names != null && !names.isEmpty() && names.contains(projectName)) {
             return false;
         }
         return true;

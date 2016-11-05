@@ -38,9 +38,11 @@ public class MainMenuView extends AppCompatActivity {
 
         // gets ui elements from layout
         newTrack = (Button) findViewById(R.id.newTrack);
+        newTrack.setEnabled(false);
         newProject = (Button) findViewById(R.id.newProjcet);
         load = (Button) findViewById(R.id.load);
         settings = (Button) findViewById(R.id.setting);
+        settings.setEnabled(false);
         setListeners();
 
     }
@@ -74,8 +76,8 @@ public class MainMenuView extends AppCompatActivity {
 
         settings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
-                startActivity(intent);
+                //
+                //
             }
         });
     }
