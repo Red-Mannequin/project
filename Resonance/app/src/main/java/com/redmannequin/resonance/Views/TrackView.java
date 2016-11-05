@@ -3,6 +3,7 @@ package com.redmannequin.resonance.Views;
 import android.content.Intent;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,8 @@ import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
+
+import java.io.File;
 
 public class TrackView extends AppCompatActivity {
 
@@ -69,7 +72,12 @@ public class TrackView extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        mPlayer = MediaPlayer.create(this, R.raw.rapping2u);
+        if (track.getPath().equals("path")) {
+            mPlayer = MediaPlayer.create(this, R.raw.rapping2u);
+        } else {
+            Uri file = Uri.fromFile(new File(track.getPath()));
+            mPlayer = MediaPlayer.create(this, file);
+        }
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
         waveView.setLength(mPlayer.getDuration());
 
