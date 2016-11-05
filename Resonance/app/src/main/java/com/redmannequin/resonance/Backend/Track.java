@@ -44,6 +44,13 @@ public class Track implements Parcelable {
 
     protected Track(Parcel in) {
         name = in.readString();
+        path = in.readString();
+        duration = in.readInt();
+        localEndTime = in.readInt();
+        localStartTime = in.readInt();
+        globalEndTime = in.readInt();
+        globalStartTime = in.readInt();
+        sampleRate = in.readInt();
     }
 
     public static final Creator<Track> CREATOR = new Creator<Track>() {
@@ -87,5 +94,12 @@ public class Track implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
+        dest.writeString(path);
+        dest.writeInt(duration);
+        dest.writeInt(localEndTime);
+        dest.writeInt(localEndTime);
+        dest.writeInt(globalStartTime);
+        dest.writeInt(globalEndTime);
+        dest.writeInt(sampleRate);
     }
 }

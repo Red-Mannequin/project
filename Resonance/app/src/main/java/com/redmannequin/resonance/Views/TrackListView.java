@@ -25,6 +25,8 @@ public class TrackListView extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList<String> trackList;
 
+    private ListView trackView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +45,22 @@ public class TrackListView extends AppCompatActivity {
         trackList.add("+");
 
         adapter = new ArrayAdapter(this, R.layout.activity_list, trackList);
-        ListView trackView = (ListView) findViewById(R.id.list);
+        trackView = (ListView) findViewById(R.id.list);
 
         // wait for track to pressed and load TrackView or NewTrack
         trackView.setAdapter(adapter);
+        setListeners();
+
+        if(project.getTrackListSize() == 0) {
+            Intent intent = new Intent();
+            intent = new Intent(getApplicationContext(), NewTrackView.class);
+            intent.putExtra("projectID", projectID);
+            intent.putExtra("backend", backend);
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    public void setListeners() {
         trackView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

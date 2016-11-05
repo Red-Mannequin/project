@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.redmannequin.resonance.ProjectListView">
+    tools:context="com.redmannequin.resonance.Views.ProjectListView">
 
     <ListView
         android:id="@+id/list"
