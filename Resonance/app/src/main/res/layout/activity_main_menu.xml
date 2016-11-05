@@ -6,26 +6,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.redmannequin.resonance.MainMenuView"
+    tools:context="com.redmannequin.resonance.Views.MainMenuView"
+    android:theme="@style/AppTheme.Dark.NoTitleBar"
     android:background="@mipmap/bj"
-    android:gravity="center">
+    >
 
-    <Button
-        android:text="New Project"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/newProjcet" />
+        android:layout_height="0dip"
+        android:layout_weight="0.8"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="30dp">
 
-    <Button
-        android:text="Load Project"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loadProject" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resonance"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:id="@+id/resonance"/>
 
-    <Button
-        android:text="Settings"
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/setting" />
+        android:layout_height="0dip"
+        android:layout_weight=".5"
+        android:orientation="vertical">
+
+        <Button
+            android:text="New Track"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newTrack" />
+
+        <Button
+            android:text="New Project"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newProjcet" />
+
+        <Button
+            android:text="Load"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/load" />
+
+        <Button
+            android:text="Settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/setting" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

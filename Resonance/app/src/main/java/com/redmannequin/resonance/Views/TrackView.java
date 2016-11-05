@@ -1,7 +1,9 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
+import android.media.AudioTrack;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
 
+import java.io.File;
 
 public class TrackView extends AppCompatActivity {
 
@@ -56,6 +59,8 @@ public class TrackView extends AppCompatActivity {
         project = backend.getProject(projectID);
         track = project.getTrack(trackID);
 
+        setTitle(track.getName());
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         // Create the adapter that will return a fragment for each of the effect windows.
@@ -65,9 +70,9 @@ public class TrackView extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        setTitle(track.getName());
+        Uri file = Uri.fromFile(new File(track.getPath()));
+        mPlayer = MediaPlayer.create(this, file);
 
-        mPlayer = MediaPlayer.create(this, R.raw.rapping2u);
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
         waveView.setLength(mPlayer.getDuration());
 
@@ -119,6 +124,25 @@ public class TrackView extends AppCompatActivity {
         }
     }
 
+    public void togglePlay() {
+        if (!mPlayer.isPlaying()) {
+            mPlayer.start();
+            handle.postDelayed(seek, 100);
+        } else {
+            if (mPlayer.getDuration() == mPlayer.getCurrentPosition()) {
+                stop();
+            } else {
+                mPlayer.pause();
+            }
+        }
+    }
+
+    public void stop() {
+        mPlayer.seekTo(0);
+        mPlayer.pause();
+        waveView.update(0);
+    }
+
     //Returns pages/effects specified by the ViewPager
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -141,28 +165,6 @@ public class TrackView extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
-    }
-
-    public void togglePlay() {
-
-        if (!mPlayer.isPlaying()) {
-            mPlayer.start();
-            handle.postDelayed(seek, 100);
-        }
-        else {
-            if (mPlayer.getDuration() == mPlayer.getCurrentPosition()) {
-                stop();
-            }
-            else {
-                mPlayer.pause();
-            }
-        }
-    }
-
-    public void stop() {
-        mPlayer.seekTo(0);
-        mPlayer.pause();
-        waveView.update(0);
     }
 
 }

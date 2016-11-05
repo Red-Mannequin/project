@@ -21,25 +21,43 @@ public class MainMenuView extends AppCompatActivity {
     String trackJson; // holds track info
     Backend backend; // backend oject
 
-    // get ui elements
+    // ui elements
+    private Button newTrack;
     private Button newProject;
-    private Button loadProject;
+    private Button load;
+    private Button settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main_menu);
-
-        // sets title
-        setTitle("Main Menu");
 
         projectJson = loadJson("projects"); // load json
         trackJson = loadJson("tracks");
         backend = new Backend(projectJson, trackJson); // init backend
 
-        // loads NewProjectView when newProject is clicked
+        // gets ui elements from layout
+        newTrack = (Button) findViewById(R.id.newTrack);
+        newTrack.setEnabled(false);
         newProject = (Button) findViewById(R.id.newProjcet);
+        load = (Button) findViewById(R.id.load);
+        settings = (Button) findViewById(R.id.setting);
+        settings.setEnabled(false);
+        setListeners();
+
+    }
+
+    private void setListeners() {
+
+        newTrack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //Intent intent = new Intent(getApplicationContext(), NewTrackView.class);
+                //intent.putExtra("prijectID", -1);
+                //intent.putExtra("backend", backend);
+                //startActivityForResult(intent, 0);
+            }
+        });
+
         newProject.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewProjectView.class);
@@ -48,13 +66,18 @@ public class MainMenuView extends AppCompatActivity {
             }
         });
 
-        // loads ProjectListView when loadProject is clicked
-        loadProject = (Button) findViewById(R.id.loadProject);
-        loadProject.setOnClickListener(new View.OnClickListener() {
+        load.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProjectListView.class);
                 intent.putExtra("backend", backend); // send backend
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //
+                //
             }
         });
     }
