@@ -47,8 +47,6 @@ public class TrackView extends AppCompatActivity {
     private Handler handle;
     private Runnable seek;
 
-    private AudioTrack audio;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +70,9 @@ public class TrackView extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        if (track.getPath().equals("path")) {
-            mPlayer = MediaPlayer.create(this, R.raw.rapping2u);
-        } else {
-            Uri file = Uri.fromFile(new File(track.getPath()));
-            mPlayer = MediaPlayer.create(this, file);
-        }
+        Uri file = Uri.fromFile(new File(track.getPath()));
+        mPlayer = MediaPlayer.create(this, file);
+
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
         waveView.setLength(mPlayer.getDuration());
 
@@ -129,6 +124,25 @@ public class TrackView extends AppCompatActivity {
         }
     }
 
+    public void togglePlay() {
+        if (!mPlayer.isPlaying()) {
+            mPlayer.start();
+            handle.postDelayed(seek, 100);
+        } else {
+            if (mPlayer.getDuration() == mPlayer.getCurrentPosition()) {
+                stop();
+            } else {
+                mPlayer.pause();
+            }
+        }
+    }
+
+    public void stop() {
+        mPlayer.seekTo(0);
+        mPlayer.pause();
+        waveView.update(0);
+    }
+
     //Returns pages/effects specified by the ViewPager
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -151,28 +165,6 @@ public class TrackView extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
-    }
-
-    public void togglePlay() {
-
-        if (!mPlayer.isPlaying()) {
-            mPlayer.start();
-            handle.postDelayed(seek, 100);
-        }
-        else {
-            if (mPlayer.getDuration() == mPlayer.getCurrentPosition()) {
-                stop();
-            }
-            else {
-                mPlayer.pause();
-            }
-        }
-    }
-
-    public void stop() {
-        mPlayer.seekTo(0);
-        mPlayer.pause();
-        waveView.update(0);
     }
 
 }
