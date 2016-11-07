@@ -10,7 +10,7 @@ Resonance provides users with a powerful tool to harness creativity with a natur
 
 ### Metadata
 
-### Team Name
+### Team
 
 We are Red Mannequin. 
 
@@ -28,6 +28,12 @@ Resonance is supported on Lollipop 5.1 (22.2), and above.
 
 ### Current Progress
 
+We currently have a working prototype which allows a user to create Projects and add tracks 
+
 ### Difficulties 
 
+None, we're killing it. 
+
 ### Work in Progress
+
+The app. 
