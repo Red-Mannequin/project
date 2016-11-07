@@ -24,6 +24,8 @@ Our team members include:
 
 Resonance is supported on Lollipop 5.1 (22.2), and above. 
 
+If installing a developer version of app, or compiling/installing on your accord you will need to go to Settings->Apps->Resonance->Permissions and enable the requested actions. These include permission to write/read to external storage and to access the microphone of your device. 
+
 ### Demo Summary
 
 ### Current Progress
