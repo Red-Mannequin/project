@@ -8,6 +8,26 @@ An application built to provide an expansive set of tools to create audio projec
 
 Resonance provides users with a powerful tool to harness creativity with a natural flowing and quick to learn experience. 
 
+### Metadata
+
+### Team Name
+
+We are Red Mannequin. 
+
+Our team members include: 
+- Matthew Fors
+- Flavio Barinas
+- Matt Walker
+- Tom Robin
+
 ### Specifications
 
 Resonance is supported on Lollipop 5.1 (22.2), and above. 
+
+### Demo Summary
+
+### Current Progress
+
+### Difficulties 
+
+### Work in Progress
