@@ -36,11 +36,14 @@ We currently have a working prototype which allows a user to create projects, ad
 
 ### Difficulties 
 
-None, we're killing it. 
+It took us a while to get a good grasp on the best way to communicate as a team and ensure that everybody is on the same page. We fixed this by coming up with a plan of action at one of our weekly meetings to ensure that we had better communication between members developing various parts of the application. 
+
+We have also found that developing on Android has been a learning curve. This is because of some rules that Android defines for their applications (device usage, storage access), which forced us to develop certain forms of methods to work within Android's boundaries. These are issues that have been overcome by ensuring that every aspect of development is thought out before getting to work, and that the method to be used is researched thouroughly. 
 
 ### Work in Progress
 
 We are currently working on features such as:
+
 #### Added Effects
   - Bass Boost
   - Reverb
