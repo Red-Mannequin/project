@@ -2,16 +2,16 @@ package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
 import android.media.MediaRecorder;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.Chronometer;
+import android.widget.TextView;
 
 import com.redmannequin.resonance.R;
-
-import java.io.File;
 import java.io.IOException;
 
 public class RecordTrackView extends AppCompatActivity {
@@ -23,6 +23,12 @@ public class RecordTrackView extends AppCompatActivity {
     private Button record;
     private Button save;
 
+    private Chronometer clock;
+
+    long starttime;
+    private Handler handle;
+    private Runnable timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,24 +38,29 @@ public class RecordTrackView extends AppCompatActivity {
         status = 0;
         path = getIntent().getStringExtra("path");
 
+        clock = (Chronometer) findViewById(R.id.chronometer2);
         record = (Button) findViewById(R.id.record_button);
         save = (Button) findViewById(R.id.save_button);
+        save.setEnabled(false);
         setListeners();
 
     }
 
     private void setListeners() {
-
         record.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.w("blah", "record buttn pressed");
                 if (status == 0 ) {
                     initRecorder();
                     status = 1;
+                    clock.start();
+                    record.setText("stop");
                 } else if (status == 1) {
                     recorder.stop();
                     recorder.reset();
                     recorder.release();
+                    clock.stop();
+                    save.setEnabled(true);
                     status = 2;
                 }
             }
@@ -60,7 +71,6 @@ public class RecordTrackView extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
     }
 
     private void initRecorder() {
