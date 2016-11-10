@@ -16,7 +16,7 @@
     <com.redmannequin.resonance.AudioWaveView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/track_wave_view"/>
+        android:id="@+id/record_wave_view"/>
 
     <Button
         android:text="record"
