@@ -14,9 +14,8 @@ public class AudioWaveView extends View {
     private Paint waveBrush;
 
     private Rect mRect;
-    private int length;
-    private int curr;
-    private float b;
+    private byte[] buffer;
+    private float[] mPoints;
 
     public AudioWaveView(Context context) {
         super(context);
@@ -41,14 +40,14 @@ public class AudioWaveView extends View {
         waveBrush.setColor(Color.BLUE);
         waveBrush.setAntiAlias(true);
 
-        mRect = new Rect();
+        mRect = new Rect(0,0,getWidth(), getHeight());
 
     }
 
-    public void setLength(int l) {length = l;}
 
-    public void update(float c) {
-        b = c;
+    public void update(byte[] c) {
+        buffer = new byte[c.length];
+        System.arraycopy(c, 0, buffer, 0, c.length);
         invalidate();
     }
 
@@ -56,7 +55,22 @@ public class AudioWaveView extends View {
     public void onDraw(Canvas canvas){
         super.onDraw(canvas);
         canvas.drawRect(0,0,getWidth(),getHeight(), paint);
-        canvas.drawRect(0,0, getWidth()*b, getHeight(), waveBrush);
+
+        if (buffer == null) return;
+
+        if (mPoints == null || mPoints.length < buffer.length * 4) {
+            mPoints = new float[buffer.length * 4];
+        }
+
+        for (int i = 0; i < buffer.length - 1; i++) {
+
+            mPoints[i * 4 + 0] = getWidth() * i / (buffer.length - 1);
+            mPoints[i * 4 + 2] = getWidth() * (i + 1) / (buffer.length - 1);
+
+            mPoints[i * 4 + 1] = getHeight() / 2 + ((byte) (buffer[i] + 128)) * (getHeight() / 2) / 128;
+            mPoints[i * 4 + 3] = getHeight() / 2 + ((byte) (buffer[i + 1] + 128)) * (getHeight() / 2) / 128;
+        }
+        canvas.drawLines(mPoints, waveBrush);
     }
 
 }

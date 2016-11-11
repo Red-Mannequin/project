@@ -1,9 +1,6 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
-import android.media.AudioTrack;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.redmannequin.resonance.Audio.Play;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
@@ -23,7 +21,9 @@ import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public class TrackView extends AppCompatActivity {
 
@@ -43,9 +43,17 @@ public class TrackView extends AppCompatActivity {
     private Backend backend;
 
     // audio player
-    private MediaPlayer mPlayer;
+    private RandomAccessFile randomAccessFile;
+    private Thread thread;
+    private Play player;
+
+    private byte buffer[];
+
     private Handler handle;
     private Runnable seek;
+
+    private boolean playing;
+    private boolean ended;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,27 +78,36 @@ public class TrackView extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        Uri file = Uri.fromFile(new File(track.getPath()));
-        mPlayer = MediaPlayer.create(this, file);
-
+        // wave view
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
-        waveView.setLength(mPlayer.getDuration());
 
-        play_button = (Button) findViewById(R.id.play_button);
-        stop_button = (Button) findViewById(R.id.stop_button);
-        setupListeners();
+        // audio playback settings
+        player = new Play();
+        player.init();
+        playing = false;
+        ended = true;
+
+        try {
+            randomAccessFile = new RandomAccessFile(track.getPath(), "r");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         handle = new Handler();
         seek = new Runnable() {
             @Override
             public void run() {
-                if (mPlayer.isPlaying()) {
-                    float b = mPlayer.getCurrentPosition() / (float)mPlayer.getDuration();
-                    waveView.update(b);
+                if (playing) {
+                    waveView.update(buffer);
                     handle.postDelayed(this, 200);
                 }
             }
         };
+
+        // set up buttons
+        play_button = (Button) findViewById(R.id.play_button);
+        stop_button = (Button) findViewById(R.id.stop_button);
+        setupListeners();
 
     }
 
@@ -110,12 +127,10 @@ public class TrackView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mPlayer.isPlaying()) {
+        if (playing) {
             stop();
         } else {
-            mPlayer.stop();
-            mPlayer.reset();
-            mPlayer.release();
+            closePlay();
             Intent intent = new Intent();
             intent.putExtra("projectID", projectID);
             intent.putExtra("backend", backend);
@@ -124,23 +139,65 @@ public class TrackView extends AppCompatActivity {
         }
     }
 
-    public void togglePlay() {
-        if (!mPlayer.isPlaying()) {
-            mPlayer.start();
-            handle.postDelayed(seek, 100);
+    private void togglePlay() {
+        if (playing) {
+            playing = false;
         } else {
-            if (mPlayer.getDuration() == mPlayer.getCurrentPosition()) {
-                stop();
+            if (ended) {
+                try {
+                    randomAccessFile.seek(0);
+                    initPlay();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                mPlayer.pause();
+                initPlay();
             }
         }
     }
 
-    public void stop() {
-        mPlayer.seekTo(0);
-        mPlayer.pause();
-        waveView.update(0);
+    private void stop() {
+        playing = false;
+        ended = true;
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closePlay() {
+        try {
+            player.release();
+            randomAccessFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initPlay() {
+        player.start();
+        playing = true;
+        ended = false;
+        handle.postDelayed(seek, 200);
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (playing) {
+                    buffer = player.getEmptyBuffer();
+                    try {
+                        if (randomAccessFile.read(buffer, 0, buffer.length) == -1) {
+                            ended = true;
+                            playing = false;
+                        }
+                        player.write(buffer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     //Returns pages/effects specified by the ViewPager

@@ -1,27 +1,41 @@
 package com.redmannequin.resonance.Views;
 
-import android.content.Intent;
-import android.media.MediaRecorder;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 
-
+import com.redmannequin.resonance.Audio.Play;
+import com.redmannequin.resonance.Audio.Record;
+import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.R;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class RecordTrackView extends AppCompatActivity {
 
-    private String path;
     private int status;
-    private MediaRecorder recorder;
 
     private Button record;
     private Button save;
+
+    private Chronometer clock;
+
+    private Record recorder;
+    private Play player;
+    private byte buffer[];
+
+    private Thread thread;
+    private FileOutputStream outputStream;
+
+    private AudioWaveView waveView;
+    private Handler handle;
+    private Runnable seek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,27 +44,52 @@ public class RecordTrackView extends AppCompatActivity {
         setTitle("Record");
 
         status = 0;
-        path = getIntent().getStringExtra("path");
+        try {
+            outputStream = new FileOutputStream(getIntent().getStringExtra("path"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
+        clock = (Chronometer) findViewById(R.id.chronometer2);
         record = (Button) findViewById(R.id.record_button);
         save = (Button) findViewById(R.id.save_button);
-        setListeners();
+        save.setEnabled(false);
 
+        recorder = new Record();
+        player = new Play();
+        recorder.init();
+        player.init();
+
+        waveView = (AudioWaveView) findViewById(R.id.record_wave_view);
+
+        handle = new Handler();
+        seek = new Runnable() {
+            @Override
+            public void run() {
+                if (status == 1) {
+                    waveView.update(buffer);
+                    handle.postDelayed(this, 200);
+                }
+            }
+        };
+        setListeners();
     }
 
     private void setListeners() {
-
         record.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.w("blah", "record buttn pressed");
                 if (status == 0 ) {
-                    initRecorder();
                     status = 1;
+                    initRecorder();
+                    clock.start();
+                    handle.postDelayed(seek, 200);
+                    record.setText("stop");
                 } else if (status == 1) {
-                    recorder.stop();
-                    recorder.reset();
-                    recorder.release();
                     status = 2;
+                    clock.stop();
+                    save.setEnabled(true);
+
                 }
             }
         });
@@ -60,21 +99,47 @@ public class RecordTrackView extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        status = 2;
+        stopRecorder();
+        super.onBackPressed();
 
     }
 
     private void initRecorder() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        recorder.setOutputFile(path);
+        recorder.start();
+        player.start();
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (status == 1) {
+                    buffer = recorder.read();
+                    player.write(buffer);
+                    try {
+                        outputStream.write(buffer, 0, buffer.length);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void stopRecorder() {
         try {
-            recorder.prepare();
+            thread.join();
+            recorder.release();
+            player.release();
+            outputStream.flush();
+            outputStream.close();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        recorder.start();
     }
-
 }

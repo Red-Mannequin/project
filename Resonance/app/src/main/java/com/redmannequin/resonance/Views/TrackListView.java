@@ -12,6 +12,8 @@ import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
 
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class TrackListView extends AppCompatActivity {
@@ -26,6 +28,10 @@ public class TrackListView extends AppCompatActivity {
     private ArrayList<String> trackList;
 
     private ListView trackView;
+
+    // player
+    private RandomAccessFile[] randomAccessFile;
+    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +49,19 @@ public class TrackListView extends AppCompatActivity {
         trackList = new ArrayList<String>();
         trackList.addAll(project.getTrackNames());
         trackList.add("+");
+        trackList.add("play");
 
         adapter = new ArrayAdapter(this, R.layout.activity_list, trackList);
         trackView = (ListView) findViewById(R.id.list);
+
+        randomAccessFile = new RandomAccessFile[project.getTrackListSize()];
+        for (int i=0; i < project.getTrackListSize(); ++i) {
+            try {
+                randomAccessFile[i] = new RandomAccessFile(project.getTrack(i).getPath(), "r");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         // wait for track to pressed and load TrackView or NewTrack
         trackView.setAdapter(adapter);
@@ -64,13 +80,24 @@ public class TrackListView extends AppCompatActivity {
         trackView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == parent.getCount()-1) {
+                if (position == parent.getCount()-2) {
                     // switch to NewTrackView and passes project and backend
                     Intent intent = new Intent();
                     intent = new Intent(getApplicationContext(), NewTrackView.class);
                     intent.putExtra("projectID", projectID);
                     intent.putExtra("backend", backend);
                     startActivityForResult(intent, 0);
+                } else if (position == parent.getCount()-1) {
+                    if (trackList.get(position).equals("play")) {
+                        trackList.set(position, "stop");
+                        adapter.notifyDataSetChanged();
+                        play();
+                    } else {
+                        trackList.set(position, "play");
+                        adapter.notifyDataSetChanged();
+                        stop();
+                    }
+
                 } else {
                     // switch to MainActivity and passes project and backend
                     Intent intent = new Intent();
@@ -96,6 +123,7 @@ public class TrackListView extends AppCompatActivity {
             trackList.clear();
             trackList.addAll(project.getTrackNames());
             trackList.add("+");
+            trackList.add("play");
             adapter.notifyDataSetChanged();
         }
     }
@@ -107,6 +135,14 @@ public class TrackListView extends AppCompatActivity {
         intent.putExtra("backend", backend);
         setResult(RESULT_OK, intent);
         super.onBackPressed();
+
+    }
+
+    private void play() {
+
+    }
+
+    private void stop() {
 
     }
 }

@@ -70,7 +70,7 @@ public class NewTrackView extends AppCompatActivity {
 
                     File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator + project.getName());
                     if (!path.exists()) path.mkdirs();
-                    File file = new File(path, trackName);
+                    File file = new File(path, trackName+".pcm");
 
                     trackPath = file.getPath();
                     trackPathInput.setText(file.getPath());
