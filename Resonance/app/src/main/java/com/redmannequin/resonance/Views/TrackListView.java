@@ -1,10 +1,6 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +13,6 @@ import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
@@ -35,17 +30,7 @@ public class TrackListView extends AppCompatActivity {
     private ListView trackView;
 
     // player
-    private int freq;
-    private int channel;
-    private int format;
-    private int output;
-    private int mode;
-    private int bufferSize;
-    private byte[] buffer;
-    private boolean playing;
-
     private RandomAccessFile[] randomAccessFile;
-    private AudioTrack audioTrack;
     private Thread thread;
 
     @Override
@@ -68,19 +53,6 @@ public class TrackListView extends AppCompatActivity {
 
         adapter = new ArrayAdapter(this, R.layout.activity_list, trackList);
         trackView = (ListView) findViewById(R.id.list);
-
-
-        freq = 8000;
-        channel = AudioFormat.CHANNEL_IN_STEREO;
-        format = AudioFormat.ENCODING_PCM_16BIT;
-        output = AudioManager.USE_DEFAULT_STREAM_TYPE;
-        mode = AudioTrack.MODE_STREAM;
-
-        bufferSize = AudioRecord.getMinBufferSize(freq, channel, format);
-        audioTrack = new AudioTrack(output, freq, channel, format, bufferSize, mode);
-        audioTrack.setPlaybackRate(freq);
-        buffer = new byte[bufferSize];
-        playing = false;
 
         randomAccessFile = new RandomAccessFile[project.getTrackListSize()];
         for (int i=0; i < project.getTrackListSize(); ++i) {
@@ -167,46 +139,10 @@ public class TrackListView extends AppCompatActivity {
     }
 
     private void play() {
-        playing = true;
-        audioTrack.play();
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while ( playing) {
-                        byte temp[] = new byte[bufferSize];
-                        for (int i=0; i < project.getTrackListSize(); i++) {
-                            if (randomAccessFile[i].read(temp, 0, bufferSize) > -1) {
-                                for (int j=0; j < temp.length; ++j) {
-                                    buffer[j] += temp[j];
-                                }
 
-                            } else {
-                                randomAccessFile[i].seek(0);
-                                randomAccessFile[i].read(temp, 0, bufferSize);
-                            }
-                        }
-                        audioTrack.write(temp, 0, temp.length);
-                    }
-                    audioTrack.pause();
-                } catch (IOException e) {
-                }
-            }
-        });
-        thread.start();
     }
 
     private void stop() {
-        playing = false;
-        try {
-            thread.join();
-            audioTrack.pause();
-            audioTrack.flush();
-            for (int i=0; i < project.getTrackListSize(); i++) randomAccessFile[i].seek(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

@@ -1,13 +1,6 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.redmannequin.resonance.Audio.Play;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
@@ -27,12 +21,7 @@ import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -55,19 +44,14 @@ public class TrackView extends AppCompatActivity {
 
     // audio player
     private RandomAccessFile randomAccessFile;
-    private AudioTrack audioTrack;
     private Thread thread;
+    private Play player;
+
+    private byte buffer[];
 
     private Handler handle;
     private Runnable seek;
 
-    private int freq;
-    private int channel;
-    private int format;
-    private int output;
-    private int mode;
-    private int bufferSize;
-    private byte[] buffer;
     private boolean playing;
     private boolean ended;
 
@@ -98,23 +82,13 @@ public class TrackView extends AppCompatActivity {
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
 
         // audio playback settings
-        freq = 8000;
-        channel = AudioFormat.CHANNEL_IN_STEREO;
-        format = AudioFormat.ENCODING_PCM_16BIT;
-        output = AudioManager.USE_DEFAULT_STREAM_TYPE;
-        mode = AudioTrack.MODE_STREAM;
-
-        bufferSize = AudioRecord.getMinBufferSize(freq, channel, format);
-        audioTrack = new AudioTrack(output, freq, channel, format, bufferSize, mode);
-        audioTrack.setPlaybackRate(freq);
-        buffer = new byte[bufferSize];
+        player = new Play();
+        player.init();
         playing = false;
-        ended = false;
+        ended = true;
 
         try {
             randomAccessFile = new RandomAccessFile(track.getPath(), "r");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +127,7 @@ public class TrackView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (audioTrack.getPlayState() == AudioTrack.PLAYSTATE_PLAYING) {
+        if (playing) {
             stop();
         } else {
             closePlay();
@@ -166,76 +140,60 @@ public class TrackView extends AppCompatActivity {
     }
 
     private void togglePlay() {
-        if (playing == false) {
-            handle.postDelayed(seek, 200);
-            if (ended){
+        if (playing) {
+            playing = false;
+        } else {
+            if (ended) {
                 try {
                     randomAccessFile.seek(0);
-                    ended = false;
+                    initPlay();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            audioTrack.play();
-            initPlay();
-        } else {
-            playing = false;
-            try {
-                thread.join();
-                if (ended) {
-                    randomAccessFile.seek(0);
-                    ended = false;
-                }
-            } catch (InterruptedException e) {
-                    e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                initPlay();
             }
         }
     }
 
-    private void stop(){
+    private void stop() {
         playing = false;
+        ended = true;
         try {
             thread.join();
-            audioTrack.pause();
-            audioTrack.flush();
-            randomAccessFile.seek(0);
-            ended = false;
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void closePlay() {
-        audioTrack.stop();
-        audioTrack.release();
         try {
+            player.release();
             randomAccessFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void initPlay() {
+        player.start();
         playing = true;
+        ended = false;
+        handle.postDelayed(seek, 200);
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    while ( playing) {
-                        if (randomAccessFile.read(buffer, 0, bufferSize) > -1) {
-                            audioTrack.write(buffer, 0, buffer.length);
-                        } else {
+                while (playing) {
+                    buffer = player.getEmptyBuffer();
+                    try {
+                        if (randomAccessFile.read(buffer, 0, buffer.length) == -1) {
                             ended = true;
                             playing = false;
                         }
+                        player.write(buffer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    audioTrack.pause();
-                } catch (IOException e) {
                 }
             }
         });
