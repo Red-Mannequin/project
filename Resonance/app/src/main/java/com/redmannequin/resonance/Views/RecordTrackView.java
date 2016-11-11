@@ -1,10 +1,5 @@
 package com.redmannequin.resonance.Views;
 
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
-import android.media.MediaRecorder;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 
+import com.redmannequin.resonance.Audio.Play;
+import com.redmannequin.resonance.Audio.Record;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.R;
 
@@ -22,7 +19,6 @@ import java.io.IOException;
 
 public class RecordTrackView extends AppCompatActivity {
 
-    private String path;
     private int status;
 
     private Button record;
@@ -30,19 +26,12 @@ public class RecordTrackView extends AppCompatActivity {
 
     private Chronometer clock;
 
-    private AudioTrack audioTrack;
-    private AudioRecord audioRecord;
+    private Record recorder;
+    private Play player;
+    private byte buffer[];
+
     private Thread thread;
     private FileOutputStream outputStream;
-
-    private int freq;
-    private int channel;
-    private int format;
-    private int source;
-    private int output;
-    private int mode;
-    private int bufferSize;
-    private byte[] buffer;
 
     private AudioWaveView waveView;
     private Handler handle;
@@ -55,24 +44,21 @@ public class RecordTrackView extends AppCompatActivity {
         setTitle("Record");
 
         status = 0;
-        path = getIntent().getStringExtra("path");
+        try {
+            outputStream = new FileOutputStream(getIntent().getStringExtra("path"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         clock = (Chronometer) findViewById(R.id.chronometer2);
         record = (Button) findViewById(R.id.record_button);
         save = (Button) findViewById(R.id.save_button);
         save.setEnabled(false);
 
-        freq = 8000;
-        channel = AudioFormat.CHANNEL_IN_STEREO;
-        format = AudioFormat.ENCODING_PCM_16BIT;
-        source = MediaRecorder.AudioSource.MIC;
-        output = AudioManager.USE_DEFAULT_STREAM_TYPE;
-        mode = AudioTrack.MODE_STREAM;
-
-        bufferSize = AudioRecord.getMinBufferSize(freq, channel, format);
-        audioRecord = new AudioRecord(source, freq, channel, format, bufferSize);
-        audioTrack = new AudioTrack(output, freq, channel, format, bufferSize, mode);
-        audioTrack.setPlaybackRate(freq);
+        recorder = new Record();
+        player = new Play();
+        recorder.init();
+        player.init();
 
         waveView = (AudioWaveView) findViewById(R.id.record_wave_view);
 
@@ -86,10 +72,7 @@ public class RecordTrackView extends AppCompatActivity {
                 }
             }
         };
-
-        buffer = new byte[bufferSize];
         setListeners();
-
     }
 
     private void setListeners() {
@@ -104,7 +87,6 @@ public class RecordTrackView extends AppCompatActivity {
                     record.setText("stop");
                 } else if (status == 1) {
                     status = 2;
-                    stopRecorder();
                     clock.stop();
                     save.setEnabled(true);
 
@@ -119,20 +101,23 @@ public class RecordTrackView extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        status = 2;
+        stopRecorder();
+        super.onBackPressed();
+
+    }
+
     private void initRecorder() {
-        audioRecord.startRecording();;
-        audioTrack.play();
-        try {
-            outputStream = new FileOutputStream(path);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        recorder.start();
+        player.start();
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (status == 1) {
-                    audioRecord.read(buffer, 0, bufferSize);
-                    audioTrack.write(buffer, 0, buffer.length);
+                    buffer = recorder.read();
+                    player.write(buffer);
                     try {
                         outputStream.write(buffer, 0, buffer.length);
                     } catch (IOException e) {
@@ -147,9 +132,8 @@ public class RecordTrackView extends AppCompatActivity {
     private void stopRecorder() {
         try {
             thread.join();
-            audioTrack.stop();
-            audioRecord.stop();
-            audioRecord.release();
+            recorder.release();
+            player.release();
             outputStream.flush();
             outputStream.close();
         } catch (InterruptedException e) {

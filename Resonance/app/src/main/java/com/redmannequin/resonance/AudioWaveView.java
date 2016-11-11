@@ -8,8 +8,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.Arrays;
-
 public class AudioWaveView extends View {
 
     private Paint paint;
@@ -65,9 +63,11 @@ public class AudioWaveView extends View {
         }
 
         for (int i = 0; i < buffer.length - 1; i++) {
+
             mPoints[i * 4 + 0] = getWidth() * i / (buffer.length - 1);
-            mPoints[i * 4 + 1] = getHeight() / 2 + ((byte) (buffer[i] + 128)) * (getHeight() / 2) / 128;
             mPoints[i * 4 + 2] = getWidth() * (i + 1) / (buffer.length - 1);
+
+            mPoints[i * 4 + 1] = getHeight() / 2 + ((byte) (buffer[i] + 128)) * (getHeight() / 2) / 128;
             mPoints[i * 4 + 3] = getHeight() / 2 + ((byte) (buffer[i + 1] + 128)) * (getHeight() / 2) / 128;
         }
         canvas.drawLines(mPoints, waveBrush);
