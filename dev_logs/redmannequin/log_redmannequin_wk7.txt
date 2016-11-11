@@ -1,0 +1,4 @@
+added recording capabilities
+changeing the flow of the app
+ability to load reocrded file and play
+added playback ability to track view
