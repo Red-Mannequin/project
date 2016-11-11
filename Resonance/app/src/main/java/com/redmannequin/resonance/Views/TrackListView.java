@@ -8,11 +8,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.redmannequin.resonance.Audio.Play;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
@@ -30,8 +32,11 @@ public class TrackListView extends AppCompatActivity {
     private ListView trackView;
 
     // player
+    private Play player;
     private RandomAccessFile[] randomAccessFile;
     private Thread thread;
+    private boolean playing;
+    private byte[] buffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,10 @@ public class TrackListView extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        playing = false;
+        player = new Play();
+        player.init();
 
         // wait for track to pressed and load TrackView or NewTrack
         trackView.setAdapter(adapter);
@@ -139,7 +148,28 @@ public class TrackListView extends AppCompatActivity {
     }
 
     private void play() {
-
+        player.start();
+        playing = true;
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(playing) {
+                    buffer = player.getEmptyByteBuffer();
+                    for (int i=0; i < randomAccessFile.length; ++i) {
+                        try {
+                            byte temp[] = player.getEmptyByteBuffer();
+                            randomAccessFile[i].read(temp, 0, temp.length);
+                            for(int j=0; j < buffer.length; ++i) {
+                                buffer[j] = temp[i];
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    player.write(buffer);
+                }
+            }
+        });
     }
 
     private void stop() {

@@ -1,5 +1,8 @@
 package com.redmannequin.resonance.Views;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 
+import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.Play;
 import com.redmannequin.resonance.Audio.Record;
 import com.redmannequin.resonance.AudioWaveView;
@@ -28,7 +32,7 @@ public class RecordTrackView extends AppCompatActivity {
 
     private Record recorder;
     private Play player;
-    private byte buffer[];
+    private short buffer[];
 
     private Thread thread;
     private FileOutputStream outputStream;
@@ -68,7 +72,7 @@ public class RecordTrackView extends AppCompatActivity {
             public void run() {
                 if (status == 1) {
                     waveView.update(buffer);
-                    handle.postDelayed(this, 200);
+                    handle.postDelayed(this, 50);
                 }
             }
         };
@@ -83,7 +87,7 @@ public class RecordTrackView extends AppCompatActivity {
                     status = 1;
                     initRecorder();
                     clock.start();
-                    handle.postDelayed(seek, 200);
+                    handle.postDelayed(seek, 50);
                     record.setText("stop");
                 } else if (status == 1) {
                     status = 2;
@@ -118,8 +122,9 @@ public class RecordTrackView extends AppCompatActivity {
                 while (status == 1) {
                     buffer = recorder.read();
                     player.write(buffer);
+                    byte temp[] = AudioHelper.short2byte(buffer);
                     try {
-                        outputStream.write(buffer, 0, buffer.length);
+                        outputStream.write(temp, 0, temp.length);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

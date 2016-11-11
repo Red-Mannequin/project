@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.Play;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
@@ -98,7 +99,8 @@ public class TrackView extends AppCompatActivity {
             @Override
             public void run() {
                 if (playing) {
-                    waveView.update(buffer);
+                    short temp[] = AudioHelper.byte2short(buffer);
+                    waveView.update(temp);
                     handle.postDelayed(this, 200);
                 }
             }
@@ -184,7 +186,7 @@ public class TrackView extends AppCompatActivity {
             @Override
             public void run() {
                 while (playing) {
-                    buffer = player.getEmptyBuffer();
+                    buffer = player.getEmptyByteBuffer();
                     try {
                         if (randomAccessFile.read(buffer, 0, buffer.length) == -1) {
                             ended = true;

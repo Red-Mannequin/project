@@ -11,7 +11,9 @@ public class Record {
     private int format;
     private int source;
     private int bufferSize;
-    private byte[] buffer;
+    private int bufferShortSize;
+    //private byte[] buffer;
+    private short[] buffer;
 
     public void Record() {
         freq    = 0;
@@ -27,7 +29,8 @@ public class Record {
         source = Config.INPUT;
 
         bufferSize = AudioRecord.getMinBufferSize(freq, channel, format);
-        buffer = new byte[bufferSize];
+        bufferShortSize = bufferSize/2;
+        buffer = new short[bufferShortSize];
         audioRecord = new AudioRecord(source, freq, channel, format, bufferSize);
     }
 
@@ -35,8 +38,8 @@ public class Record {
         audioRecord.startRecording();
     }
 
-    public byte[] read() {
-        audioRecord.read(buffer, 0, bufferSize);
+    public short[] read() {
+        audioRecord.read(buffer, 0, bufferShortSize);
         return buffer;
     }
 

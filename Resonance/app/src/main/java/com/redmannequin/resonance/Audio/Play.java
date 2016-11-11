@@ -12,7 +12,8 @@ public class Play {
     private int output;
     private int mode;
     private int bufferSize;
-    private byte[] buffer;
+    private int bufferShortSize;
+    private short[] buffer;
 
     public void Play() {
         freq    = 0;
@@ -29,9 +30,10 @@ public class Play {
         output  = Config.OUTPUT;
         mode    = Config.MODE;
         bufferSize = AudioRecord.getMinBufferSize(freq, channel, format);
+        bufferShortSize = bufferSize/2;
         audioTrack = new AudioTrack(output, freq, channel, format, bufferSize, mode);
         audioTrack.setPlaybackRate(freq);
-        buffer = new byte[bufferSize];
+        buffer = new short[bufferShortSize];
 
     }
 
@@ -39,7 +41,13 @@ public class Play {
         audioTrack.play();
     }
 
+    public void write(short[] b) {
+        System.arraycopy(b, 0, buffer, 0, b.length);
+        audioTrack.write(buffer, 0, buffer.length);
+    }
+
     public void write(byte[] b) {
+        byte buffer[] = new byte[b.length];
         System.arraycopy(b, 0, buffer, 0, b.length);
         audioTrack.write(buffer, 0, buffer.length);
     }
@@ -50,7 +58,7 @@ public class Play {
         audioTrack.release();
     }
 
-    public byte[] getEmptyBuffer() {
+    public byte[] getEmptyByteBuffer() {
         return new byte[bufferSize];
     }
 }
