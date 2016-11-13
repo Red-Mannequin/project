@@ -11,6 +11,6 @@ public class Config {
     public static int CHANNEL   = AudioFormat.CHANNEL_IN_STEREO;
     public static int FORMAT    = AudioFormat.ENCODING_PCM_16BIT;
     public static int INPUT     = MediaRecorder.AudioSource.MIC;
-    public static int OUTPUT    = AudioManager.USE_DEFAULT_STREAM_TYPE;
+    public static int OUTPUT    = AudioManager.STREAM_MUSIC;
     public static int MODE      = AudioTrack.MODE_STREAM;
 }

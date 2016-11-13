@@ -79,7 +79,7 @@ public class TrackView extends AppCompatActivity {
                 if (player.isPlaying()) {
                     short temp[] = AudioHelper.byte2short(player.getBuffer());
                     waveView.update(temp);
-                    handle.postDelayed(this, 200);
+                    handle.postDelayed(this, 50);
                 }
             }
         };
@@ -98,6 +98,7 @@ public class TrackView extends AppCompatActivity {
                 if(play_button.getText().toString().equals("play")) {
                     player.play();
                     play_button.setText("pause");
+                    handle.postDelayed(seek, 50);
                 } else {
                     player.pause();
                     play_button.setText("play");

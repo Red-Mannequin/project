@@ -15,7 +15,7 @@ public class Player {
     private int bufferShortSize;
     private short[] buffer;
 
-    public void Play() {
+    public Player() {
         freq    = 0;
         channel = 0;
         format  = 0;
