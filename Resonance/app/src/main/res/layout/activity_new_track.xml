@@ -64,12 +64,32 @@
         android:layout_toEndOf="@+id/track_path_text"
         android:focusableInTouchMode="false"/>
 
+    <TextView
+        android:text="Sample Rate"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/track_sampleRate_text"
+        android:layout_below="@+id/track_path_text"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/track_path_input" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Sample Rate"
+        android:ems="10"
+        android:id="@+id/track_sampleRate_input"
+        android:layout_below="@+id/track_path_input"
+        android:layout_toEndOf="@+id/track_path_text"
+        android:focusableInTouchMode="false"/>
+
     <Button
         android:text="create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/create_track_button"
-        android:layout_below="@+id/track_path_input"
+        android:layout_below="@+id/track_sampleRate_input"
         android:layout_centerHorizontal="true" />
 
 

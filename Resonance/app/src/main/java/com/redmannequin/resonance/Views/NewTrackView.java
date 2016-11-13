@@ -30,6 +30,7 @@ public class NewTrackView extends AppCompatActivity {
     private EditText trackNameInput;
     private EditText trackAuthorInput;
     private EditText trackPathInput;
+    private EditText sampleRateInput;
     private Button createTrackButton;
 
     // backend
@@ -53,6 +54,7 @@ public class NewTrackView extends AppCompatActivity {
         trackNameInput = (EditText) findViewById(R.id.track_name_input);
         trackAuthorInput = (EditText) findViewById(R.id.track_author_input);
         trackPathInput = (EditText) findViewById(R.id.track_path_input);
+        sampleRateInput = (EditText) findViewById(R.id.track_sampleRate_input);
 
         // load TrackView when createTrackButton is pressed
         createTrackButton = (Button) findViewById(R.id.create_track_button);
@@ -88,7 +90,15 @@ public class NewTrackView extends AppCompatActivity {
         createTrackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 trackAuthor = trackAuthorInput.getText().toString();
-                Track track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, 0);
+                String sampleRate = sampleRateInput.getText().toString();
+                Track track;
+                //Checks if the string is an integer and acts accordingly
+                if (sampleRate.matches("^-?\\d+$")) {
+                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Integer.parseInt(sampleRate));
+                }
+                else {
+                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, 0);
+                }
                 if (projectID != -1) project.add(track);
                 Intent intent = new Intent(getApplicationContext(), TrackView.class);
                 // send backend info to TackView
