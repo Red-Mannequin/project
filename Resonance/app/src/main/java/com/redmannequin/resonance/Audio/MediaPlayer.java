@@ -46,7 +46,7 @@ public class MediaPlayer {
         hasEnded = true;
 
         try {
-            af = new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false);
+            af = new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 1, true, false);
             uis = new UniversalAudioInputStream(new FileInputStream(path), af);
             adp = new AudioDispatcher(uis, 1024, 0);
             FlangerEffect fe = new FlangerEffect(1, 0.5, Config.FREQUENCY, 800);
@@ -55,7 +55,7 @@ public class MediaPlayer {
             adp.addAudioProcessor(de);
             RandomAccessFile raf = new RandomAccessFile(path+".wav", "rw");
             raf.setLength(0);
-            adp.addAudioProcessor(new WriterProcessor(af, raf));
+            adp.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false), raf));
             adp.run();
             adp.stop();
             randomAccessFile = new RandomAccessFile(path+".wav", "r");
