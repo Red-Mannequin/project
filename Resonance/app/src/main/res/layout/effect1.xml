@@ -4,18 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.redmannequin.resonance.MainActivity">
+    tools:context="com.redmannequin.resonance.Views.TrackView">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="This is effect #1, it has a slider."
+        android:text="AUDIO DELAY"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
 
-    <SeekBar
+    <EditText
+        android:id="@+id/delay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar" />
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/delay_enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Apply"/>
 
 </LinearLayout>

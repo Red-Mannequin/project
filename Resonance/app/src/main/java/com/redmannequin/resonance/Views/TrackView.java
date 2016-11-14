@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.redmannequin.resonance.Audio.AudioEffect;
 import com.redmannequin.resonance.Audio.AudioHelper;
@@ -97,7 +100,6 @@ public class TrackView extends AppCompatActivity {
         play_button = (Button) findViewById(R.id.play_button);
         stop_button = (Button) findViewById(R.id.stop_button);
         setupListeners();
-
     }
 
     private void setupListeners() {
@@ -134,6 +136,10 @@ public class TrackView extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             super.onBackPressed();
         }
+    }
+
+    public void setDelay(double input) {
+
     }
 
     //Returns pages/effects specified by the ViewPager
