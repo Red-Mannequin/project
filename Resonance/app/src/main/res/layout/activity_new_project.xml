@@ -10,7 +10,7 @@
         android:text="Name"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:id="@+id/project_text"
+        android:id="@+id/project_name_text"
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/project_name_input" />
 
@@ -23,13 +23,93 @@
         android:id="@+id/project_name_input"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/project_text" />
+        android:layout_toEndOf="@+id/project_name_text"/>
+
+    <TextView
+        android:text="Author"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/project_author_text"
+        android:layout_below="@+id/project_name_text"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/project_sample_input"
+        android:layout_toStartOf="@+id/project_name_input" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Author"
+        android:ems="10"
+        android:id="@+id/project_author_input"
+        android:layout_below="@+id/project_name_input"
+        android:layout_toEndOf="@+id/project_name_text" />
+
+    <TextView
+        android:text="sample rate"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/project_sample_text"
+        android:layout_below="@+id/project_author_input"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/project_duration_input" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="sample rate"
+        android:ems="10"
+        android:id="@+id/project_sample_input"
+        android:layout_below="@+id/project_author_input"
+        android:layout_toEndOf="@+id/project_name_text" />
+
+    <TextView
+        android:text="duration"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/project_duration_text"
+        android:layout_below="@+id/project_sample_input"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/project_duration_input"
+        android:layout_toStartOf="@+id/project_sample_input" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="duration"
+        android:ems="10"
+        android:id="@+id/project_duration_input"
+        android:layout_below="@+id/project_sample_input"
+        android:layout_toEndOf="@+id/project_sample_text" />
+
+    <TextView
+        android:text="BPM"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/project_bpm_text"
+        android:layout_below="@+id/project_duration_input"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/project_bpm_input"
+        android:layout_toStartOf="@+id/project_duration_input" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="BPM"
+        android:ems="10"
+        android:id="@+id/project_bpm_input"
+        android:layout_below="@+id/project_duration_input"
+        android:layout_toEndOf="@+id/project_duration_text" />
+
 
     <Button
         android:text="create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/project_name_input"
+        android:layout_below="@+id/project_bpm_input"
         android:layout_centerHorizontal="true"
         android:id="@+id/create_project_button" />
 
