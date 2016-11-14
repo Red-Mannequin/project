@@ -1,27 +1,16 @@
 package com.redmannequin.resonance.Audio;
 
-import android.media.audiofx.AudioEffect;
-import android.util.Log;
-import android.widget.TextView;
-
-import com.redmannequin.resonance.R;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
 
 import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.PitchShifter;
+import be.tarsos.dsp.effects.DelayEffect;
+import be.tarsos.dsp.effects.FlangerEffect;
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 import be.tarsos.dsp.io.UniversalAudioInputStream;
-import be.tarsos.dsp.io.android.AndroidFFMPEGLocator;
-import be.tarsos.dsp.io.android.AudioDispatcherFactory;
-import be.tarsos.dsp.pitch.PitchDetectionHandler;
-import be.tarsos.dsp.pitch.PitchDetectionResult;
-import be.tarsos.dsp.pitch.PitchProcessor;
+import be.tarsos.dsp.writer.WriterProcessor;
 
 public class MediaPlayer {
 
@@ -36,11 +25,8 @@ public class MediaPlayer {
 
     //TarsosDSP
     private AudioDispatcher adp;
-    private PitchDetectionHandler pdh;
     private UniversalAudioInputStream uis;
     private TarsosDSPAudioFormat af;
-
-    FileInputStream fs;
 
     public MediaPlayer() {
         randomAccessFile = null;
@@ -50,7 +36,6 @@ public class MediaPlayer {
         isPlaying = false;
         hasEnded = false;
         adp = null;
-        pdh = null;
     }
 
     // audio playback settings
@@ -60,21 +45,21 @@ public class MediaPlayer {
         isPlaying = false;
         hasEnded = true;
 
-        try{
-            randomAccessFile = new RandomAccessFile(path, "r");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         try {
-            fs = new FileInputStream(path);
-            af = new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, true);
-            uis = new UniversalAudioInputStream(fs, af);
-            adp = new AudioDispatcher(uis, 1024, 1024-32);
-            PitchShifter ps = new PitchShifter(adp, 1.35, Config.FREQUENCY, 1024, 1024-32);
-            adp.addAudioProcessor(ps);
+            af = new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false);
+            uis = new UniversalAudioInputStream(new FileInputStream(path), af);
+            adp = new AudioDispatcher(uis, 1024, 0);
+            FlangerEffect fe = new FlangerEffect(1, 0.5, Config.FREQUENCY, 800);
+            DelayEffect de = new DelayEffect(0.2, 0.2, Config.FREQUENCY);
+            PitchShifter ps = new PitchShifter(adp, 1.35, Config.FREQUENCY, 1024, 0);
+            adp.addAudioProcessor(de);
+            RandomAccessFile raf = new RandomAccessFile(path+".wav", "rw");
+            raf.setLength(0);
+            adp.addAudioProcessor(new WriterProcessor(af, raf));
             adp.run();
+            adp.stop();
+            randomAccessFile = new RandomAccessFile(path+".wav", "r");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,6 +106,11 @@ public class MediaPlayer {
 
     public void pause() {
         isPlaying = false;
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void stop() {
@@ -137,7 +127,6 @@ public class MediaPlayer {
         try {
             adp.stop();
             player.release();
-            fs.close();
             randomAccessFile.close();
         } catch (IOException e) {
             e.printStackTrace();

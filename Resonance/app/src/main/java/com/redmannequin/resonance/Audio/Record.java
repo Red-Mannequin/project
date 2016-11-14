@@ -24,7 +24,7 @@ public class Record {
 
     public void init(){
         freq = Config.FREQUENCY;
-        channel = Config.CHANNEL;
+        channel = Config.CHANNEL_IN;
         format = Config.FORMAT;
         source = Config.INPUT;
 
@@ -43,8 +43,16 @@ public class Record {
         return buffer;
     }
 
+    public void stop() {
+        audioRecord.stop();
+    }
+
     public void release() {
         audioRecord.stop();
         audioRecord.release();
+    }
+
+    public byte[] getEmptyByteBuffer() {
+        return new byte[bufferSize];
     }
 }

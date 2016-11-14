@@ -25,7 +25,7 @@ public class Player {
 
     public void init() {
         freq    = Config.FREQUENCY;
-        channel = Config.CHANNEL;
+        channel = Config.CHANNEL_OUT;
         format  = Config.FORMAT;
         output  = Config.OUTPUT;
         mode    = Config.MODE;
