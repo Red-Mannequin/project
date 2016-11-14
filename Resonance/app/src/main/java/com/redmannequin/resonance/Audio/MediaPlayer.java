@@ -50,7 +50,7 @@ public class MediaPlayer {
             uis = new UniversalAudioInputStream(new FileInputStream(path), af);
             adp = new AudioDispatcher(uis, 1024, 0);
             FlangerEffect fe = new FlangerEffect(1, 0.5, Config.FREQUENCY, 800);
-            DelayEffect de = new DelayEffect(0.2, 0.2, Config.FREQUENCY);
+            DelayEffect de = new DelayEffect(1, 0.5, Config.FREQUENCY);
             PitchShifter ps = new PitchShifter(adp, 1.35, Config.FREQUENCY, 1024, 0);
             adp.addAudioProcessor(de);
             RandomAccessFile raf = new RandomAccessFile(path+".wav", "rw");
