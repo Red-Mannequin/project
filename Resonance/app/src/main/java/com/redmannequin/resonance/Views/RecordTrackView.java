@@ -1,8 +1,5 @@
 package com.redmannequin.resonance.Views;
 
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.AudioManager;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +9,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 
 import com.redmannequin.resonance.Audio.AudioHelper;
-import com.redmannequin.resonance.Audio.Play;
+import com.redmannequin.resonance.Audio.Player;
 import com.redmannequin.resonance.Audio.Record;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.R;
@@ -31,7 +28,7 @@ public class RecordTrackView extends AppCompatActivity {
     private Chronometer clock;
 
     private Record recorder;
-    private Play player;
+    private Player player;
     private short buffer[];
 
     private Thread thread;
@@ -60,7 +57,7 @@ public class RecordTrackView extends AppCompatActivity {
         save.setEnabled(false);
 
         recorder = new Record();
-        player = new Play();
+        player = new Player();
         recorder.init();
         player.init();
 

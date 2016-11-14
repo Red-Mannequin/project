@@ -3,7 +3,7 @@ package com.redmannequin.resonance.Audio;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 
-public class Play {
+public class Player {
     private AudioTrack audioTrack;
 
     private int freq;
@@ -15,7 +15,7 @@ public class Play {
     private int bufferShortSize;
     private short[] buffer;
 
-    public void Play() {
+    public Player() {
         freq    = 0;
         channel = 0;
         format  = 0;
@@ -25,7 +25,7 @@ public class Play {
 
     public void init() {
         freq    = Config.FREQUENCY;
-        channel = Config.CHANNEL;
+        channel = Config.CHANNEL_OUT;
         format  = Config.FORMAT;
         output  = Config.OUTPUT;
         mode    = Config.MODE;

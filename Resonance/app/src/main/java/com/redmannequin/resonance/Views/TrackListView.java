@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.redmannequin.resonance.Audio.Play;
+import com.redmannequin.resonance.Audio.Player;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
@@ -32,7 +32,7 @@ public class TrackListView extends AppCompatActivity {
     private ListView trackView;
 
     // player
-    private Play player;
+    private Player player;
     private RandomAccessFile[] randomAccessFile;
     private Thread thread;
     private boolean playing;
@@ -69,7 +69,7 @@ public class TrackListView extends AppCompatActivity {
         }
 
         playing = false;
-        player = new Play();
+        player = new Player();
         player.init();
 
         // wait for track to pressed and load TrackView or NewTrack

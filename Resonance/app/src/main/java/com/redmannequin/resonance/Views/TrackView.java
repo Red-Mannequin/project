@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.redmannequin.resonance.Audio.AudioHelper;
-import com.redmannequin.resonance.Audio.Play;
+import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
@@ -21,10 +21,6 @@ import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 public class TrackView extends AppCompatActivity {
 
@@ -43,18 +39,10 @@ public class TrackView extends AppCompatActivity {
     private Project project;
     private Backend backend;
 
-    // audio player
-    private RandomAccessFile randomAccessFile;
-    private Thread thread;
-    private Play player;
-
-    private byte buffer[];
+    private MediaPlayer player;
 
     private Handler handle;
     private Runnable seek;
-
-    private boolean playing;
-    private boolean ended;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +55,8 @@ public class TrackView extends AppCompatActivity {
 
         project = backend.getProject(projectID);
         track = project.getTrack(trackID);
+        player = new MediaPlayer();
+        player.init(track.getPath());
 
         setTitle(track.getName());
 
@@ -82,26 +72,14 @@ public class TrackView extends AppCompatActivity {
         // wave view
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
 
-        // audio playback settings
-        player = new Play();
-        player.init();
-        playing = false;
-        ended = true;
-
-        try {
-            randomAccessFile = new RandomAccessFile(track.getPath(), "r");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         handle = new Handler();
         seek = new Runnable() {
             @Override
             public void run() {
-                if (playing) {
-                    short temp[] = AudioHelper.byte2short(buffer);
+                if (player.isPlaying()) {
+                    short temp[] = AudioHelper.byte2short(player.getBuffer());
                     waveView.update(temp);
-                    handle.postDelayed(this, 200);
+                    handle.postDelayed(this, 50);
                 }
             }
         };
@@ -114,92 +92,39 @@ public class TrackView extends AppCompatActivity {
     }
 
     private void setupListeners() {
+
         play_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                togglePlay();
+                if(play_button.getText().toString().equals("play")) {
+                    player.play();
+                    play_button.setText("pause");
+                    handle.postDelayed(seek, 50);
+                } else {
+                    player.pause();
+                    play_button.setText("play");
+                }
             }
         });
 
         stop_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                stop();
+                player.stop();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        if (playing) {
-            stop();
+        if (player.isPlaying()) {
+            player.stop();
         } else {
-            closePlay();
+            player.destroy();
             Intent intent = new Intent();
             intent.putExtra("projectID", projectID);
             intent.putExtra("backend", backend);
             setResult(RESULT_OK, intent);
             super.onBackPressed();
         }
-    }
-
-    private void togglePlay() {
-        if (playing) {
-            playing = false;
-        } else {
-            if (ended) {
-                try {
-                    randomAccessFile.seek(0);
-                    initPlay();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                initPlay();
-            }
-        }
-    }
-
-    private void stop() {
-        playing = false;
-        ended = true;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void closePlay() {
-        try {
-            player.release();
-            randomAccessFile.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void initPlay() {
-        player.start();
-        playing = true;
-        ended = false;
-        handle.postDelayed(seek, 200);
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (playing) {
-                    buffer = player.getEmptyByteBuffer();
-                    try {
-                        if (randomAccessFile.read(buffer, 0, buffer.length) == -1) {
-                            ended = true;
-                            playing = false;
-                        }
-                        player.write(buffer);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
     }
 
     //Returns pages/effects specified by the ViewPager
