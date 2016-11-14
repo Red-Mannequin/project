@@ -1,16 +1,8 @@
 package com.redmannequin.resonance.Audio;
 
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
-import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.PitchShifter;
-import be.tarsos.dsp.effects.DelayEffect;
-import be.tarsos.dsp.effects.FlangerEffect;
-import be.tarsos.dsp.io.TarsosDSPAudioFormat;
-import be.tarsos.dsp.io.UniversalAudioInputStream;
-import be.tarsos.dsp.writer.WriterProcessor;
 
 public class MediaPlayer {
 
@@ -23,10 +15,6 @@ public class MediaPlayer {
     private boolean isPlaying;
     private boolean hasEnded;
 
-    //TarsosDSP
-    private AudioDispatcher adp;
-    private UniversalAudioInputStream uis;
-    private TarsosDSPAudioFormat af;
 
     public MediaPlayer() {
         randomAccessFile = null;
@@ -35,7 +23,6 @@ public class MediaPlayer {
         buffer = null;
         isPlaying = false;
         hasEnded = false;
-        adp = null;
     }
 
     // audio playback settings
@@ -44,23 +31,9 @@ public class MediaPlayer {
         player.init();
         isPlaying = false;
         hasEnded = true;
-
         try {
-            af = new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 1, true, false);
-            uis = new UniversalAudioInputStream(new FileInputStream(path), af);
-            adp = new AudioDispatcher(uis, 1024, 0);
-            FlangerEffect fe = new FlangerEffect(1, 0.5, Config.FREQUENCY, 800);
-            DelayEffect de = new DelayEffect(1, 0.5, Config.FREQUENCY);
-            PitchShifter ps = new PitchShifter(adp, 1.35, Config.FREQUENCY, 1024, 0);
-            adp.addAudioProcessor(de);
-            RandomAccessFile raf = new RandomAccessFile(path+".wav", "rw");
-            raf.setLength(0);
-            adp.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false), raf));
-            adp.run();
-            adp.stop();
-            randomAccessFile = new RandomAccessFile(path+".wav", "r");
-
-        } catch (IOException e) {
+            randomAccessFile = new RandomAccessFile(path, "r");
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -125,7 +98,6 @@ public class MediaPlayer {
 
     public void destroy() {
         try {
-            adp.stop();
             player.release();
             randomAccessFile.close();
         } catch (IOException e) {
@@ -133,4 +105,3 @@ public class MediaPlayer {
         }
     }
 }
-
