@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.redmannequin.resonance.Audio.Config;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.Backend.Track;
@@ -70,11 +71,11 @@ public class NewTrackView extends AppCompatActivity {
                     trackName = trackNameInput.getText().toString();
                     trackNameInput.setFocusable(false);
 
-                    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator + project.getName());
+                    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator + project.getName() + File.separator + trackName);
                     if (!path.exists()) path.mkdirs();
                     File file = new File(path, trackName+".pcm");
 
-                    trackPath = file.getPath();
+                    trackPath = path.getPath();
                     trackPathInput.setText(file.getPath());
                     trackPathInput.setClickable(false);
 
@@ -94,10 +95,10 @@ public class NewTrackView extends AppCompatActivity {
                 Track track;
                 //Checks if the string is an integer and acts accordingly
                 if (sampleRate.matches("^-?\\d+$")) {
-                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Integer.parseInt(sampleRate));
+                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
                 }
                 else {
-                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, 0);
+                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
                 }
                 if (projectID != -1) project.add(track);
                 Intent intent = new Intent(getApplicationContext(), TrackView.class);

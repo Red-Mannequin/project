@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.redmannequin.resonance.Audio.AudioEffect;
 import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.AudioWaveView;
@@ -21,6 +22,9 @@ import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
+
+import java.io.File;
+import java.io.IOException;
 
 public class TrackView extends AppCompatActivity {
 
@@ -56,7 +60,12 @@ public class TrackView extends AppCompatActivity {
         project = backend.getProject(projectID);
         track = project.getTrack(trackID);
         player = new MediaPlayer();
-        player.init(track.getPath());
+
+        AudioEffect audioEffect = new AudioEffect();
+        audioEffect.init(track);
+        audioEffect.DelayEffect(1, 0.5);
+
+        player.init(track.getPath() + File.separator + track.getName() + "_delay.wav");
 
         setTitle(track.getName());
 
