@@ -7,7 +7,7 @@
     tools:context="com.redmannequin.resonance.Views.NewTrackView">
 
     <TextView
-        android:text="Name"
+        android:text="Track Name"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/track_name_text"
@@ -18,15 +18,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:hint="Track Name"
         android:ems="10"
         android:id="@+id/track_name_input"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/track_name_text" />
+        android:layout_toEndOf="@+id/track_name_text"
+        android:selectAllOnFocus="true"/>
 
     <TextView
-        android:text="Author"
+        android:text="Author Name"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/track_author_text"
@@ -38,14 +39,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Author"
+        android:hint="Author Name"
         android:ems="10"
         android:id="@+id/track_author_input"
         android:layout_below="@+id/track_name_input"
-        android:layout_toEndOf="@+id/track_name_text" />
+        android:layout_toEndOf="@+id/track_name_text"
+        android:selectAllOnFocus="true"/>
 
     <TextView
-        android:text="audio source"
+        android:text="Audio Source"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/track_path_text"
@@ -77,12 +79,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Sample Rate"
+        android:hint="Sample Rate"
         android:ems="10"
         android:id="@+id/track_sampleRate_input"
         android:layout_below="@+id/track_path_input"
         android:layout_toEndOf="@+id/track_path_text"
-        android:focusableInTouchMode="false"/>
+        android:focusableInTouchMode="false"
+        android:selectAllOnFocus="true"/>
 
     <Button
         android:text="create"

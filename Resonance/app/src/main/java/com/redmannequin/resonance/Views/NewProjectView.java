@@ -1,11 +1,17 @@
 package com.redmannequin.resonance.Views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
@@ -38,7 +44,7 @@ public class NewProjectView extends AppCompatActivity {
 
         // set ui links
         projectNameInput = (EditText) findViewById(R.id.project_name_input);
-        projectAuthorInput = null;
+        projectAuthorInput = (EditText) findViewById(R.id.project_author_input);
         projectDurationInput = null;
         projectSampleRateInput = null;
         projectBPMInput = null;
@@ -51,16 +57,17 @@ public class NewProjectView extends AppCompatActivity {
             public void onClick(View v) {
                 String projectName = projectNameInput.getText().toString();
                 if (checkName(projectName)) {
-
                     backend.add(new Project(projectName));
-
                     Intent intent = new Intent(getApplicationContext(), TrackListView.class);
                     intent.putExtra("projectID", backend.getProjectListSize() - 1);
                     intent.putExtra("backend", backend);
                     startActivityForResult(intent, 0);
+                } else {
+                    projectNameInput.setError("Project Name Is Taken");
                 }
             }
         });
+
     }
 
     private boolean checkName(String projectName) {

@@ -53,6 +53,7 @@ public class ProjectListView extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+
     }
 
     // get backend from activity stack
