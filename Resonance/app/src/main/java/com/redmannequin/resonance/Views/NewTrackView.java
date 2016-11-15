@@ -109,10 +109,7 @@ public class NewTrackView extends AppCompatActivity {
                     trackPathInput.setClickable(true);
 
                     createTrackButton.setEnabled(true);
-
-                    Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
-                    intent.putExtra("path", file.getPath());
-                    startActivity(intent);
+                    
                 } else {
                     trackNameInput.setError("Track Name Taken");
                 }
