@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,6 +109,12 @@ public class NewTrackView extends AppCompatActivity {
                     trackPathInput.setClickable(true);
 
                     createTrackButton.setEnabled(true);
+
+                    Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
+                    intent.putExtra("path", file.getPath());
+                    startActivity(intent);
+                } else {
+                    trackNameInput.setError("Track Name Taken");
                 }
             }
         });
