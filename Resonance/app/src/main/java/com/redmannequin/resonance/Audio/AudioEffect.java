@@ -37,6 +37,11 @@ public class AudioEffect {
         try {
             String path = track.getPath() +  File.separator + track.getName() + ".pcm";
             String newath = track.getPath() + File.separator + track.getName() +  "_delay.wav";
+            RandomAccessFile temp = new RandomAccessFile(path, "rw");
+            temp.seek(temp.length());
+            int b = (int)((temp.length()/(length*Config.FREQUENCY*2))*decay);
+            temp.write(new byte[(int)(b+length+(length*decay)+1)*Config.FREQUENCY*2]);
+            temp.close();
             audioInputStream = new UniversalAudioInputStream(new FileInputStream(path), audioFormat);
             dispatcher = new AudioDispatcher(audioInputStream, 1024, 0);
             DelayEffect delayEffect = new DelayEffect(length, decay, Config.FREQUENCY);

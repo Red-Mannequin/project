@@ -94,6 +94,8 @@ public class TrackView extends AppCompatActivity {
                     short temp[] = AudioHelper.byte2short(player.getBuffer());
                     waveView.update(temp);
                     handle.postDelayed(this, 50);
+                } else {
+                    play_button.setText("play");
                 }
             }
         };
