@@ -103,7 +103,7 @@ public class NewTrackView extends AppCompatActivity {
                 if (projectID != -1) project.add(track);
                 Intent intent = new Intent(getApplicationContext(), TrackView.class);
                 // send backend info to TackView
-                intent.putExtra("trackID", 0);
+                intent.putExtra("trackID", project.getTrackListSize()-1);
                 intent.putExtra("projectID", projectID);
                 intent.putExtra("backend", backend);
                 startActivityForResult(intent, TRACK_VIEW_RETURN);
