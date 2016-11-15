@@ -51,6 +51,8 @@ public class TrackView extends AppCompatActivity {
     private Handler handle;
     private Runnable seek;
 
+    private AudioEffect audioEffect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +66,9 @@ public class TrackView extends AppCompatActivity {
         track = project.getTrack(trackID);
         player = new MediaPlayer();
 
-        AudioEffect audioEffect = new AudioEffect();
+        audioEffect = new AudioEffect();
         audioEffect.init(track);
-        audioEffect.DelayEffect(1, 0.5);
+        audioEffect.DelayEffect(0.1, 0);
 
         player.init(track.getPath() + File.separator + track.getName() + "_delay.wav");
 
@@ -139,7 +141,7 @@ public class TrackView extends AppCompatActivity {
     }
 
     public void setDelay(double input) {
-
+        audioEffect.DelayEffect(input, 0.5);
     }
 
     //Returns pages/effects specified by the ViewPager
