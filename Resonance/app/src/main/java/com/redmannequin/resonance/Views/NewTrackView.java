@@ -1,7 +1,11 @@
 package com.redmannequin.resonance.Views;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +43,8 @@ public class NewTrackView extends AppCompatActivity {
     private Project project;
     private Backend backend;
 
+    final Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,15 +81,35 @@ public class NewTrackView extends AppCompatActivity {
                     if (!path.exists()) path.mkdirs();
                     File file = new File(path, trackName+".pcm");
 
+                    final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
+                    intent.putExtra("path", file.getPath());
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setTitle("Choose an option");
+                    alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Load",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Record",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                startActivity(intent);
+                            }
+                        });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+
                     trackPath = path.getPath();
-                    trackPathInput.setText(file.getPath());
-                    trackPathInput.setClickable(false);
+                    trackPathInput.setText(trackName);
+                    trackPathInput.setClickable(true);
 
                     createTrackButton.setEnabled(true);
-
-                    Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
-                    intent.putExtra("path", file.getPath());
-                    startActivity(intent);
                 }
             }
         });
