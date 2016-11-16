@@ -29,6 +29,7 @@ public class NewTrackView extends AppCompatActivity {
     private String trackName;
     private String trackAuthor;
     private String trackPath;
+    private String trackSampleRate;
 
     // ui elements
     private EditText trackNameInput;
@@ -72,10 +73,10 @@ public class NewTrackView extends AppCompatActivity {
     private void setListeners() {
         trackPathInput.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String trackName = trackNameInput.getText().toString();
-                String author = trackAuthorInput.getText().toString();
-                String sampleRate = sampleRateInput.getText().toString();
-                if (checkInputs(trackName, author, sampleRate)) {
+                trackName = trackNameInput.getText().toString();
+                trackAuthor = trackAuthorInput.getText().toString();
+                trackSampleRate = sampleRateInput.getText().toString();
+                if (checkInputs(trackName, trackAuthor, trackSampleRate)) {
                     trackNameInput.setFocusable(false);
 
                     File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator + project.getName() + File.separator + trackName);
@@ -121,10 +122,10 @@ public class NewTrackView extends AppCompatActivity {
         createTrackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 trackAuthor = trackAuthorInput.getText().toString();
-                String sampleRate = sampleRateInput.getText().toString();
+                trackSampleRate = sampleRateInput.getText().toString();
                 Track track;
                 //Checks if the string is an integer and acts accordingly
-                if (sampleRate.matches("^-?\\d+$")) {
+                if (trackSampleRate.matches("^-?\\d+$")) {
                     track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
                 }
                 else {

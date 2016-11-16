@@ -10,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
+
 
 import com.redmannequin.resonance.Audio.AudioEffect;
 import com.redmannequin.resonance.Audio.AudioHelper;
@@ -27,7 +25,6 @@ import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
 
 import java.io.File;
-import java.io.IOException;
 
 public class TrackView extends AppCompatActivity {
 
