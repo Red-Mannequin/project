@@ -66,8 +66,6 @@ public class NewProjectView extends AppCompatActivity {
                     intent.putExtra("projectID", backend.getProjectListSize() - 1);
                     intent.putExtra("backend", backend);
                     startActivityForResult(intent, 0);
-                } else {
-                    projectNameInput.setError("Project Name Is Taken");
                 }
             }
         });

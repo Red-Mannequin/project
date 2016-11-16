@@ -112,9 +112,6 @@ public class NewTrackView extends AppCompatActivity {
                     trackPathInput.setClickable(true);
 
                     createTrackButton.setEnabled(true);
-                    
-                } else {
-                    trackNameInput.setError("Track Name Taken");
                 }
             }
         });
