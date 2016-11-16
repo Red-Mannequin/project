@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioProcessor;
-
 import be.tarsos.dsp.effects.DelayEffect;
 import be.tarsos.dsp.effects.FlangerEffect;
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
@@ -25,7 +24,6 @@ public class AudioEffect {
     private AudioDispatcher dispatcher;
 
     private RandomAccessFile source;
-
     private long sourceLength;
     private String path;
     private String newPath;
@@ -58,7 +56,6 @@ public class AudioEffect {
 
     public void addDelayEffect(double length, double decay) {
         try {
-
             source = new RandomAccessFile(path, "rw");
             source.seek(sourceLength);
             int b = (int)((sourceLength/(length*Config.FREQUENCY*2))*decay);
@@ -71,12 +68,10 @@ public class AudioEffect {
         }
     }
 
-
     public void addFlangerEffect() {
         FlangerEffect flangerEffect = new FlangerEffect(20/1000.0, 50/100.0, Config.FREQUENCY, 3/10.0);
         processors.add(flangerEffect);
     }
-
 
     public void make() {
         try {
