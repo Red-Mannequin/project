@@ -1,16 +1,19 @@
 package com.redmannequin.resonance.Views;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 
 import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.Player;
-import com.redmannequin.resonance.Audio.Record;
+import com.redmannequin.resonance.Audio.Recorder;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.R;
 
@@ -27,7 +30,7 @@ public class RecordTrackView extends AppCompatActivity {
 
     private Chronometer clock;
 
-    private Record recorder;
+    private Recorder recorder;
     private Player player;
     private short buffer[];
 
@@ -37,6 +40,8 @@ public class RecordTrackView extends AppCompatActivity {
     private AudioWaveView waveView;
     private Handler handle;
     private Runnable seek;
+
+    private boolean isConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,7 @@ public class RecordTrackView extends AppCompatActivity {
         save = (Button) findViewById(R.id.save_button);
         save.setEnabled(false);
 
-        recorder = new Record();
+        recorder = new Recorder();
         player = new Player();
         recorder.init();
         player.init();
@@ -74,12 +79,12 @@ public class RecordTrackView extends AppCompatActivity {
             }
         };
         setListeners();
+        isConnected = false;
     }
 
     private void setListeners() {
         record.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.w("blah", "record buttn pressed");
                 if (status == 0 ) {
                     status = 1;
                     initRecorder();
@@ -100,6 +105,8 @@ public class RecordTrackView extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        registerReceiver(new HeadsetReceiver(), new IntentFilter(Intent.ACTION_HEADSET_PLUG));
     }
 
     @Override
@@ -118,7 +125,7 @@ public class RecordTrackView extends AppCompatActivity {
             public void run() {
                 while (status == 1) {
                     buffer = recorder.read();
-                    player.write(buffer);
+                    if (isConnected)player.write(buffer);
                     byte temp[] = AudioHelper.short2byte(buffer);
                     try {
                         outputStream.write(temp, 0, temp.length);
@@ -138,10 +145,20 @@ public class RecordTrackView extends AppCompatActivity {
             player.release();
             outputStream.flush();
             outputStream.close();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+    }
+
+    private class HeadsetReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra("state")){
+                if (isConnected && intent.getIntExtra("state", 0) == 0){
+                    isConnected = false;
+                } else if (!isConnected && intent.getIntExtra("state", 0) == 1){
+                    isConnected = true;
+                }
+            }
         }
     }
 }
