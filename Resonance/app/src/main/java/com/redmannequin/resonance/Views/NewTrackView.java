@@ -72,8 +72,10 @@ public class NewTrackView extends AppCompatActivity {
     private void setListeners() {
         trackPathInput.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (checkName()) {
-                    trackName = trackNameInput.getText().toString();
+                String trackName = trackNameInput.getText().toString();
+                String author = trackAuthorInput.getText().toString();
+                String sampleRate = sampleRateInput.getText().toString();
+                if (checkInputs(trackName, author, sampleRate)) {
                     trackNameInput.setFocusable(false);
 
                     File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator + project.getName() + File.separator + trackName);
@@ -139,10 +141,25 @@ public class NewTrackView extends AppCompatActivity {
         });
     }
 
-    private boolean checkName() {
+    private boolean checkName(String trackName) {
         ArrayList<String> names = project.getTrackNames();
-        if (names.contains(trackNameInput.getText().toString())) return false;
+        if (names.contains(trackName) || trackName.length() == 0) return false;
         return true;
+    }
+
+    private boolean checkInputs(String trackName, String author, String sampleRate) {
+        boolean check = true;
+        if (!checkName(trackName)) {
+            check = false;
+            trackNameInput.setError("Invalid Track Name");
+        }
+        if (author.length() == 0) {
+            trackAuthorInput.setError("Enter Author");
+        }
+        if (sampleRate.length() == 0) {
+            sampleRateInput.setError("Enter Sample rate");
+        }
+        return check;
     }
 
     // get backend from activity stack

@@ -42,6 +42,7 @@ public class RecordTrackView extends AppCompatActivity {
     private Runnable seek;
 
     private boolean isConnected;
+    private HeadsetReceiver hr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,9 @@ public class RecordTrackView extends AppCompatActivity {
                 }
             }
         };
-        setListeners();
         isConnected = false;
+        hr = new HeadsetReceiver();
+        setListeners();
     }
 
     private void setListeners() {
@@ -106,13 +108,14 @@ public class RecordTrackView extends AppCompatActivity {
             }
         });
 
-        registerReceiver(new HeadsetReceiver(), new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+        registerReceiver(hr, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
     }
 
     @Override
     public void onBackPressed() {
         status = 2;
         stopRecorder();
+        unregisterReceiver(hr);
         super.onBackPressed();
 
     }
