@@ -45,9 +45,9 @@ public class NewProjectView extends AppCompatActivity {
         // set ui links
         projectNameInput = (EditText) findViewById(R.id.project_name_input);
         projectAuthorInput = (EditText) findViewById(R.id.project_author_input);
-        projectDurationInput = null;
-        projectSampleRateInput = null;
-        projectBPMInput = null;
+        projectDurationInput = (EditText) findViewById(R.id.project_duration_input);
+        projectSampleRateInput = (EditText) findViewById(R.id.project_sample_input);
+        projectBPMInput = (EditText) findViewById(R.id.project_bpm_input);
         createProjectButton = (Button) findViewById(R.id.create_project_button);
         setListeners();
     }
@@ -56,7 +56,11 @@ public class NewProjectView extends AppCompatActivity {
         createProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String projectName = projectNameInput.getText().toString();
-                if (checkName(projectName)) {
+                String author = projectAuthorInput.getText().toString();
+                String duration = projectDurationInput.getText().toString();
+                String sampleRate = projectSampleRateInput.getText().toString();
+                String bpm = projectBPMInput.getText().toString();
+                if (checkInputs(projectName, author, duration, sampleRate, bpm)) {
                     backend.add(new Project(projectName));
                     Intent intent = new Intent(getApplicationContext(), TrackListView.class);
                     intent.putExtra("projectID", backend.getProjectListSize() - 1);
@@ -72,12 +76,32 @@ public class NewProjectView extends AppCompatActivity {
 
     private boolean checkName(String projectName) {
         ArrayList<String> names = backend.getProjectList();
-        if (names != null && !names.isEmpty() && names.contains(projectName)) {
+        if (names != null && !names.isEmpty() && names.contains(projectName) || projectName.length() == 0) {
             return false;
         }
         return true;
     }
 
+    private boolean checkInputs(String projectName, String author, String duration, String sampleRate, String bpm) {
+        boolean check = true;
+        if (!checkName(projectName)) {
+            check = false;
+            projectNameInput.setError("Invalid Project Name");
+        }
+        if (author.length() == 0) {
+            projectAuthorInput.setError("Enter Project Author");
+        }
+        if (sampleRate.length() == 0) {
+            projectSampleRateInput.setError("Enter Project Sample rate");
+        }
+        if (duration.length() == 0) {
+            projectDurationInput.setError("Enter project duration");
+        }
+        if (bpm.length() == 0) {
+            projectBPMInput.setError("Enter project bpm");
+        }
+        return check;
+    }
 
     // get backend from activity stack
     @Override
