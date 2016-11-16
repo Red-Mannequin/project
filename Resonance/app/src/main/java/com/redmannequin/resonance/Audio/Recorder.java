@@ -1,9 +1,8 @@
 package com.redmannequin.resonance.Audio;
 
 import android.media.AudioRecord;
-import android.webkit.CookieManager;
 
-public class Record {
+public class Recorder {
 
     private AudioRecord audioRecord;
     private int freq;
@@ -15,7 +14,7 @@ public class Record {
     //private byte[] buffer;
     private short[] buffer;
 
-    public void Record() {
+    public void Recorder() {
         freq    = 0;
         channel = 0;
         format  = 0;
