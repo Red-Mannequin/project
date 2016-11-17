@@ -139,8 +139,8 @@ public class TrackView extends AppCompatActivity {
         }
     }
 
-    public void setDelay(double input) {
-        audioEffect.DelayEffect(input, 0.5);
+    public void setDelay(double del, double dec) {
+        audioEffect.DelayEffect(del, dec);
     }
 
     //Returns pages/effects specified by the ViewPager

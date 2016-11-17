@@ -8,6 +8,8 @@
 
     <TextView
         android:text="Track Name"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/track_name_text"
@@ -28,12 +30,14 @@
 
     <TextView
         android:text="Author Name"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/track_author_text"
         android:layout_below="@+id/track_name_text"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/track_path_input" />
+        android:layout_above="@+id/track_sampleRate_input" />
 
     <EditText
         android:layout_width="match_parent"
@@ -43,15 +47,40 @@
         android:ems="10"
         android:id="@+id/track_author_input"
         android:layout_below="@+id/track_name_input"
-        android:layout_toEndOf="@+id/track_name_text"
+        android:layout_toEndOf="@+id/track_author_text"
+        android:selectAllOnFocus="true"/>
+
+    <TextView
+        android:text="Sample Rate"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/track_sampleRate_text"
+        android:layout_below="@+id/track_author_text"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/track_path_input" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Sample Rate"
+        android:ems="10"
+        android:id="@+id/track_sampleRate_input"
+        android:layout_below="@+id/track_author_input"
+        android:layout_toEndOf="@+id/track_sampleRate_text"
+        android:focusableInTouchMode="false"
         android:selectAllOnFocus="true"/>
 
     <TextView
         android:text="Audio Source"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/track_path_text"
-        android:layout_below="@+id/track_author_input"
+        android:layout_below="@+id/track_sampleRate_text"
         android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/track_path_input" />
 
@@ -62,37 +91,16 @@
         android:text="path"
         android:ems="10"
         android:id="@+id/track_path_input"
-        android:layout_below="@+id/track_author_input"
+        android:layout_below="@+id/track_sampleRate_input"
         android:layout_toEndOf="@+id/track_path_text"
         android:focusableInTouchMode="false"/>
-
-    <TextView
-        android:text="Sample Rate"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/track_sampleRate_text"
-        android:layout_below="@+id/track_path_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/track_path_input" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Sample Rate"
-        android:ems="10"
-        android:id="@+id/track_sampleRate_input"
-        android:layout_below="@+id/track_path_input"
-        android:layout_toEndOf="@+id/track_path_text"
-        android:focusableInTouchMode="false"
-        android:selectAllOnFocus="true"/>
 
     <Button
         android:text="create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/create_track_button"
-        android:layout_below="@+id/track_sampleRate_input"
+        android:layout_below="@+id/track_path_input"
         android:layout_centerHorizontal="true" />
 
 
