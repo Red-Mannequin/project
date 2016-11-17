@@ -27,6 +27,7 @@ public class AudioEffect {
     private long sourceLength;
     private String path;
     private String newPath;
+    private long newLength;
 
     private ArrayList<AudioProcessor> processors;
 
@@ -37,6 +38,7 @@ public class AudioEffect {
         audioInputStream = null;
         dispatcher = null;
         processors = new ArrayList<>();
+        
     }
 
     public void init() {
@@ -45,7 +47,9 @@ public class AudioEffect {
         newPath = track.getPath() + File.separator + track.getName() + "_final.wav";
         try {
             source = new RandomAccessFile(path, "r");
+            source.seek(0);
             sourceLength = source.length();
+            newLength = sourceLength;
             source.close();
             audioInputStream = new UniversalAudioInputStream(new FileInputStream(path), audioFormat);
             dispatcher = new AudioDispatcher(audioInputStream, 1024, 0);
@@ -57,9 +61,13 @@ public class AudioEffect {
     public void addDelayEffect(double length, double decay) {
         try {
             source = new RandomAccessFile(path, "rw");
-            source.seek(sourceLength);
-            int b = (int)((sourceLength/(length*Config.FREQUENCY*2))*decay);
-            source.write(new byte[(int)(b+length+(length*decay)+1)*Config.FREQUENCY*2]);
+            source.seek(newLength);
+            long b = (long)((newLength/(length*Config.FREQUENCY*2))*decay);
+            b = (long)((b+(length*decay)+length+1)*Config.FREQUENCY*2);
+            if (b+sourceLength > newLength) {
+                newLength = sourceLength+b;
+                source.write(new byte[(int) b]);
+            }
             DelayEffect delayEffect = new DelayEffect(length, decay, Config.FREQUENCY);
             processors.add(delayEffect);
             source.close();
@@ -82,6 +90,7 @@ public class AudioEffect {
             dispatcher.run();
             dispatcher.stop();
             source = new RandomAccessFile(path, "rw");
+            source.seek(0);
             source.setLength(sourceLength);
             source.close();
         } catch (IOException e) {

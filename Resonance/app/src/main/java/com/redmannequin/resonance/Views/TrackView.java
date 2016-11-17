@@ -141,8 +141,8 @@ public class TrackView extends AppCompatActivity {
 
     public void setDelay(double input) {
         audioEffect.init();
-        //audioEffect.addDelayEffect(input, 0.5);
-        audioEffect.addFlangerEffect();
+        audioEffect.addDelayEffect(input, 0.5);
+        //audioEffect.addFlangerEffect();
         audioEffect.make();
     }
 
