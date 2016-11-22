@@ -1,22 +1,21 @@
 package com.redmannequin.resonance.Views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class NewProjectView extends AppCompatActivity {
@@ -30,6 +29,8 @@ public class NewProjectView extends AppCompatActivity {
     private Button createProjectButton;
 
     // backend
+    private String projectJson;
+    private String trackJson;
     private Backend backend;
 
     @Override
@@ -39,8 +40,9 @@ public class NewProjectView extends AppCompatActivity {
 
         setTitle("New Project");
 
-        // gets backend from called activity
-        backend = getIntent().getParcelableExtra("backend");
+        projectJson = loadJson("projects"); // load project json
+        trackJson = loadJson("tracks");     // load track json
+        backend = new Backend(projectJson, trackJson); // init backend
 
         // set ui links
         projectNameInput = (EditText) findViewById(R.id.project_name_input);
@@ -62,9 +64,13 @@ public class NewProjectView extends AppCompatActivity {
                 String bpm = projectBPMInput.getText().toString();
                 if (checkInputs(projectName, author, duration, sampleRate, bpm)) {
                     backend.add(new Project(projectName));
+
+                    String[] JSONfiles = backend.toWrite();
+                    outputToFile(JSONfiles[0], "projects");
+                    outputToFile(JSONfiles[1], "tracks");
+
                     Intent intent = new Intent(getApplicationContext(), TrackListView.class);
                     intent.putExtra("projectID", backend.getProjectListSize() - 1);
-                    intent.putExtra("backend", backend);
                     startActivityForResult(intent, 0);
                 } else {
                     projectNameInput.setError("Project Name Is Taken");
@@ -107,18 +113,51 @@ public class NewProjectView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            backend = data.getParcelableExtra("backend");
-            onBackPressed();
-        }
+        projectJson = loadJson("projects"); // load project json
+        trackJson = loadJson("tracks");     // load track json
+        backend = new Backend(projectJson, trackJson); // init backend
     }
 
     // when back is pressed send backend and finish activity
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("backend", backend);
-        setResult(RESULT_OK, intent);
+        String[] JSONfiles = backend.toWrite();
+        outputToFile(JSONfiles[0], "projects");
+        outputToFile(JSONfiles[1], "tracks");
         super.onBackPressed();
+    }
+
+    private void outputToFile(String data, String name) {
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // loads the json file for testing only
+    //Input projects to open projects json file
+    //Input tracks to open tracks json file
+    private String loadJson(String name) {
+        StringBuilder text = new StringBuilder();
+        try {
+            File file = new File(this.getFilesDir(), name+".json");
+            if (!file.exists()) {
+                file.createNewFile();
+            } else {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close();
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
     }
 }

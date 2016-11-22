@@ -18,7 +18,11 @@ import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.R;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class NewTrackView extends AppCompatActivity {
@@ -39,6 +43,8 @@ public class NewTrackView extends AppCompatActivity {
     private Button createTrackButton;
 
     // backend
+    private String projectJson;
+    private String trackJson;
     private int projectID;
     private Project project;
     private Backend backend;
@@ -52,8 +58,10 @@ public class NewTrackView extends AppCompatActivity {
 
         setTitle("New Track");
 
-        // get backend info
-        backend = getIntent().getParcelableExtra("backend");
+        projectJson = loadJson("projects"); // load project json
+        trackJson = loadJson("tracks");     // load track json
+        backend = new Backend(projectJson, trackJson); // init backend
+
         projectID = getIntent().getIntExtra("projectID", 0);
         if (projectID != -1) project = backend.getProject(projectID);
 
@@ -76,6 +84,7 @@ public class NewTrackView extends AppCompatActivity {
                 trackName = trackNameInput.getText().toString();
                 trackAuthor = trackAuthorInput.getText().toString();
                 trackSampleRate = sampleRateInput.getText().toString();
+
                 if (checkInputs(trackName, trackAuthor, trackSampleRate)) {
                     trackNameInput.setFocusable(false);
 
@@ -110,7 +119,6 @@ public class NewTrackView extends AppCompatActivity {
                     trackPath = path.getPath();
                     trackPathInput.setText(trackName);
                     trackPathInput.setClickable(true);
-
                     createTrackButton.setEnabled(true);
                     
                 } else {
@@ -132,11 +140,14 @@ public class NewTrackView extends AppCompatActivity {
                     track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
                 }
                 if (projectID != -1) project.add(track);
+
+                String[] JSONfiles = backend.toWrite();
+                outputToFile(JSONfiles[0], "projects");
+                outputToFile(JSONfiles[1], "tracks");
+
                 Intent intent = new Intent(getApplicationContext(), TrackView.class);
-                // send backend info to TackView
                 intent.putExtra("trackID", project.getTrackListSize()-1);
                 intent.putExtra("projectID", projectID);
-                intent.putExtra("backend", backend);
                 startActivityForResult(intent, TRACK_VIEW_RETURN);
             }
         });
@@ -169,20 +180,58 @@ public class NewTrackView extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TRACK_VIEW_RETURN) {
             if (resultCode == RESULT_OK) {
-                backend = getIntent().getParcelableExtra("backend");
                 projectID = getIntent().getIntExtra("projectID", 0);
                 onBackPressed();
             }
         }
+        projectJson = loadJson("projects"); // load project json
+        trackJson = loadJson("tracks");     // load track json
+        backend = new Backend(projectJson, trackJson); // init backend
     }
 
     // when back is pressed send backend and finish activity
     @Override
     public void onBackPressed() {
+        String[] JSONfiles = backend.toWrite();
+        outputToFile(JSONfiles[0], "projects");
+        outputToFile(JSONfiles[1], "tracks");
         Intent intent = new Intent();
         intent.putExtra("projectID", projectID);
-        intent.putExtra("backend", backend);
         setResult(RESULT_OK, intent);
         super.onBackPressed();
+    }
+
+    private void outputToFile(String data, String name) {
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // loads the json file for testing only
+    //Input projects to open projects json file
+    //Input tracks to open tracks json file
+    private String loadJson(String name) {
+        StringBuilder text = new StringBuilder();
+        try {
+            File file = new File(this.getFilesDir(), name+".json");
+            if (!file.exists()) {
+                file.createNewFile();
+            } else {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close();
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
     }
 }

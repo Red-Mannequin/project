@@ -1,15 +1,12 @@
 package com.redmannequin.resonance.Backend;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Backend implements Parcelable {
+public class Backend {
 
     private String projectJsonStr;
     private String trackJsonStr;
@@ -89,32 +86,4 @@ public class Backend implements Parcelable {
         return projects.size();
     }
 
-
-    protected Backend(Parcel in) {
-       // jsonStr = in.readString();
-        projects = in.readArrayList(Project.class.getClassLoader());
-    }
-
-    public static final Creator<Backend> CREATOR = new Creator<Backend>() {
-        @Override
-        public Backend createFromParcel(Parcel in) {
-            return new Backend(in);
-        }
-
-        @Override
-        public Backend[] newArray(int size) {
-            return new Backend[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        //dest.writeString(jsonStr);
-        dest.writeList(projects);
-    }
 }
