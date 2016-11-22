@@ -1,26 +1,8 @@
 package com.redmannequin.resonance.Backend;
 
-/**
- * Created by Matthew on 11/2/2016.
- */
-
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.io.OutputStream;
-
-import java.util.ArrayList;
-import com.google.gson.*;
-import com.redmannequin.resonance.R;
 
 public class JSONCreator {
 

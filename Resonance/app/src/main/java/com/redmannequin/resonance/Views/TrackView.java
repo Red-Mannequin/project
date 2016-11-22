@@ -1,5 +1,6 @@
 package com.redmannequin.resonance.Views;
 
+// android imports
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-
+// project imports
 import com.redmannequin.resonance.Audio.AudioEffect;
 import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.MediaPlayer;
@@ -24,10 +25,16 @@ import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
 import com.redmannequin.resonance.R;
 
+// java imports
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class TrackView extends AppCompatActivity {
 
+    // fragments
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
@@ -36,18 +43,25 @@ public class TrackView extends AppCompatActivity {
     private Button stop_button;
     private AudioWaveView waveView;
 
-    // backend
+    // paths
+    private String projectJson;
+    private String trackJson;
+
+    // holds track and project ID's
     private int trackID;
     private int projectID;
+
+    // holds backend objects
     private Track track;
     private Project project;
     private Backend backend;
 
+    // player
     private MediaPlayer player;
-
     private Handler handle;
     private Runnable seek;
 
+    // audio effect
     private AudioEffect audioEffect;
 
     @Override
@@ -55,34 +69,38 @@ public class TrackView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
 
-        trackID = getIntent().getIntExtra("trackID", 0);
+        // load the backend
+        trackJson   = loadJson("tracks");     // load track json
+        projectJson = loadJson("projects");   // load project json
+        backend     = new Backend(projectJson, trackJson); // init backend
+
+        // get track and project
+        trackID   = getIntent().getIntExtra("trackID", 0);
         projectID = getIntent().getIntExtra("projectID", 0);
-        backend = getIntent().getParcelableExtra("backend");
+        project   = backend.getProject(projectID);
+        track     = project.getTrack(trackID);
 
-        project = backend.getProject(projectID);
-        track = project.getTrack(trackID);
+        // set title
+        setTitle(track.getName());
+
+        // player
         player = new MediaPlayer();
+        waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
 
+        // make wav file from pcm
         audioEffect = new AudioEffect(track);
         audioEffect.init();
         audioEffect.make();
 
-        player.init(track.getPath() + File.separator + track.getName() + "_delay.wav");
+        // init player with wav
+        player.init(track.getPath() + File.separator + track.getName() + "_final.wav");
 
-        setTitle(track.getName());
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        // Create the adapter that will return a fragment for each of the effect windows.
+        // set adapter for effect fragments
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // wave view
-        waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
-
+        // thread for waveForm view
         handle = new Handler();
         seek = new Runnable() {
             @Override
@@ -103,8 +121,8 @@ public class TrackView extends AppCompatActivity {
         setupListeners();
     }
 
+    // sets up the listerners for the ui elements
     private void setupListeners() {
-
         play_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(play_button.getText().toString().equals("play")) {
@@ -127,15 +145,19 @@ public class TrackView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (player.isPlaying()) {
-            player.stop();
-        } else {
+        if (!player.isPlaying()) {
             player.destroy();
+
+            String[] JSONfiles = backend.toWrite();
+            outputToFile(JSONfiles[0], "projects");
+            outputToFile(JSONfiles[1], "tracks");
+
             Intent intent = new Intent();
             intent.putExtra("projectID", projectID);
-            intent.putExtra("backend", backend);
             setResult(RESULT_OK, intent);
             super.onBackPressed();
+        } else {
+            player.stop();
         }
     }
 
@@ -167,4 +189,30 @@ public class TrackView extends AppCompatActivity {
         }
     }
 
+    private void outputToFile(String data, String name) {
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String loadJson(String name) {
+        StringBuilder text = new StringBuilder();
+        try {
+            File file = new File(this.getFilesDir(), name+".json");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
+    }
 }

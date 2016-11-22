@@ -1,5 +1,6 @@
 package com.redmannequin.resonance.Views;
 
+// android imports
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,35 +9,36 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.redmannequin.resonance.Audio.Player;
+// project imports
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
 
-import java.io.FileNotFoundException;
+// java imports
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class TrackListView extends AppCompatActivity {
+    // json paths
+    private String projectJson;
+    private String trackJson;
+
+    // project ID
+    private int projectID;
 
     // backend
-    private int projectID;
     private Project project;
     private Backend backend;
 
-    // listview
+    // ListView + list + adapter
     private ArrayAdapter adapter;
     private ArrayList<String> trackList;
-
     private ListView trackView;
 
-    // player
-    private Player player;
-    private RandomAccessFile[] randomAccessFile;
-    private Thread thread;
-    private boolean playing;
-    private byte[] buffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,43 +46,34 @@ public class TrackListView extends AppCompatActivity {
         setContentView(R.layout.activity_list_load);
 
         // load backend
-        backend = getIntent().getParcelableExtra("backend");
+        projectJson = loadJson("projects"); // load project json
+        trackJson = loadJson("tracks");     // load track json
+        backend = new Backend(projectJson, trackJson); // init backend
+
+        // get project
         projectID = getIntent().getIntExtra("projectID", 0);
         project = backend.getProject(projectID);
 
+        // set title
         setTitle(project.getName());
 
         // list view stuff
-        trackList = new ArrayList<String>();
+        trackList = new ArrayList<>();
         trackList.addAll(project.getTrackNames());
         trackList.add("+");
         trackList.add("play");
 
+        // set list adapter
         adapter = new ArrayAdapter(this, R.layout.activity_list, trackList);
         trackView = (ListView) findViewById(R.id.list);
-
-        randomAccessFile = new RandomAccessFile[project.getTrackListSize()];
-        for (int i=0; i < project.getTrackListSize(); ++i) {
-            try {
-                randomAccessFile[i] = new RandomAccessFile(project.getTrack(i).getPath(), "r");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        playing = false;
-        player = new Player();
-        player.init();
 
         // wait for track to pressed and load TrackView or NewTrack
         trackView.setAdapter(adapter);
         setListeners();
 
         if(project.getTrackListSize() == 0) {
-            Intent intent = new Intent();
-            intent = new Intent(getApplicationContext(), NewTrackView.class);
+            Intent intent = new Intent(getApplicationContext(), NewTrackView.class);
             intent.putExtra("projectID", projectID);
-            intent.putExtra("backend", backend);
             startActivityForResult(intent, 0);
         }
     }
@@ -91,29 +84,33 @@ public class TrackListView extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == parent.getCount()-2) {
                     // switch to NewTrackView and passes project and backend
-                    Intent intent = new Intent();
+
+                    String[] JSONfiles = backend.toWrite();
+                    outputToFile(JSONfiles[0], "projects");
+                    outputToFile(JSONfiles[1], "tracks");
+
+                    Intent intent;
                     intent = new Intent(getApplicationContext(), NewTrackView.class);
                     intent.putExtra("projectID", projectID);
-                    intent.putExtra("backend", backend);
                     startActivityForResult(intent, 0);
+
                 } else if (position == parent.getCount()-1) {
                     if (trackList.get(position).equals("play")) {
                         trackList.set(position, "stop");
                         adapter.notifyDataSetChanged();
-                        play();
                     } else {
                         trackList.set(position, "play");
                         adapter.notifyDataSetChanged();
-                        stop();
                     }
 
                 } else {
-                    // switch to MainActivity and passes project and backend
-                    Intent intent = new Intent();
-                    intent = new Intent(getApplicationContext(), TrackView.class);
+                    String[] JSONfiles = backend.toWrite();
+                    outputToFile(JSONfiles[0], "projects");
+                    outputToFile(JSONfiles[1], "tracks");
+
+                    Intent intent = new Intent(getApplicationContext(), TrackView.class);
                     intent.putExtra("trackID", position);
                     intent.putExtra("projectID", projectID);
-                    intent.putExtra("backend", backend);
                     startActivityForResult(intent, 0);
                 }
             }
@@ -124,8 +121,12 @@ public class TrackListView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        trackJson = loadJson("tracks");      // load track json
+        projectJson = loadJson("projects");  // load project json
+        backend = new Backend(projectJson, trackJson); // init backend
+
         if(resultCode == RESULT_OK) {
-            backend = data.getParcelableExtra("backend");
             projectID = data.getIntExtra("projectID", 0);
             project = backend.getProject(projectID);
 
@@ -140,39 +141,39 @@ public class TrackListView extends AppCompatActivity {
     // get backend from activity stack
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("backend", backend);
-        setResult(RESULT_OK, intent);
+        String[] JSONfiles = backend.toWrite();
+        outputToFile(JSONfiles[0], "projects");
+        outputToFile(JSONfiles[1], "tracks");
         super.onBackPressed();
 
     }
 
-    private void play() {
-        player.start();
-        playing = true;
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(playing) {
-                    buffer = player.getEmptyByteBuffer();
-                    for (int i=0; i < randomAccessFile.length; ++i) {
-                        try {
-                            byte temp[] = player.getEmptyByteBuffer();
-                            randomAccessFile[i].read(temp, 0, temp.length);
-                            for(int j=0; j < buffer.length; ++i) {
-                                buffer[j] = temp[i];
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    player.write(buffer);
-                }
-            }
-        });
+    private void outputToFile(String data, String name) {
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", TrackListView.MODE_PRIVATE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void stop() {
-
+    private String loadJson(String name) {
+        StringBuilder text = new StringBuilder();
+        try {
+            File file = new File(this.getFilesDir(), name+".json");
+            if (file.exists()) {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close();
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
     }
 }

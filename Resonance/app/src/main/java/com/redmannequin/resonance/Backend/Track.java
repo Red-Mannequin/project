@@ -1,9 +1,6 @@
 package com.redmannequin.resonance.Backend;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Track implements Parcelable {
+public class Track {
 
     //Variable Declarations containing Track info
         //TO ADD:
@@ -41,31 +38,6 @@ public class Track implements Parcelable {
         this.sampleRate = sampleRate;
     }
 
-
-    protected Track(Parcel in) {
-        name = in.readString();
-        path = in.readString();
-        duration = in.readInt();
-        localEndTime = in.readInt();
-        localStartTime = in.readInt();
-        globalEndTime = in.readInt();
-        globalStartTime = in.readInt();
-        sampleRate = in.readInt();
-    }
-
-    public static final Creator<Track> CREATOR = new Creator<Track>() {
-        @Override
-        public Track createFromParcel(Parcel in) {
-            return new Track(in);
-        }
-
-        @Override
-        public Track[] newArray(int size) {
-            return new Track[size];
-        }
-    };
-
-
     //GETTERS
     public String getName() {return name;}
     public String getPath() { return path; }
@@ -86,20 +58,4 @@ public class Track implements Parcelable {
     public void setGlobalEndTime(int get) {globalEndTime = get;}
     public void setSampleRate(int sr) {sampleRate = sr;}
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(path);
-        dest.writeInt(duration);
-        dest.writeInt(localEndTime);
-        dest.writeInt(localEndTime);
-        dest.writeInt(globalStartTime);
-        dest.writeInt(globalEndTime);
-        dest.writeInt(sampleRate);
-    }
 }

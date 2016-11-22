@@ -3,7 +3,6 @@ package com.redmannequin.resonance.Views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -53,7 +52,6 @@ public class MainMenuView extends AppCompatActivity {
             public void onClick(View v) {
                 //Intent intent = new Intent(getApplicationContext(), NewTrackView.class);
                 //intent.putExtra("prijectID", -1);
-                //intent.putExtra("backend", backend);
                 //startActivityForResult(intent, 0);
             }
         });
@@ -61,16 +59,14 @@ public class MainMenuView extends AppCompatActivity {
         newProject.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewProjectView.class);
-                intent.putExtra("backend", backend); // send backend
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
 
         load.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProjectListView.class);
-                intent.putExtra("backend", backend); // send backend
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
 
@@ -82,25 +78,19 @@ public class MainMenuView extends AppCompatActivity {
         });
     }
 
-    // get backend from activity stack
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            backend = data.getParcelableExtra("backend");
-        }
+        backend = new Backend(projectJson, trackJson);
     }
 
-    // loads the json file for testing only
-    //Input projects to open projects json file
-    //Input tracks to open tracks json file
+
     private String loadJson(String name) {
         StringBuilder text = new StringBuilder();
         try {
             File file = new File(this.getFilesDir(), name+".json");
-            if (!file.exists()) {
-                file.createNewFile();
-            } else {
+            if (file.exists()) {
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
                 while ((line = br.readLine()) != null) {
