@@ -85,20 +85,17 @@ public class MainMenuView extends AppCompatActivity {
         backend = new Backend(projectJson, trackJson);
     }
 
-
     private String loadJson(String name) {
         StringBuilder text = new StringBuilder();
         try {
             File file = new File(this.getFilesDir(), name+".json");
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    text.append(line);
-                    text.append('\n');
-                }
-                br.close();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
             }
+            br.close();
         }catch (IOException e) {
             e.printStackTrace();
         }

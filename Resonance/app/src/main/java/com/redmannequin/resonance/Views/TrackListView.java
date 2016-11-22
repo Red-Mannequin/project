@@ -2,6 +2,7 @@ package com.redmannequin.resonance.Views;
 
 // android imports
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -162,15 +163,13 @@ public class TrackListView extends AppCompatActivity {
         StringBuilder text = new StringBuilder();
         try {
             File file = new File(this.getFilesDir(), name+".json");
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    text.append(line);
-                    text.append('\n');
-                }
-                br.close();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
             }
+            br.close();
         }catch (IOException e) {
             e.printStackTrace();
         }

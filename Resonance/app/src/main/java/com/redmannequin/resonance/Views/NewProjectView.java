@@ -116,6 +116,7 @@ public class NewProjectView extends AppCompatActivity {
         projectJson = loadJson("projects"); // load project json
         trackJson = loadJson("tracks");     // load track json
         backend = new Backend(projectJson, trackJson); // init backend
+        onBackPressed();
     }
 
     // when back is pressed send backend and finish activity
@@ -137,24 +138,17 @@ public class NewProjectView extends AppCompatActivity {
         }
     }
 
-    // loads the json file for testing only
-    //Input projects to open projects json file
-    //Input tracks to open tracks json file
     private String loadJson(String name) {
         StringBuilder text = new StringBuilder();
         try {
             File file = new File(this.getFilesDir(), name+".json");
-            if (!file.exists()) {
-                file.createNewFile();
-            } else {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    text.append(line);
-                    text.append('\n');
-                }
-                br.close();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
             }
+            br.close();
         }catch (IOException e) {
             e.printStackTrace();
         }
