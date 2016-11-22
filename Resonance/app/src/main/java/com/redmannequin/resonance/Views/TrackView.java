@@ -63,9 +63,9 @@ public class TrackView extends AppCompatActivity {
         track = project.getTrack(trackID);
         player = new MediaPlayer();
 
-        audioEffect = new AudioEffect();
-        audioEffect.init(track);
-        audioEffect.DelayEffect(0.1, 0);
+        audioEffect = new AudioEffect(track);
+        audioEffect.init();
+        audioEffect.make();
 
         player.init(track.getPath() + File.separator + track.getName() + "_delay.wav");
 
@@ -140,7 +140,7 @@ public class TrackView extends AppCompatActivity {
     }
 
     public void setDelay(double del, double dec) {
-        audioEffect.DelayEffect(del, dec);
+        audioEffect.addDelayEffect(del, dec);
     }
 
     //Returns pages/effects specified by the ViewPager
