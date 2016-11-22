@@ -1,6 +1,7 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +9,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.redmannequin.resonance.Audio.AudioEffect;
+import com.redmannequin.resonance.Audio.Config;
 import com.redmannequin.resonance.Audio.Player;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
+import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.R;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -51,10 +56,33 @@ public class TrackListView extends AppCompatActivity {
         setTitle(project.getName());
 
         // list view stuff
-        trackList = new ArrayList<String>();
+        trackList = new ArrayList<>();
         trackList.addAll(project.getTrackNames());
         trackList.add("+");
         trackList.add("play");
+
+        if (project.getTrackListSize() != 0) {
+            File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString(), "Resonance" + File.separator + project.getName());
+            if (!path.exists()) path.mkdirs();
+            Track temp;
+            Track final_track = new Track(project.getName(), path.toString(), 0, 0, 0, 0, 0, Config.FREQUENCY);
+            RandomAccessFile fin;
+            AudioEffect effect;
+            try {
+                fin = new RandomAccessFile(path.toString() + File.separator + project.getName() + ".pcm", "rw");
+                fin.write(new byte[Config.FREQUENCY * 2 * 60 * 2]);
+                fin.close();
+                effect = new AudioEffect(final_track);
+                for (int i = 0; i < project.getTrackListSize(); ++i) {
+                    temp = project.getTrack(i);
+                    effect.init();
+                    effect.addAudioToMege(temp);
+                }
+                effect.make();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         adapter = new ArrayAdapter(this, R.layout.activity_list, trackList);
         trackView = (ListView) findViewById(R.id.list);

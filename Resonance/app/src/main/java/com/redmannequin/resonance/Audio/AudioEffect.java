@@ -81,6 +81,11 @@ public class AudioEffect {
         processors.add(flangerEffect);
     }
 
+    public void addAudioToMege(Track track) {
+        MergeAudio audio = new MergeAudio(track);
+        processors.add(audio);
+    }
+
     public void make() {
         try {
             RandomAccessFile audio = new RandomAccessFile(newPath, "rw");
