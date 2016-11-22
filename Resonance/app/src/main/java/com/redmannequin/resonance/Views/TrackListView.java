@@ -70,7 +70,8 @@ public class TrackListView extends AppCompatActivity {
             AudioEffect effect;
             try {
                 fin = new RandomAccessFile(path.toString() + File.separator + project.getName() + ".pcm", "rw");
-                fin.write(new byte[Config.FREQUENCY * 2 * 60 * 2]);
+                fin.setLength(0);
+                fin.write(new byte[Config.FREQUENCY*2*2*60]);
                 fin.close();
                 effect = new AudioEffect(final_track);
                 for (int i = 0; i < project.getTrackListSize(); ++i) {

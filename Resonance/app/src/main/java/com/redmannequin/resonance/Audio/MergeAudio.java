@@ -38,7 +38,7 @@ public class MergeAudio implements AudioProcessor {
             converter.toFloatArray(buffer, output, output.length);
             for (int i=0; i < input.length; ++i) {
                 input[i] += output[i];
-                input[i] /= 2;
+                //input[i] /= 2;
             }
             return true;
         } catch (IOException e) {
