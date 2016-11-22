@@ -25,19 +25,21 @@ public class Effect1 extends Fragment {
     }
 
     private Button enter;
-    private EditText effect1;
+    private EditText delay;
+    private EditText decay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.effect1, container, false);
 
-        effect1 = (EditText) rootView.findViewById(R.id.delay);
+        delay = (EditText) rootView.findViewById(R.id.delay);
+        decay = (EditText) rootView.findViewById(R.id.decay);
         enter = (Button) rootView.findViewById(R.id.delay_enter);
 
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((TrackView)getActivity()).setDelay(Double.parseDouble(effect1.getText().toString()));
+                ((TrackView)getActivity()).setDelay(Double.parseDouble(delay.getText().toString()), Double.parseDouble((decay.getText().toString())));
             }
         });
 

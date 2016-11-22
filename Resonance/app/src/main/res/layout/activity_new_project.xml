@@ -8,6 +8,8 @@
 
     <TextView
         android:text="Name"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_name_text"
@@ -28,6 +30,8 @@
 
     <TextView
         android:text="Author"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_author_text"
@@ -48,7 +52,9 @@
         android:selectAllOnFocus="true"/>
 
     <TextView
-        android:text="sample rate"
+        android:text="Sample rate"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_sample_text"
@@ -59,7 +65,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:hint="Sample Rate"
         android:ems="10"
         android:id="@+id/project_sample_input"
@@ -68,7 +74,9 @@
         android:selectAllOnFocus="true"/>
 
     <TextView
-        android:text="duration"
+        android:text="Duration"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_duration_text"
@@ -80,7 +88,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="time"
         android:hint="Duration"
         android:ems="10"
         android:id="@+id/project_duration_input"
@@ -90,6 +98,8 @@
 
     <TextView
         android:text="BPM"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_bpm_text"
@@ -101,7 +111,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:hint="BPM"
         android:ems="10"
         android:id="@+id/project_bpm_input"

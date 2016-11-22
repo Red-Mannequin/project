@@ -1,29 +1,72 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/effect1_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.redmannequin.resonance.Views.TrackView">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/delay_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:gravity="center"
         android:text="AUDIO DELAY"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
 
     <EditText
         android:id="@+id/delay"
-        android:layout_width="match_parent"
+        android:hint="0.0"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:gravity="center"
+        android:layout_below="@id/delay_title"
+        android:layout_alignBottom="@+id/decay"/>
+
+    <EditText
+        android:id="@+id/decay"
+        android:hint="0.0"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/delay_title"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/delay"/>
+
+    <TextView
+        android:id="@+id/delay_text"
+        android:text="Delay Factor"
+        android:textSize="18dp"
+        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:gravity="center"
+        android:layout_below="@+id/delay"/>
+
+    <TextView
+        android:id="@+id/decay_text"
+        android:text="Decay Factor"
+        android:textSize="18dp"
+        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/decay"
+        android:layout_toEndOf="@+id/delay_text"/>
 
     <Button
         android:id="@+id/delay_enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/delay_text"
         android:text="Apply"/>
 
-</LinearLayout>
+</RelativeLayout>
