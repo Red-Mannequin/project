@@ -1,41 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.redmannequin.resonance.AudioWaveView
+    <!-- The main content view -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.4"
-        android:id="@+id/track_wave_view"/>
+        android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.5"/>
+        <com.redmannequin.resonance.AudioWaveView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.4"
+            android:id="@+id/track_wave_view"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.1"
-        android:orientation="horizontal">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.5"/>
 
-        <Button
-            android:text="play"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/play_button"
-            android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.1"
+            android:orientation="horizontal">
 
-        <Button
-            android:text="stop"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/stop_button"
-            android:layout_weight="1" />
+            <Button
+                android:text="play"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/play_button"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="stop"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/stop_button"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"/>
+</android.support.v4.widget.DrawerLayout>
