@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -139,11 +140,12 @@ public class TrackView extends AppCompatActivity {
         //initialize drawer elements
         setEffectTitles();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.right_drawer);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerList = (ListView) findViewById(R.id.effect_drawer);
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.effect_drawer, mEffectTitles));
+                R.layout.activity_list, mEffectTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -218,7 +220,7 @@ public class TrackView extends AppCompatActivity {
     //Fragment management
     public void addFragment(Fragment effect) {
         if(isEmpty) {
-            fragments.remove(0);
+            fragments.remove(1);
             fragments.add(effect);
             isEmpty = false;
         } else {
