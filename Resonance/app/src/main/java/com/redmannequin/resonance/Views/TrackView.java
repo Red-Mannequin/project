@@ -3,9 +3,15 @@ package com.redmannequin.resonance.Views;
 // android imports
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.AnimRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -34,16 +40,11 @@ import com.redmannequin.resonance.R;
 // java imports
 import java.io.BufferedReader;
 import java.io.File;
-<<<<<<< HEAD
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
-public class TrackView extends AppCompatActivity {
-
-    // fragments
-=======
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TrackView extends AppCompatActivity {
 
@@ -51,8 +52,7 @@ public class TrackView extends AppCompatActivity {
     private int numFragments;
     private boolean isEmpty;
     private ArrayList<Fragment> fragments;
->>>>>>> nullPointer needs fixing
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private FragmentPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
     //Drawer elements
@@ -117,30 +117,22 @@ public class TrackView extends AppCompatActivity {
         // init player with wav
         player.init(track.getPath() + File.separator + track.getName() + "_final.wav");
 
-<<<<<<< HEAD
         // set adapter for effect fragments
-=======
         //initialize fragment list
         numFragments = 1;
         isEmpty = true;
         fragments = new ArrayList<Fragment>();
         fragments.add(noEffect.getFragment());
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        // Create the adapter that will return a fragment for each of the effect windows.
->>>>>>> nullPointer needs fixing
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-<<<<<<< HEAD
-        // thread for waveForm view
-=======
         //initialize drawer elements
         setEffectTitles();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerList = (ListView) findViewById(R.id.effect_drawer);
 
         // Set the adapter for the list view
@@ -152,7 +144,6 @@ public class TrackView extends AppCompatActivity {
         // wave view
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
 
->>>>>>> nullPointer needs fixing
         handle = new Handler();
         seek = new Runnable() {
             @Override
@@ -220,13 +211,14 @@ public class TrackView extends AppCompatActivity {
     //Fragment management
     public void addFragment(Fragment effect) {
         if(isEmpty) {
-            fragments.remove(1);
+            fragments.remove(0);
             fragments.add(effect);
             isEmpty = false;
         } else {
             fragments.add(effect);
             ++numFragments;
         }
+        mSectionsPagerAdapter.notifyDataSetChanged();
     }
 
     public void deleteFragment(int position) {
@@ -247,6 +239,11 @@ public class TrackView extends AppCompatActivity {
         }
 
         @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
         public Fragment getItem(int position) {
             return fragments.get(position);
         }
@@ -256,9 +253,9 @@ public class TrackView extends AppCompatActivity {
             // Number of fragments to show
             return numFragments;
         }
+
     }
 
-<<<<<<< HEAD
     private void outputToFile(String data, String name) {
         try {
             FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
@@ -285,7 +282,7 @@ public class TrackView extends AppCompatActivity {
         }
         return text.toString();
     }
-=======
+
     //set Effect Titles
     public void setEffectTitles() {
         mEffectTitles = new String[3];
@@ -303,25 +300,9 @@ public class TrackView extends AppCompatActivity {
 
     /** Adds fragments in the main content view */
     private void selectItem(int position) {
-        // Create a new fragment and specify the effect to show based on position
         Fragment newfragment = Effect1.getFragment();
-        //Bundle args = new Bundle();
-        //args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        //newfragment.setArguments(args);
-
-        // Add the fragment to the swipe view
         addFragment(newfragment);
-
-        // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mEffectTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
-    /*
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
-    }*/
->>>>>>> nullPointer needs fixing
 }
