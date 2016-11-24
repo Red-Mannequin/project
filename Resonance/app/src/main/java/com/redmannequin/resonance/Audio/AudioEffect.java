@@ -1,5 +1,7 @@
 package com.redmannequin.resonance.Audio;
 
+import android.util.Log;
+
 import com.redmannequin.resonance.Backend.Track;
 
 import java.io.File;
@@ -88,7 +90,11 @@ public class AudioEffect {
 
     public void make() {
         try {
+            audioInputStream = new UniversalAudioInputStream(new FileInputStream(path), audioFormat);
+            dispatcher = new AudioDispatcher(audioInputStream, 1024, 0);
+            
             RandomAccessFile audio = new RandomAccessFile(newPath, "rw");
+            audio.seek(0);
             audio.setLength(0);
             for (AudioProcessor ap : processors) dispatcher.addAudioProcessor(ap);
             dispatcher.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(track.getSampleRate(), 16, 2, true, false), audio));
