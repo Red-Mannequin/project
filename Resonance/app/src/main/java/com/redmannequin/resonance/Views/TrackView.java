@@ -3,14 +3,25 @@ package com.redmannequin.resonance.Views;
 // android imports
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.AnimRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 // project imports
 import com.redmannequin.resonance.Audio.AudioEffect;
@@ -23,6 +34,7 @@ import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.Effects.Effect1;
 import com.redmannequin.resonance.Effects.Effect2;
 import com.redmannequin.resonance.Effects.Effect3;
+import com.redmannequin.resonance.Effects.noEffect;
 import com.redmannequin.resonance.R;
 
 // java imports
@@ -31,14 +43,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class TrackView extends AppCompatActivity {
 
-    // fragments
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    //Fragment elements
+    private int numFragments;
+    private ArrayList<Fragment> fragments;
+    private FragmentPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
+    //Drawer elements
+    private String[] mEffectTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
     // ui elements
+    private Button effect_button;
     private Button play_button;
     private Button stop_button;
     private AudioWaveView waveView;
@@ -96,11 +118,31 @@ public class TrackView extends AppCompatActivity {
         player.init(track.getPath() + File.separator + track.getName() + "_final.wav");
 
         // set adapter for effect fragments
+        //initialize fragment list
+        fragments = new ArrayList<Fragment>();
+        fragments.add(noEffect.getFragment());
+        numFragments = 1;
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // thread for waveForm view
+        //initialize drawer elements
+        setEffectTitles();
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerList = (ListView) findViewById(R.id.effect_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.activity_list, mEffectTitles));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // wave view
+        waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
+
         handle = new Handler();
         seek = new Runnable() {
             @Override
@@ -116,6 +158,7 @@ public class TrackView extends AppCompatActivity {
         };
 
         // set up buttons
+        effect_button = (Button) findViewById(R.id.effect_button);
         play_button = (Button) findViewById(R.id.play_button);
         stop_button = (Button) findViewById(R.id.stop_button);
         setupListeners();
@@ -139,6 +182,12 @@ public class TrackView extends AppCompatActivity {
         stop_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 player.stop();
+            }
+        });
+
+        effect_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
     }
@@ -165,6 +214,19 @@ public class TrackView extends AppCompatActivity {
         audioEffect.addDelayEffect(del, dec);
     }
 
+    //Fragment management
+    public void addFragment(Fragment effect) {
+        fragments.add(effect);
+        ++numFragments;
+        mSectionsPagerAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteFragment(int position) {
+        fragments.remove(position);
+        --numFragments;
+        mSectionsPagerAdapter.notifyDataSetChanged();
+    }
+
     //Returns pages/effects specified by the ViewPager
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -173,19 +235,19 @@ public class TrackView extends AppCompatActivity {
         }
 
         @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
         public Fragment getItem(int position) {
-            Fragment[] effects;
-            effects = new Fragment[3];
-            effects[0] = Effect1.getFragment();
-            effects[1] = Effect2.getFragment();
-            effects[2] = Effect3.getFragment();
-            return effects[position];
+            return fragments.get(position);
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Number of fragments to show
+            return numFragments;
         }
     }
 
@@ -214,5 +276,36 @@ public class TrackView extends AppCompatActivity {
             e.printStackTrace();
         }
         return text.toString();
+    }
+
+    //set Effect Titles
+    public void setEffectTitles() {
+        mEffectTitles = new String[3];
+        mEffectTitles[0] = "Delay";
+        mEffectTitles[1] = "Flanger";
+        mEffectTitles[2] = "Pitch Shift";
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    /** Adds fragments in the main content view */
+    private void selectItem(int position) {
+        Fragment newfragment;
+        if(position == 0) {
+            newfragment = Effect1.getFragment();
+        } else if(position == 1) {
+            newfragment = Effect2.getFragment();
+        } else {
+            newfragment = Effect3.getFragment();
+        }
+
+        addFragment(newfragment);
+        mDrawerList.setItemChecked(position, true);
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 }
