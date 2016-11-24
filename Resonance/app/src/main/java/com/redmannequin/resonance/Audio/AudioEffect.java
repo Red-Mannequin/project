@@ -76,8 +76,8 @@ public class AudioEffect {
         }
     }
 
-    public void addFlangerEffect() {
-        FlangerEffect flangerEffect = new FlangerEffect(20/1000.0, 50/100.0, Config.FREQUENCY, 3/10.0);
+    public void addFlangerEffect(double length, double wet, double frequency) {
+        FlangerEffect flangerEffect = new FlangerEffect(length, wet, Config.FREQUENCY, frequency);
         processors.add(flangerEffect);
     }
 

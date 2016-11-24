@@ -207,6 +207,10 @@ public class TrackView extends AppCompatActivity {
         audioEffect.addDelayEffect(del, dec);
     }
 
+    public void setFlanger(double length, double wet, double frequency) {
+        audioEffect.addFlangerEffect(length, wet, frequency);
+    }
+
     //Fragment management
     public void addFragment(Fragment effect) {
         fragments.add(effect);
