@@ -4,13 +4,13 @@ package com.redmannequin.resonance.Backend.Effects;
  * Created by Matthew on 11/24/2016.
  */
 
-public class Delay extends Effect {
+public class DelayEffect extends Effect {
 
   private double delay;
   private double factor;
 
-  public Delay(int id, double delay, double factor) {
-    super(id);
+  public DelayEffect(double delay, double factor) {
+    super(0);
     this.delay = delay;
     this.factor = delay;
   }

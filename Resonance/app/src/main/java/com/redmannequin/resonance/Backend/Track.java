@@ -1,6 +1,5 @@
 package com.redmannequin.resonance.Backend;
 
-import com.redmannequin.resonance.Backend.Effects.Delay;
 import com.redmannequin.resonance.Backend.Effects.Effect;
 
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ public class Track {
         this.name = name;
         this.path = path;
         this.duration = duration;
-        Effect testEffect = new Delay(0, 0.0001, 0.0002);
-        effects.add(testEffect);
     }
 
     //Constructor with all info
@@ -46,6 +43,32 @@ public class Track {
         this.globalStartTime = globalStartTime;
         this.sampleRate = sampleRate;
     }
+
+     public void addEffect(Effect effect) {
+         effects.add(effect);
+     }
+
+     public void removeEffect(int ID) {
+         for (int i = 0; i < effects.size(); i++) {
+             if (effects.get(i).getID() == ID) {
+                 effects.remove(i);
+             }
+         }
+     }
+
+     //Type ID's are specified in Effects/Effect.java
+     public Effect getEffectByTypeID(int ID) {
+         for (int i = 0; i < effects.size(); i++) {
+             if (getEffect(i).getID() == ID) {
+                 return effects.get(i);
+             }
+         }
+         return null;
+     }
+
+     public Effect getEffect(int i) {
+         return effects.get(i);
+     }
 
     //GETTERS
     public String getName() {return name;}

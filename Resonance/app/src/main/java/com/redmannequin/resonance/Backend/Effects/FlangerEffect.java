@@ -10,15 +10,15 @@ package com.redmannequin.resonance.Backend.Effects;
   -> double lowFilterFrequency*/
 
 
-public class Flanger extends Effect {
+public class FlangerEffect extends Effect {
 
   private double wetness;
   private double maxLength;
   private double sampleRate;
   private double lowFilterFrequency;
 
-  public Flanger(int id, double wetness, double maxLength, double sampleRate, double lowFilterFrequency) {
-    super(id);
+  public FlangerEffect(double wetness, double maxLength, double sampleRate, double lowFilterFrequency) {
+    super(1);
     this.wetness = wetness;
     this.maxLength = maxLength;
     this.sampleRate = sampleRate;

@@ -24,6 +24,7 @@ import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
+import com.redmannequin.resonance.Backend.Effects.*;
 import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.Effects.Delay;
 import com.redmannequin.resonance.Effects.Flanger;
@@ -204,7 +205,9 @@ public class TrackView extends AppCompatActivity {
     }
 
     public void setDelay(double del, double dec) {
-        audioEffect.addDelayEffect(del, dec);
+        DelayEffect delay = new DelayEffect(del, dec);
+        track.addEffect(delay);
+        audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
     }
 
     //Fragment management
@@ -274,8 +277,8 @@ public class TrackView extends AppCompatActivity {
     //set Effect Titles
     public void setEffectTitles() {
         mEffectTitles = new String[3];
-        mEffectTitles[0] = "Delay";
-        mEffectTitles[1] = "Flanger";
+        mEffectTitles[0] = "DelayEffect";
+        mEffectTitles[1] = "FlangerEffect";
         mEffectTitles[2] = "Pitch Shift";
     }
 
