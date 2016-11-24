@@ -18,7 +18,7 @@
 
     <EditText
         android:id="@+id/flanger_length"
-        android:hint="0.0"
+        android:hint="20"
         android:inputType="numberDecimal"
         android:ems="6"
         android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
 
     <EditText
         android:id="@+id/flanger_wet"
-        android:hint="0.0"
+        android:hint="50"
         android:inputType="numberDecimal"
         android:ems="6"
         android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
 
     <EditText
         android:id="@+id/flanger_frequency"
-        android:hint="0.0"
+        android:hint="3"
         android:inputType="numberDecimal"
         android:ems="6"
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.redmannequin.resonance.Effects;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class Flanger extends Fragment {
 
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                System.out.print("Called setFlanger in Flanger class");
                 ((TrackView)getActivity()).setFlanger(Double.parseDouble(length.getText().toString()),
                         Double.parseDouble((wet.getText().toString())), Double.parseDouble(frequency.getText().toString()));
             }
