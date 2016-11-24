@@ -5,7 +5,7 @@
     android:id="@+id/no_effects">
 
     <TextView
-        android:text="No effects."
+        android:text="Swipe to view effects >>>"
         android:textSize="20dp"
         android:textAlignment="center"
         android:layout_width="wrap_content"
@@ -20,5 +20,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:text="*Something useful needs to go here"
+        android:textSize="15dp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="50dp"/>
 
 </LinearLayout>

@@ -50,7 +50,6 @@ public class TrackView extends AppCompatActivity {
 
     //Fragment elements
     private int numFragments;
-    private boolean isEmpty;
     private ArrayList<Fragment> fragments;
     private FragmentPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -61,6 +60,7 @@ public class TrackView extends AppCompatActivity {
     private ListView mDrawerList;
 
     // ui elements
+    private Button effect_button;
     private Button play_button;
     private Button stop_button;
     private AudioWaveView waveView;
@@ -119,10 +119,9 @@ public class TrackView extends AppCompatActivity {
 
         // set adapter for effect fragments
         //initialize fragment list
-        numFragments = 1;
-        isEmpty = true;
         fragments = new ArrayList<Fragment>();
         fragments.add(noEffect.getFragment());
+        numFragments = 1;
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -159,6 +158,7 @@ public class TrackView extends AppCompatActivity {
         };
 
         // set up buttons
+        effect_button = (Button) findViewById(R.id.effect_button);
         play_button = (Button) findViewById(R.id.play_button);
         stop_button = (Button) findViewById(R.id.stop_button);
         setupListeners();
@@ -182,6 +182,12 @@ public class TrackView extends AppCompatActivity {
         stop_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 player.stop();
+            }
+        });
+
+        effect_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
     }
@@ -210,25 +216,15 @@ public class TrackView extends AppCompatActivity {
 
     //Fragment management
     public void addFragment(Fragment effect) {
-        if(isEmpty) {
-            fragments.remove(0);
-            fragments.add(effect);
-            isEmpty = false;
-        } else {
-            fragments.add(effect);
-            ++numFragments;
-        }
+        fragments.add(effect);
+        ++numFragments;
         mSectionsPagerAdapter.notifyDataSetChanged();
     }
 
     public void deleteFragment(int position) {
         fragments.remove(position);
         --numFragments;
-        if(numFragments == 0) {
-            fragments.add(noEffect.getFragment());
-            ++numFragments;
-            isEmpty = true;
-        }
+        mSectionsPagerAdapter.notifyDataSetChanged();
     }
 
     //Returns pages/effects specified by the ViewPager
@@ -253,7 +249,6 @@ public class TrackView extends AppCompatActivity {
             // Number of fragments to show
             return numFragments;
         }
-
     }
 
     private void outputToFile(String data, String name) {
@@ -300,7 +295,15 @@ public class TrackView extends AppCompatActivity {
 
     /** Adds fragments in the main content view */
     private void selectItem(int position) {
-        Fragment newfragment = Effect1.getFragment();
+        Fragment newfragment;
+        if(position == 0) {
+            newfragment = Effect1.getFragment();
+        } else if(position == 1) {
+            newfragment = Effect2.getFragment();
+        } else {
+            newfragment = Effect3.getFragment();
+        }
+
         addFragment(newfragment);
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
