@@ -11,16 +11,16 @@ import android.widget.EditText;
 import com.redmannequin.resonance.R;
 import com.redmannequin.resonance.Views.TrackView;
 
-public class Effect1 extends Fragment {
+public class Delay extends Fragment {
 
     double value;
 
-    public Effect1() {
+    public Delay() {
         value = 0.0;
     }
 
-    public static Effect1 getFragment() {
-        Effect1 fragment = new Effect1();
+    public static Delay getFragment() {
+        Delay fragment = new Delay();
         return fragment;
     }
 
@@ -31,7 +31,7 @@ public class Effect1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.effect1, container, false);
+        View rootView = inflater.inflate(R.layout.delay, container, false);
 
         delay = (EditText) rootView.findViewById(R.id.delay);
         decay = (EditText) rootView.findViewById(R.id.decay);

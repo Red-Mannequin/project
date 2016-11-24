@@ -3,15 +3,9 @@ package com.redmannequin.resonance.Views;
 // android imports
 import android.content.Intent;
 import android.os.Handler;
-import android.support.annotation.AnimRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -31,10 +25,10 @@ import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.Backend.Track;
-import com.redmannequin.resonance.Effects.Effect1;
-import com.redmannequin.resonance.Effects.Effect2;
-import com.redmannequin.resonance.Effects.Effect3;
-import com.redmannequin.resonance.Effects.noEffect;
+import com.redmannequin.resonance.Effects.Delay;
+import com.redmannequin.resonance.Effects.Flanger;
+import com.redmannequin.resonance.Effects.PitchShift;
+import com.redmannequin.resonance.Effects.VolumeControl;
 import com.redmannequin.resonance.R;
 
 // java imports
@@ -44,7 +38,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class TrackView extends AppCompatActivity {
 
@@ -120,7 +113,7 @@ public class TrackView extends AppCompatActivity {
         // set adapter for effect fragments
         //initialize fragment list
         fragments = new ArrayList<Fragment>();
-        fragments.add(noEffect.getFragment());
+        fragments.add(VolumeControl.getFragment());
         numFragments = 1;
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -164,7 +157,7 @@ public class TrackView extends AppCompatActivity {
         setupListeners();
     }
 
-    // sets up the listerners for the ui elements
+    // sets up the listeners for the ui elements
     private void setupListeners() {
         play_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -297,11 +290,11 @@ public class TrackView extends AppCompatActivity {
     private void selectItem(int position) {
         Fragment newfragment;
         if(position == 0) {
-            newfragment = Effect1.getFragment();
+            newfragment = Delay.getFragment();
         } else if(position == 1) {
-            newfragment = Effect2.getFragment();
+            newfragment = Flanger.getFragment();
         } else {
-            newfragment = Effect3.getFragment();
+            newfragment = PitchShift.getFragment();
         }
 
         addFragment(newfragment);

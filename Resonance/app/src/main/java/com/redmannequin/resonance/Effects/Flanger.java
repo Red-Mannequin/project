@@ -8,18 +8,18 @@ import android.view.ViewGroup;
 
 import com.redmannequin.resonance.R;
 
-public class Effect3 extends Fragment {
+public class Flanger extends Fragment {
 
-    public Effect3() { }
+    public Flanger() { }
 
-    public static Effect3 getFragment() {
-        Effect3 fragment = new Effect3();
+    public static Flanger getFragment() {
+        Flanger fragment = new Flanger();
         return fragment;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.effect3, container, false);
+        View rootView = inflater.inflate(R.layout.flanger, container, false);
         return rootView;
     }
 }

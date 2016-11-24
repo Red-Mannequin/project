@@ -8,18 +8,18 @@ import android.view.ViewGroup;
 
 import com.redmannequin.resonance.R;
 
-public class noEffect extends Fragment {
+public class PitchShift extends Fragment {
 
-    public noEffect() { }
+    public PitchShift() { }
 
-    public static noEffect getFragment() {
-        noEffect fragment = new noEffect();
+    public static PitchShift getFragment() {
+        PitchShift fragment = new PitchShift();
         return fragment;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.no_effects, container, false);
+        View rootView = inflater.inflate(R.layout.pitch_shift, container, false);
         return rootView;
     }
 }

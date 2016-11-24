@@ -8,18 +8,18 @@ import android.view.ViewGroup;
 
 import com.redmannequin.resonance.R;
 
-public class Effect2 extends Fragment {
+public class VolumeControl extends Fragment {
 
-    public Effect2() { }
+    public VolumeControl() { }
 
-    public static Effect2 getFragment() {
-        Effect2 fragment = new Effect2();
+    public static VolumeControl getFragment() {
+        VolumeControl fragment = new VolumeControl();
         return fragment;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.effect2, container, false);
+        View rootView = inflater.inflate(R.layout.volume_control, container, false);
         return rootView;
     }
 }
