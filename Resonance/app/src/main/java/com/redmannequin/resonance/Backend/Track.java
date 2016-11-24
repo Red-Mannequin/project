@@ -1,5 +1,10 @@
 package com.redmannequin.resonance.Backend;
 
+import com.redmannequin.resonance.Backend.Effects.Delay;
+import com.redmannequin.resonance.Backend.Effects.Effect;
+
+import java.util.ArrayList;
+
 public class Track {
 
     //Variable Declarations containing Track info
@@ -15,6 +20,8 @@ public class Track {
                 globalEndTime,
                 sampleRate;
 
+    private ArrayList<Effect> effects = new ArrayList<Effect>();
+
     public Track(String name) {
         this.name = name;
     }
@@ -24,6 +31,8 @@ public class Track {
         this.name = name;
         this.path = path;
         this.duration = duration;
+        Effect testEffect = new Delay(0, 0.0001, 0.0002);
+        effects.add(testEffect);
     }
 
     //Constructor with all info
