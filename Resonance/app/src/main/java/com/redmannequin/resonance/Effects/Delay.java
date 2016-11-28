@@ -13,12 +13,6 @@ import com.redmannequin.resonance.Views.TrackView;
 
 public class Delay extends Fragment {
 
-    double value;
-
-    public Delay() {
-        value = 0.0;
-    }
-
     public static Delay getFragment() {
         Delay fragment = new Delay();
         return fragment;
