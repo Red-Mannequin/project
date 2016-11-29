@@ -2,6 +2,7 @@ package com.redmannequin.resonance.Views;
 
 // android imports
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.OutputStreamWriter;
 
 public class TrackView extends AppCompatActivity {
 
@@ -192,6 +194,19 @@ public class TrackView extends AppCompatActivity {
             player.destroy();
 
             String[] JSONfiles = backend.toWrite();
+
+            String path =
+            Environment.getExternalStorageDirectory() + File.separator  + "Resonance";
+            // Create the folder.
+            File folder = new File(path);
+            folder.mkdirs();
+            // Create the file.
+            File projectsFile = new File(folder, "projects.json");
+            File tracksFile = new File(folder, "tracks.json");
+
+            outputToFile(JSONfiles[0], projectsFile);
+            outputToFile(JSONfiles[1], tracksFile);
+
             outputToFile(JSONfiles[0], "projects");
             outputToFile(JSONfiles[1], "tracks");
 
@@ -203,6 +218,21 @@ public class TrackView extends AppCompatActivity {
             player.stop();
         }
     }
+
+    private void outputToFile(String data, File file) {
+        try
+        {
+            file.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(data);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+         } catch (IOException e) {}
+     }
 
     public void setDelay(double del, double dec) {
         DelayEffect delay = new DelayEffect(del, dec);
@@ -250,6 +280,14 @@ public class TrackView extends AppCompatActivity {
     private void outputToFile(String data, String name) {
         try {
             FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_PRIVATE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_WORLD_READABLE);
             file.write(data.getBytes());
             file.close();
         } catch (IOException e) {

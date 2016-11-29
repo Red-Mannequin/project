@@ -3,6 +3,7 @@ package com.redmannequin.resonance.Backend;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.redmannequin.resonance.Backend.Effects.*;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,23 @@ public class Backend {
                                                 track.optInt("globalEndTime"),
                                                 track.optInt("globalStartTime"),
                                                 track.optInt("sampleRate"));
+
+                    JSONArray effects = track.getJSONArray("effects");
+
+                    for (int q = 0; q < effects.length(); q++) {
+                        JSONObject effectInfo = effects.getJSONObject(q);
+
+                        int eventID = effectInfo.optInt("id");
+                        switch(eventID) {
+                            case 0: break;
+                        }
+                        Effect effect = new Effect(
+                            effectInfo.optInt("id")
+                        );
+
+                        newTrack.addEffect(effect);
+                    }
+
                     newProject.add(newTrack);
                 }
                 this.projects.add(newProject);

@@ -44,6 +44,9 @@ public class Track {
         this.sampleRate = sampleRate;
     }
 
+    public int numEffects() {
+        return effects.size();
+    }
      public void addEffect(Effect effect) {
          effects.add(effect);
      }

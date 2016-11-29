@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.redmannequin.resonance.Backend.Effects.*;
+
 public class JSONCreator {
 
     Backend backend;
@@ -45,11 +47,13 @@ public class JSONCreator {
         JSONArray trackIDs = new JSONArray();
         JSONArray projects = new JSONArray();
         JSONArray tracks = new JSONArray();
+        JSONArray effects = new JSONArray();
         JSONObject newProject = new JSONObject();
         JSONObject trackID = new JSONObject();
         JSONObject track = new JSONObject();
         JSONObject projectRoot = new JSONObject();
         JSONObject trackRoot = new JSONObject();
+        JSONObject effect = new JSONObject();
 
         //JSONArray  .put(Object) adds the object to the array
         //JSONObject .put(String, Object) adds the values with label to the object
@@ -100,6 +104,29 @@ public class JSONCreator {
                     track.put("globalEndTime", newTrack.getGlobalEndTime());
                     track.put("sampleRate", newTrack.getSampleRate());
 
+                    effects = new JSONArray();
+                    int effectID;
+
+                    for(int q = 0; q < newTrack.numEffects(); q++) {
+
+                        Effect currEffect = newTrack.getEffect(q);
+                        effectID = newTrack.getEffect(q).getID();
+
+                        effect = new JSONObject();
+
+                        switch(effectID) {
+                                case 0:
+                                //downcast Effect to DelayEffect
+                                DelayEffect dEffect = (DelayEffect) currEffect;
+                                effect.put("id", effectID);
+                                effect.put("on", dEffect.isOn());
+                                effect.put("delay", dEffect.getDelay());
+                                effect.put("factor", dEffect.getFactor());
+                        }
+                        effects.put(effect);
+                    }
+
+                    track.put("effects", effects);
                     tracks.put(track);
 
                     idTracker++;
