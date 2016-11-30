@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.redmannequin.resonance.Backend.Effects.*;
 
 public class JSONCreator {
@@ -114,9 +116,22 @@ public class JSONCreator {
 
                         effect = new JSONObject();
 
+                        Log.d("Object ClassType", "The class of " + currEffect +
+                            " is " + currEffect.getClass().getName());
+
                         switch(effectID) {
                                 case 0:
                                 //downcast Effect to DelayEffect
+
+                                /*
+                                    The problem occurs when I attempt to downcast the Effect type to DelayEffect.
+                                    The cast fails to recognize that currEffect was originally a DelayEffect type
+                                    when added to the Track's effects ArrayList.
+
+                                    The solution to this is to figure out why it is not registering that currEffect's
+                                    class type is DelayEffect, even though it is labelled as an Effect type.
+                                */
+
                                 DelayEffect dEffect = (DelayEffect) currEffect;
                                 effect.put("id", effectID);
                                 effect.put("on", dEffect.isOn());
