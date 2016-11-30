@@ -152,7 +152,9 @@ public class TrackListView extends AppCompatActivity {
     private void outputToFile(String data, String name) {
         try {
             FileOutputStream file = this.openFileOutput(name + ".json", TrackListView.MODE_PRIVATE);
-            file.write(data.getBytes());
+            if (data != null) {
+                file.write(data.getBytes());
+            }
             file.close();
         } catch (IOException e) {
             e.printStackTrace();

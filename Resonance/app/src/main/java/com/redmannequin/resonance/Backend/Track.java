@@ -1,5 +1,9 @@
 package com.redmannequin.resonance.Backend;
 
+import com.redmannequin.resonance.Backend.Effects.*;
+
+import java.util.ArrayList;
+
 public class Track {
 
     //Variable Declarations containing Track info
@@ -14,6 +18,8 @@ public class Track {
                 globalStartTime,
                 globalEndTime,
                 sampleRate;
+
+    private ArrayList effects = new ArrayList();
 
     public Track(String name) {
         this.name = name;
@@ -37,6 +43,36 @@ public class Track {
         this.globalStartTime = globalStartTime;
         this.sampleRate = sampleRate;
     }
+
+    public int numEffects() {
+        return effects.size();
+    }
+
+    public void addEffect(Effect effect) {
+        effects.add(effect);
+    }
+
+     public void removeEffect(int ID) {
+         for (int i = 0; i < effects.size(); i++) {
+             if (getEffect(i).getID() == ID) {
+                 effects.remove(i);
+             }
+         }
+     }
+
+     //Type ID's are specified in Effects/Effect.java
+     public Effect getEffectByTypeID(int ID) {
+         for (int i = 0; i < effects.size(); i++) {
+             if (getEffect(i).getID() == ID) {
+                 return (Effect) effects.get(i);
+             }
+         }
+         return null;
+     }
+
+     public Effect getEffect(int i) {
+         return (Effect) effects.get(i);
+     }
 
     //GETTERS
     public String getName() {return name;}

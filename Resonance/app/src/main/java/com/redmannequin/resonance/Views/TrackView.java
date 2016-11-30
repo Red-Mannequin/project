@@ -2,6 +2,7 @@ package com.redmannequin.resonance.Views;
 
 // android imports
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,7 @@ import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
+import com.redmannequin.resonance.Backend.Effects.*;
 import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.Effects.Delay;
 import com.redmannequin.resonance.Effects.Flanger;
@@ -38,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.OutputStreamWriter;
 
 public class TrackView extends AppCompatActivity {
 
@@ -191,6 +194,20 @@ public class TrackView extends AppCompatActivity {
             player.destroy();
 
             String[] JSONfiles = backend.toWrite();
+/*
+  UNCOMMENT TO MAKE COPIES OF JSON FILES IN PUBLIC DIRECTORY
+            String path =
+            Environment.getExternalStorageDirectory() + File.separator  + "Resonance";
+            // Create the folder.
+            File folder = new File(path);
+            folder.mkdirs();
+            // Create the file.
+            File projectsFile = new File(folder, "projects.json");
+            File tracksFile = new File(folder, "tracks.json");
+
+            outputToFile(JSONfiles[0], projectsFile);
+            outputToFile(JSONfiles[1], tracksFile);
+*/
             outputToFile(JSONfiles[0], "projects");
             outputToFile(JSONfiles[1], "tracks");
 
@@ -202,14 +219,36 @@ public class TrackView extends AppCompatActivity {
             player.stop();
         }
     }
+/*
+    private void outputToFile(String data, File file) {
+        try
+        {
+            file.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(data);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+         } catch (IOException e) {}
+     }
+*/
 
     public void setDelay(double del, double dec) {
-        audioEffect.addDelayEffect(del, dec);
+
+        DelayEffect delay = new DelayEffect(del, dec);
+        track.addEffect(delay);
+        audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
         audioEffect.make();
     }
 
     public void setFlanger(double length, double wet, double frequency) {
-        audioEffect.addFlangerEffect(length, wet, frequency);
+
+        FlangerEffect flanger = new FlangerEffect(length, wet, 0, frequency);
+        track.addEffect(flanger);
+        audioEffect.addFlangerEffect(flanger.getMaxLength(), flanger.getWetness(), flanger.getLowFilterFrequency());
         audioEffect.make();
     }
 
@@ -258,6 +297,16 @@ public class TrackView extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+/*
+    LEFT FOR DEBUGGING PURPOSES - WRITES TO PUBLIC FOLDER TO VIEW JSON OUTPUT
+        try {
+            FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_WORLD_READABLE);
+            file.write(data.getBytes());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
     }
 
     private String loadJson(String name) {
@@ -280,8 +329,8 @@ public class TrackView extends AppCompatActivity {
     //set Effect Titles
     public void setEffectTitles() {
         mEffectTitles = new String[3];
-        mEffectTitles[0] = "Delay";
-        mEffectTitles[1] = "Flanger";
+        mEffectTitles[0] = "DelayEffect";
+        mEffectTitles[1] = "FlangerEffect";
         mEffectTitles[2] = "Pitch Shift";
     }
 
