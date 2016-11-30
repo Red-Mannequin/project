@@ -44,12 +44,12 @@ public class ProjectListView extends AppCompatActivity {
         adapter = new ArrayAdapter(this, R.layout.activity_list, projectList);
         ListView trackView = (ListView) findViewById(R.id.list);
 
-        // wait for project to pressed and load TrackListView
+        // wait for project to pressed and load ProjectView
         trackView.setAdapter(adapter);
         trackView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), TrackListView.class);
+                Intent intent = new Intent(getApplicationContext(), ProjectView.class);
                 intent.putExtra("projectID", position);
                 startActivity(intent);
             }

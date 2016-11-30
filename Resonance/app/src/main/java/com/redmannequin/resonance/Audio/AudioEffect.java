@@ -83,7 +83,7 @@ public class AudioEffect {
         FlangerEffect flangerEffect = new FlangerEffect(length/1000.0, wet/100.0, Config.FREQUENCY, frequency/10.0);
         processors.add(flangerEffect);
     }
-    
+
     public void addPitchShiftEffect(double factor,int size) {
         PitchShifter pitchShifter = new PitchShifter(dispatcher, factor, Config.FREQUENCY, size, 0);
         processors.add(pitchShifter);

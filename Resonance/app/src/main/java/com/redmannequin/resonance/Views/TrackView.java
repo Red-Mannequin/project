@@ -126,8 +126,7 @@ public class TrackView extends AppCompatActivity {
 
         //initialize drawer elements
         setEffectTitles();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.track_drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.effect_drawer);
 
         // Set the adapter for the list view
@@ -154,9 +153,9 @@ public class TrackView extends AppCompatActivity {
         };
 
         // set up buttons
-        effect_button = (Button) findViewById(R.id.effect_button);
-        play_button = (Button) findViewById(R.id.play_button);
-        stop_button = (Button) findViewById(R.id.stop_button);
+        effect_button = (Button) findViewById(R.id.track_effect_button);
+        play_button = (Button) findViewById(R.id.track_play_button);
+        stop_button = (Button) findViewById(R.id.track_stop_button);
         setupListeners();
     }
 
