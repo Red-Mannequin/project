@@ -237,19 +237,19 @@ public class TrackView extends AppCompatActivity {
 */
 
     public void setDelay(double del, double dec) {
-<<<<<<< HEAD
+
         DelayEffect delay = new DelayEffect(del, dec);
         track.addEffect(delay);
         audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
-=======
-        audioEffect.addDelayEffect(del, dec);
         audioEffect.make();
     }
 
     public void setFlanger(double length, double wet, double frequency) {
-        audioEffect.addFlangerEffect(length, wet, frequency);
+
+        FlangerEffect flanger = new FlangerEffect(length, wet, 0, frequency);
+        track.addEffect(flanger);
+        audioEffect.addFlangerEffect(flanger.getMaxLength(), flanger.getWetness(), flanger.getLowFilterFrequency());
         audioEffect.make();
->>>>>>> refs/remotes/origin/master
     }
 
     //Fragment management
