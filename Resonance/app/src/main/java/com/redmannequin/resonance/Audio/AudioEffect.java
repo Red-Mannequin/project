@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioProcessor;
+import be.tarsos.dsp.PitchShifter;
 import be.tarsos.dsp.effects.DelayEffect;
 import be.tarsos.dsp.effects.FlangerEffect;
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
@@ -81,6 +82,11 @@ public class AudioEffect {
     public void addFlangerEffect(double length, double wet, double frequency) {
         FlangerEffect flangerEffect = new FlangerEffect(length/1000.0, wet/100.0, Config.FREQUENCY, frequency/10.0);
         processors.add(flangerEffect);
+    }
+    
+    public void addPitchShiftEffect(double factor,int size) {
+        PitchShifter pitchShifter = new PitchShifter(dispatcher, factor, Config.FREQUENCY, size, 0);
+        processors.add(pitchShifter);
     }
 
     public void addAudioToMerge(Track track) {
