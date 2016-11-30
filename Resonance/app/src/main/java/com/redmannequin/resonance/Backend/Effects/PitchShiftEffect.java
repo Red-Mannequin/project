@@ -13,6 +13,12 @@ public class PitchShiftEffect extends Effect {
     this.sampleRate = sampleRate;
   }
 
+  //for JSONCreator use
+  public PitchShiftEffect(boolean on, double sampleRate) {
+    super(2, on);
+    this.sampleRate = sampleRate;
+  }
+
   public void setSampleRate(double d) {sampleRate = d;}
   public double getSampleRate() {return sampleRate;}
 

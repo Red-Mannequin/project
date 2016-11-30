@@ -25,6 +25,15 @@ public class FlangerEffect extends Effect {
     this.lowFilterFrequency = lowFilterFrequency;
   }
 
+  //for use by JSONCreator
+  public FlangerEffect(boolean on, double wetness, double maxLength, double sampleRate, double lowFilterFrequency) {
+    super(1, on);
+    this.wetness = wetness;
+    this.maxLength = maxLength;
+    this.sampleRate = sampleRate;
+    this.lowFilterFrequency = lowFilterFrequency;
+  }
+
   public void setWetness(double d) {wetness = d;}
   public double getWetness() {return wetness;}
 

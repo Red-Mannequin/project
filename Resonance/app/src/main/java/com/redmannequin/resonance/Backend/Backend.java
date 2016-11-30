@@ -67,6 +67,22 @@ public class Backend {
                                     effectInfo.optDouble("factor")
                                 );
                                 break;
+                            case 1:
+                                //boolean on, double wetness, double maxLength, double sampleRate, double lowFilterFrequency
+                                effect = new FlangerEffect(
+                                    effectInfo.optBoolean("on"),
+                                    effectInfo.optDouble("wetness"),
+                                    effectInfo.optDouble("maxLength"),
+                                    effectInfo.optDouble("sampleRate"),
+                                    effectInfo.optDouble("lowFilterFrequency")
+                                );
+                                break;
+                            case 2:
+                                effect = new PitchShiftEffect(
+                                    effectInfo.optBoolean("on"),
+                                    effectInfo.optDouble("sampleRate")
+                                );
+                                break;
                         }
 /*
                         Effect effect = new Effect(

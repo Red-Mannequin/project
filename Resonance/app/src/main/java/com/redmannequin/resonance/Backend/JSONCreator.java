@@ -118,25 +118,33 @@ public class JSONCreator {
 
                         Log.d("Object ClassType", "The class of " + currEffect +
                             " is " + currEffect.getClass().getName());
-
                         switch(effectID) {
                                 case 0:
-                                //downcast Effect to DelayEffect
+                                    //downcast Effect to DelayEffect
+                                    DelayEffect dEffect = (DelayEffect) currEffect;
+                                    effect.put("id", effectID);
+                                    effect.put("on", dEffect.isOn());
+                                    effect.put("delay", dEffect.getDelay());
+                                    effect.put("factor", dEffect.getFactor());
+                                    break;
+                                case 1:
+                                    //boolean on, double wetness, double maxLength, double sampleRate, double lowFilterFrequency
+                                    //downcast Effect to FlangerEffect
+                                    FlangerEffect fEffect = (FlangerEffect) currEffect;
+                                    effect.put("id", effectID);
+                                    effect.put("on", fEffect.isOn());
+                                    effect.put("wetness", fEffect.getWetness());
+                                    effect.put("maxLength", fEffect.getMaxLength());
+                                    effect.put("sampleRate", fEffect.getSampleRate());
+                                    effect.put("lowFilterFrequency", fEffect.getLowFilterFrequency());
+                                    break;
+                                case 3:
+                                    //downcast Effect to PitchShiftEffect
+                                    PitchShiftEffect pEffect = (PitchShiftEffect) currEffect;
+                                    effect.put("id", effectID);
+                                    effect.put("on", pEffect.isOn());
+                                    effect.put("sampleRate", pEffect.getSampleRate());
 
-                                /*
-                                    The problem occurs when I attempt to downcast the Effect type to DelayEffect.
-                                    The cast fails to recognize that currEffect was originally a DelayEffect type
-                                    when added to the Track's effects ArrayList.
-
-                                    The solution to this is to figure out why it is not registering that currEffect's
-                                    class type is DelayEffect, even though it is labelled as an Effect type.
-                                */
-
-                                DelayEffect dEffect = (DelayEffect) currEffect;
-                                effect.put("id", effectID);
-                                effect.put("on", dEffect.isOn());
-                                effect.put("delay", dEffect.getDelay());
-                                effect.put("factor", dEffect.getFactor());
                         }
                         effects.put(effect);
                     }
