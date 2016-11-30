@@ -15,6 +15,13 @@ public class DelayEffect extends Effect {
     this.factor = delay;
   }
 
+  //used by JSONCreator - normal init should always use other constructor
+  public DelayEffect(boolean on, double delay, double factor) {
+    super(0, on);
+    this.delay = delay;
+    this.factor = delay;
+  }
+
   public void setDelay(double d) {delay = d;}
   public void setFactor(double f) {factor = f;}
 

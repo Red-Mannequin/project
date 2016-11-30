@@ -57,13 +57,22 @@ public class Backend {
                         JSONObject effectInfo = effects.getJSONObject(q);
 
                         int eventID = effectInfo.optInt("id");
+                        Effect effect = new Effect();
+
                         switch(eventID) {
-                            case 0: break;
+                            case 0:
+                                effect = new DelayEffect(
+                                    effectInfo.optBoolean("on"),
+                                    effectInfo.optDouble("delay"),
+                                    effectInfo.optDouble("factor")
+                                );
+                                break;
                         }
+/*
                         Effect effect = new Effect(
                             effectInfo.optInt("id")
                         );
-
+*/
                         newTrack.addEffect(effect);
                     }
 

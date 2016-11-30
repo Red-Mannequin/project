@@ -29,6 +29,11 @@ public class Effect {
     on = true;
   }
 
+  public Effect(int id, boolean on) {
+      this.id = id;
+      this.on = on;
+  }
+
   public int getID() {return id;}
   public void setID(int i) {id = i;}
 
