@@ -194,7 +194,8 @@ public class TrackView extends AppCompatActivity {
             player.destroy();
 
             String[] JSONfiles = backend.toWrite();
-
+/*
+  UNCOMMENT TO MAKE COPIES OF JSON FILES IN PUBLIC DIRECTORY
             String path =
             Environment.getExternalStorageDirectory() + File.separator  + "Resonance";
             // Create the folder.
@@ -206,7 +207,7 @@ public class TrackView extends AppCompatActivity {
 
             outputToFile(JSONfiles[0], projectsFile);
             outputToFile(JSONfiles[1], tracksFile);
-
+*/
             outputToFile(JSONfiles[0], "projects");
             outputToFile(JSONfiles[1], "tracks");
 
@@ -218,7 +219,7 @@ public class TrackView extends AppCompatActivity {
             player.stop();
         }
     }
-
+/*
     private void outputToFile(String data, File file) {
         try
         {
@@ -233,6 +234,7 @@ public class TrackView extends AppCompatActivity {
             fOut.close();
          } catch (IOException e) {}
      }
+*/
 
     public void setDelay(double del, double dec) {
         DelayEffect delay = new DelayEffect(del, dec);
@@ -285,7 +287,8 @@ public class TrackView extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+/*
+    LEFT FOR DEBUGGING PURPOSES - WRITES TO PUBLIC FOLDER TO VIEW JSON OUTPUT
         try {
             FileOutputStream file = this.openFileOutput(name + ".json", this.MODE_WORLD_READABLE);
             file.write(data.getBytes());
@@ -293,6 +296,7 @@ public class TrackView extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
     }
 
     private String loadJson(String name) {
