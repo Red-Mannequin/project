@@ -32,7 +32,8 @@ public class NewTrackView extends AppCompatActivity {
 
     private String trackName;
     private String trackAuthor;
-    private String trackPath;
+    private String trackSourcePath;
+    private String trackProductPath;
     private String trackSampleRate;
 
     // ui elements
@@ -116,11 +117,12 @@ public class NewTrackView extends AppCompatActivity {
                     // show it
                     alertDialog.show();
 
-                    trackPath = path.getPath();
+                    trackSourcePath = path.getPath();
+                    trackProductPath = path.getPath();
                     trackPathInput.setText(trackName);
                     trackPathInput.setClickable(true);
                     createTrackButton.setEnabled(true);
-                    
+
                 } else {
                     trackNameInput.setError("Track Name Taken");
                 }
@@ -134,10 +136,10 @@ public class NewTrackView extends AppCompatActivity {
                 Track track;
                 //Checks if the string is an integer and acts accordingly
                 if (trackSampleRate.matches("^-?\\d+$")) {
-                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
+                    track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
                 }
                 else {
-                    track = new Track(trackName, trackPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
+                    track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
                 }
                 if (projectID != -1) project.add(track);
 

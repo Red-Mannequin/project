@@ -45,8 +45,8 @@ public class AudioEffect {
 
     public void init() {
         audioFormat = new TarsosDSPAudioFormat(track.getSampleRate(), 16, 1, true, false);
-        path = track.getPath() + File.separator + track.getName() + ".pcm";
-        newPath = track.getPath() + File.separator + track.getName() + "_final.wav";
+        path = track.getSourcePath() + File.separator + track.getName() + ".pcm";
+        newPath = track.getSourcePath() + File.separator + track.getName() + "_final.wav";
         try {
             source = new RandomAccessFile(path, "r");
             source.seek(0);

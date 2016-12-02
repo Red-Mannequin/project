@@ -11,7 +11,8 @@ public class Track {
         //     - WaveData (not in .json)
         //     - Effects Array
     private String  name,
-                    path;
+                    sourcePath,
+                    productPath;
     private int duration,
                 localStartTime,
                 localEndTime,
@@ -26,16 +27,18 @@ public class Track {
     }
 
     //Constructor with required info
-    public Track(String name, String path, int duration) {
+    public Track(String name, String sourcePath, String productPath, int duration) {
         this.name = name;
-        this.path = path;
+        this.sourcePath = sourcePath;
+        this.productPath = productPath;
         this.duration = duration;
     }
 
     //Constructor with all info
-    public Track(String name, String path, int duration, int localEndTime, int localStartTime, int globalEndTime, int globalStartTime, int sampleRate) {
+    public Track(String name, String sourcePath, String productPath, int duration, int localEndTime, int localStartTime, int globalEndTime, int globalStartTime, int sampleRate) {
         this.name = name;
-        this.path = path;
+        this.sourcePath = sourcePath;
+        this.productPath = productPath;
         this.duration = duration;
         this.localEndTime = localEndTime;
         this.localStartTime = localStartTime;
@@ -46,14 +49,15 @@ public class Track {
 
     //creating new track out of track
     public Track(Track t) {
-        this.name = t.name;
-        this.path = t.path;
-        this.duration = t.duration;
-        this.localEndTime = t.localEndTime;
-        this.localStartTime = t.localStartTime;
-        this.globalEndTime = t.globalEndTime;
-        this.globalStartTime = t.globalStartTime;
-        this.sampleRate = t.sampleRate;
+        this.name = t.getName();
+        this.sourcePath = t.getSourcePath();
+        this.productPath = t.getProductPath();
+        this.duration = t.getDuration();
+        this.localEndTime = t.getLocalEndTime();
+        this.localStartTime = t.getLocalStartTime();
+        this.globalEndTime = t.getGlobalEndTime();
+        this.globalStartTime = t.getGlobalStartTime();
+        this.sampleRate = t.getSampleRate();
 
         for (int i = 0; i < t.numEffects(); i++) {
             this.effects.add(t.getEffect(i));
@@ -61,15 +65,16 @@ public class Track {
     }
 
     //creating new track out of track
-    public Track(Track t, String path) {
-        this.name = t.name;
-        this.path = path;
-        this.duration = t.duration;
-        this.localEndTime = t.localEndTime;
-        this.localStartTime = t.localStartTime;
-        this.globalEndTime = t.globalEndTime;
-        this.globalStartTime = t.globalStartTime;
-        this.sampleRate = t.sampleRate;
+    public Track(Track t, String sourcePath, String productPath) {
+        this.sourcePath = sourcePath;
+        this.productPath = productPath;
+        this.name = t.getName();
+        this.duration = t.getDuration();
+        this.localEndTime = t.getLocalEndTime();
+        this.localStartTime = t.getLocalStartTime();
+        this.globalEndTime = t.getGlobalEndTime();
+        this.globalStartTime = t.getGlobalStartTime();
+        this.sampleRate = t.getSampleRate();
 
         for (int i = 0; i < t.numEffects(); i++) {
             this.effects.add(t.getEffect(i));
@@ -108,7 +113,8 @@ public class Track {
 
     //GETTERS
     public String getName() {return name;}
-    public String getPath() { return path; }
+    public String getSourcePath() { return sourcePath; }
+    public String getProductPath() { return productPath; }
     public int getDuration() { return duration;}
     public int getLocalStartTime() {return localStartTime;}
     public int getLocalEndTime() {return localEndTime;}
@@ -117,7 +123,8 @@ public class Track {
     public int getSampleRate() {return sampleRate;}
 
     //SETTERS
-    public void setPath(String p) {path = p;}
+    public void setSourcePath(String p) {sourcePath = p;}
+    public void setProductPath(String p) {productPath = p;}
     public void setDuration(int d) {duration = d;}
     public void setLocalStartTime(int lst) {localStartTime = lst;}
     public void setLocalEndTime(int let) {localEndTime = let;}

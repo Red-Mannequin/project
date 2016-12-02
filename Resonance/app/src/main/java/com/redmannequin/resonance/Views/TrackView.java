@@ -111,7 +111,7 @@ public class TrackView extends AppCompatActivity {
         audioEffect.make();
 
         // init player with wav
-        player.init(track.getPath() + File.separator + track.getName() + "_final.wav");
+        player.init(track.getSourcePath() + File.separator + track.getName() + "_final.wav");
 
         // set adapter for effect fragments
         //initialize fragment list
@@ -195,7 +195,7 @@ public class TrackView extends AppCompatActivity {
 
             String[] JSONfiles = backend.toWrite();
 /*
-  UNCOMMENT TO MAKE COPIES OF JSON FILES IN PUBLIC DIRECTORY
+  UNCOMMENT TO MAKE COPIES OF JSON FILES IN PUBLIC DIRECTORY*/
             String path =
             Environment.getExternalStorageDirectory() + File.separator  + "Resonance";
             // Create the folder.
@@ -207,7 +207,7 @@ public class TrackView extends AppCompatActivity {
 
             outputToFile(JSONfiles[0], projectsFile);
             outputToFile(JSONfiles[1], tracksFile);
-*/
+
             outputToFile(JSONfiles[0], "projects");
             outputToFile(JSONfiles[1], "tracks");
 
@@ -219,7 +219,7 @@ public class TrackView extends AppCompatActivity {
             player.stop();
         }
     }
-/*
+
     private void outputToFile(String data, File file) {
         try
         {
@@ -234,7 +234,7 @@ public class TrackView extends AppCompatActivity {
             fOut.close();
          } catch (IOException e) {}
      }
-*/
+
 
     public void setDelay(double del, double dec) {
 
