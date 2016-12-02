@@ -217,7 +217,7 @@ public class ProjectView extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
             TrackDrawerList.setItemChecked(position, true);
-            DrawerLayout.closeDrawer(TrackDrawerList);
+            //DrawerLayout.closeDrawer(TrackDrawerList);
         }
     }
 }
