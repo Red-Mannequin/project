@@ -61,7 +61,7 @@ public class Track {
     }
 
     //creating new track out of track
-    public Track(Track t, string path) {
+    public Track(Track t, String path) {
         this.name = t.name;
         this.path = path;
         this.duration = t.duration;
