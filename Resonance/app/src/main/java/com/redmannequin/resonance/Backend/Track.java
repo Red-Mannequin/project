@@ -44,6 +44,38 @@ public class Track {
         this.sampleRate = sampleRate;
     }
 
+    //creating new track out of track
+    public Track(Track t) {
+        this.name = t.name;
+        this.path = t.path;
+        this.duration = t.duration;
+        this.localEndTime = t.localEndTime;
+        this.localStartTime = t.localStartTime;
+        this.globalEndTime = t.globalEndTime;
+        this.globalStartTime = t.globalStartTime;
+        this.sampleRate = t.sampleRate;
+
+        for (int i = 0; i < t.numEffects(); i++) {
+            this.effects.add(t.getEffect(i));
+        }
+    }
+
+    //creating new track out of track
+    public Track(Track t, String path) {
+        this.name = t.name;
+        this.path = path;
+        this.duration = t.duration;
+        this.localEndTime = t.localEndTime;
+        this.localStartTime = t.localStartTime;
+        this.globalEndTime = t.globalEndTime;
+        this.globalStartTime = t.globalStartTime;
+        this.sampleRate = t.sampleRate;
+
+        for (int i = 0; i < t.numEffects(); i++) {
+            this.effects.add(t.getEffect(i));
+        }
+    }
+
     public int numEffects() {
         return effects.size();
     }
