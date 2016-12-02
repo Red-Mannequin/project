@@ -20,7 +20,7 @@ public class MergeAudio implements AudioProcessor {
         audioFormat = new TarsosDSPAudioFormat(track.getSampleRate(), 16, 1, true, false);
         converter = TarsosDSPAudioFloatConverter.getConverter(audioFormat);
         try {
-            audio = new RandomAccessFile(track.getPath() + File.separator + track.getName() + ".pcm", "r");
+            audio = new RandomAccessFile(track.getSourcePath() + File.separator + track.getName() + ".pcm", "r");
         } catch (IOException e) {
             e.printStackTrace();
         }

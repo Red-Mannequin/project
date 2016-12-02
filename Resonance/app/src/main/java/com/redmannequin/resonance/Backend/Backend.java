@@ -43,7 +43,8 @@ public class Backend {
                     JSONObject currID = trackIDs.getJSONObject(j);
                     JSONObject track = tracks.getJSONObject(currID.optInt("id"));
                     Track newTrack = new Track( track.optString("name"),
-                                                track.optString("path"),
+                                                track.optString("sourcePath"),
+                                                track.optString("productPath"),
                                                 track.optInt("duration"),
                                                 track.optInt("localEndTime"),
                                                 track.optInt("localStartTime"),

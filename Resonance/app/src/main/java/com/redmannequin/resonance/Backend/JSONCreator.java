@@ -98,7 +98,8 @@ public class JSONCreator {
                     track.put("name", newTrack.getName());
                     track.put("id", idTracker);
                     track.put("name", newTrack.getName());
-                    track.put("path", newTrack.getPath());
+                    track.put("sourcePath", newTrack.getSourcePath());
+                    track.put("productPath", newTrack.getProductPath());
                     track.put("duration", newTrack.getDuration());
                     track.put("localStartTime", newTrack.getLocalStartTime());
                     track.put("localEndTime", newTrack.getLocalEndTime());
