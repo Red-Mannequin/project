@@ -1,0 +1,7 @@
+Duties for this week:
+- Create MediaPlayer to help manage playing of audio
+- Fix bugs in the UI Views
+
+Achievements for this week:
+- MediaPlayer finished and working
+- Fix bugs in UI and updated some of the view to look better
