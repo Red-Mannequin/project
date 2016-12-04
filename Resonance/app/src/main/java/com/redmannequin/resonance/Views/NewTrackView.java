@@ -89,9 +89,17 @@ public class NewTrackView extends AppCompatActivity {
                 if (checkInputs(trackName, trackAuthor, trackSampleRate)) {
                     trackNameInput.setFocusable(false);
 
-                    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator + project.getName() + File.separator + trackName);
+                    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
+                    File projectPath = new File(path, project.getName() + File.separator);
+                    File sourcePathFile = new File(path, "samples");
+                    File trackPathFile = new File(projectPath, "tracks" + File.separator);
+
                     if (!path.exists()) path.mkdirs();
-                    File file = new File(path, trackName+".pcm");
+                    if (!projectPath.exists()) projectPath.mkdirs();
+                    if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
+                    if (!trackPathFile.exists()) trackPathFile.mkdirs();
+
+                    File file = new File(sourcePathFile, trackName+".pcm");
 
                     final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
                     intent.putExtra("path", file.getPath());
@@ -117,8 +125,8 @@ public class NewTrackView extends AppCompatActivity {
                     // show it
                     alertDialog.show();
 
-                    trackSourcePath = path.getPath();
-                    trackProductPath = path.getPath();
+                    trackSourcePath = sourcePathFile.getPath();
+                    trackProductPath = trackPathFile.getPath();
                     trackPathInput.setText(trackName);
                     trackPathInput.setClickable(true);
                     createTrackButton.setEnabled(true);
