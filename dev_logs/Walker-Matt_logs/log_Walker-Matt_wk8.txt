@@ -1,0 +1,8 @@
+Duties for this week:
+- Add more effects
+- Re-work views for creation of projects and tracks
+
+Achievements for this week:
+- Added Flanger effect
+- Fixed effect menu index bug
+- Updated menus for creation of projects and tracks
