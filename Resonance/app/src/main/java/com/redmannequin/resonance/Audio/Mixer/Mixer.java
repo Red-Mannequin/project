@@ -51,7 +51,7 @@ public class Mixer {
         try {
             source = new RandomAccessFile(path, "rw");
             source.seek(0);
-            source.setLength(Config.FREQUENCY*2*2*60);
+            source.setLength(Config.FREQUENCY*2*2*5);
             source.close();
             Log.w("temp", "made pcm");
         } catch(IOException e) {
@@ -71,6 +71,12 @@ public class Mixer {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean masterExists() {
+        String temp = project.getPath() + File.separator + project.getName() + ".wav";
+        File file = new File(temp);
+        return file.exists();
     }
 
     public void addDelayEffect(double length, double decay) {
