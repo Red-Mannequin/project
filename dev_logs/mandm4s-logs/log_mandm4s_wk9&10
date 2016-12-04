@@ -7,3 +7,7 @@ Modified Track class
 Modified Project
 - Added "path" member
 - Added member to JSON save/load
+
+Added Backend functionality to support current work being done on front end
+- Added ability to remove Projects/Tracks from save state
+- Created new constructors in Track to cupport copying of tracks between projects
