@@ -1,0 +1,7 @@
+Duties for this week:
+- Change TrackListView into ProjectView
+- list tracks in a side drawer on the ProjectView
+
+Achievements for this week:
+- TrackListView is now ProjectView
+- Tracks are now listed in a drawer in the ProjectView
