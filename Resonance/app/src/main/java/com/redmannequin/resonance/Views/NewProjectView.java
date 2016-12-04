@@ -1,6 +1,7 @@
 package com.redmannequin.resonance.Views;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -63,7 +64,11 @@ public class NewProjectView extends AppCompatActivity {
                 String sampleRate = projectSampleRateInput.getText().toString();
                 String bpm = projectBPMInput.getText().toString();
                 if (checkInputs(projectName, author, duration, sampleRate, bpm)) {
-                    backend.add(new Project(projectName));
+                    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
+                    File projectPath = new File(path, projectName + File.separator);
+                    if (!path.exists()) path.mkdirs();
+                    if (!projectPath.exists()) projectPath.mkdirs();
+                    backend.add(new Project(projectName, projectPath.getPath(), "", 123, 60000));
 
                     String[] JSONfiles = backend.toWrite();
                     outputToFile(JSONfiles[0], "projects");

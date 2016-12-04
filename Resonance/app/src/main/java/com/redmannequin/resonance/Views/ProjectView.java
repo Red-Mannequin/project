@@ -1,9 +1,8 @@
 package com.redmannequin.resonance.Views;
 
 // android imports
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +14,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 // project imports
+import com.redmannequin.resonance.Audio.MediaPlayer;
+import com.redmannequin.resonance.Audio.Mixer.Mixer;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
@@ -54,6 +55,12 @@ public class ProjectView extends AppCompatActivity {
     private Button play_button;
     private Button stop_button;
 
+    //
+    private Mixer mixer;
+    private MediaPlayer player;
+    private Handler handle;
+    private Runnable seek;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,28 @@ public class ProjectView extends AppCompatActivity {
         // set title
         setTitle(project.getName());
 
+        //
+        mixer = new Mixer(project);
+        if (project.getTrackListSize() != 0) {
+            mixer.init();
+            mixer.make();
+        }
+
+        player = new MediaPlayer();
+        player.init(project.getPath() + File.separator + project.getName() + ".wav");
+
+        handle = new Handler();
+        seek = new Runnable() {
+            @Override
+            public void run() {
+                if (player.isPlaying()) {
+                    handle.postDelayed(this, 50);
+                } else {
+                    play_button.setText("play");
+                }
+            }
+        };
+
         // list view stuff
         trackList = new ArrayList<>();
         trackList.addAll(project.getTrackNames());
@@ -86,8 +115,7 @@ public class ProjectView extends AppCompatActivity {
         DrawerLayout = (DrawerLayout) findViewById(R.id.project_drawer_layout);
 
         //initialize track drawer and adapter
-        TrackAdapter = new ArrayAdapter<String>(this,
-                R.layout.activity_list, trackList);
+        TrackAdapter = new ArrayAdapter<String>(this, R.layout.activity_list, trackList);
         TrackDrawerList = (ListView) findViewById(R.id.track_drawer);
         TrackDrawerList.setAdapter(TrackAdapter);
         TrackDrawerList.setOnItemClickListener(new ProjectView.TrackItemClickListener());
@@ -108,11 +136,11 @@ public class ProjectView extends AppCompatActivity {
         play_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(play_button.getText().toString().equals("play")) {
-                    //player.play();
+                    player.play();
                     play_button.setText("pause");
-                    //handle.postDelayed(seek, 50);
+                    handle.postDelayed(seek, 50);
                 } else {
-                    //player.pause();
+                    player.pause();
                     play_button.setText("play");
                 }
             }
@@ -148,6 +176,10 @@ public class ProjectView extends AppCompatActivity {
             trackList.addAll(project.getTrackNames());
             trackList.add("+");
             TrackAdapter.notifyDataSetChanged();
+
+            mixer = new Mixer(project);
+            mixer.init();
+            mixer.make();
         }
     }
 
@@ -193,31 +225,23 @@ public class ProjectView extends AppCompatActivity {
     private class TrackItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent;
+            String[] JSONfiles = backend.toWrite();
+            outputToFile(JSONfiles[0], "projects");
+            outputToFile(JSONfiles[1], "tracks");
+
             // Highlight the selected item, update the title, and close the drawer
             if (position == parent.getCount()-1) {
                 // switch to NewTrackView and passes project and backend
-
-                String[] JSONfiles = backend.toWrite();
-                outputToFile(JSONfiles[0], "projects");
-                outputToFile(JSONfiles[1], "tracks");
-
-                Intent intent;
                 intent = new Intent(getApplicationContext(), NewTrackView.class);
-                intent.putExtra("projectID", projectID);
-                startActivityForResult(intent, 0);
-
             } else {
-                String[] JSONfiles = backend.toWrite();
-                outputToFile(JSONfiles[0], "projects");
-                outputToFile(JSONfiles[1], "tracks");
-
-                Intent intent = new Intent(getApplicationContext(), TrackView.class);
+                intent = new Intent(getApplicationContext(), TrackView.class);
                 intent.putExtra("trackID", position);
-                intent.putExtra("projectID", projectID);
-                startActivityForResult(intent, 0);
             }
+
+            intent.putExtra("projectID", projectID);
+            startActivityForResult(intent, 0);
             TrackDrawerList.setItemChecked(position, true);
-            //DrawerLayout.closeDrawer(TrackDrawerList);
         }
     }
 }

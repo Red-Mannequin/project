@@ -3,7 +3,6 @@ package com.redmannequin.resonance.Views;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -90,12 +89,9 @@ public class NewTrackView extends AppCompatActivity {
                     trackNameInput.setFocusable(false);
 
                     File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
-                    File projectPath = new File(path, project.getName() + File.separator);
                     File sourcePathFile = new File(path, "samples");
-                    File trackPathFile = new File(projectPath, "tracks" + File.separator);
+                    File trackPathFile = new File(project.getPath(), "tracks" + File.separator);
 
-                    if (!path.exists()) path.mkdirs();
-                    if (!projectPath.exists()) projectPath.mkdirs();
                     if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
                     if (!trackPathFile.exists()) trackPathFile.mkdirs();
 

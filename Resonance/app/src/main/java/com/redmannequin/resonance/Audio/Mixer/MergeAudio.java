@@ -1,4 +1,4 @@
-package com.redmannequin.resonance.Audio;
+package com.redmannequin.resonance.Audio.Mixer;
 
 import com.redmannequin.resonance.Backend.Track;
 import java.io.File;
@@ -20,7 +20,7 @@ public class MergeAudio implements AudioProcessor {
         audioFormat = new TarsosDSPAudioFormat(track.getSampleRate(), 16, 1, true, false);
         converter = TarsosDSPAudioFloatConverter.getConverter(audioFormat);
         try {
-            audio = new RandomAccessFile(track.getSourcePath() + File.separator + track.getName() + ".pcm", "r");
+            audio = new RandomAccessFile(track.getProductPath() + File.separator + track.getName() + ".wav", "r");
         } catch (IOException e) {
             e.printStackTrace();
         }

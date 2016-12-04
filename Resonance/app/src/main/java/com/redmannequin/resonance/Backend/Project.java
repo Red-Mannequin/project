@@ -73,7 +73,7 @@ public class Project {
     public int getDuration()  {return duration;}
     public String getName()   {return name;}
     public String getAuthor() {return author;}
-    public String getPath() { return author;}
+    public String getPath() { return path;}
 
 
 }
