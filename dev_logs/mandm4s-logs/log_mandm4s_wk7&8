@@ -1,0 +1,10 @@
+Added the ability to...
+- Remove Track
+- Remove Project
+
+Implemented the Effect Hierarchy
+- This is the system that we are using to store the Effects currenly applied to their respective tracks
+
+Added Effect saving/loading to and form tracks json file
+- Had to modify JSONCreator for adding
+- Implemented system to create Effect objects based off the saves state of tracks.json
