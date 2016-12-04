@@ -69,7 +69,7 @@ public class NewProjectView extends AppCompatActivity {
                     outputToFile(JSONfiles[0], "projects");
                     outputToFile(JSONfiles[1], "tracks");
 
-                    Intent intent = new Intent(getApplicationContext(), TrackListView.class);
+                    Intent intent = new Intent(getApplicationContext(), ProjectView.class);
                     intent.putExtra("projectID", backend.getProjectListSize() - 1);
                     startActivityForResult(intent, 0);
                 } else {

@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.redmannequin.resonance.Views.ProjectListView" />
-        <activity android:name="com.redmannequin.resonance.Views.TrackListView" />
+        <activity android:name="com.redmannequin.resonance.Views.ProjectView" />
         <activity android:name="com.redmannequin.resonance.Views.NewTrackView" />
         <activity android:name="com.redmannequin.resonance.Views.RecordTrackView" />
         <activity android:name="com.redmannequin.resonance.Views.TrackView" />
