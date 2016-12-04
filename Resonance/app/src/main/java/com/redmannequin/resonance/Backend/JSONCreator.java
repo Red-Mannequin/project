@@ -80,6 +80,7 @@ public class JSONCreator {
                 newProject.put("duration", project.getDuration());
                 newProject.put("author", project.getAuthor());
                 newProject.put("BPM", project.getBPM());
+                newProject.put("path", project.getPath());
 
 
                 //Loops through each track for current project

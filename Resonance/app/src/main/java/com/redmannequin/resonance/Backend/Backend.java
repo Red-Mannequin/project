@@ -33,6 +33,7 @@ public class Backend {
             for (int i= 0; i < projects.length(); i++) {
                 JSONObject currProject = projects.getJSONObject(i);
                 Project newProject = new Project(currProject.optString("name"),
+                                                 currProject.optString("path"),
                                                  currProject.optString("author"),
                                                  Integer.parseInt(currProject.optString("BPM")),
                                                  Integer.parseInt(currProject.optString("duration")));

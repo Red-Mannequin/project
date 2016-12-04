@@ -7,6 +7,7 @@ public class Project {
     //Name of project and author
     private String name;
     private String author;
+    private String path;
 
     //milliseconds
     private int duration;
@@ -24,6 +25,7 @@ public class Project {
         author = "Unknown";
         duration = 0;
         BPM = 0;
+        path = "";
     }
 
     //Constructs project with all info.
@@ -33,7 +35,19 @@ public class Project {
         this.duration = duration;
         this.BPM = BPM;
         this.tracks = new ArrayList<Track>();
+        this.path = "";
     }
+
+    //Constructs project with all info.
+    public Project(String name, String path, String author, int BPM, int duration) {
+        this.name = name;
+        this.author = author;
+        this.duration = duration;
+        this.BPM = BPM;
+        this.path = path;
+        this.tracks = new ArrayList<Track>();
+    }
+
     //Constructs project with no duration set
     public Project(String name, String author, int BPM) {
         this.name = name;
@@ -59,6 +73,7 @@ public class Project {
     public int getDuration()  {return duration;}
     public String getName()   {return name;}
     public String getAuthor() {return author;}
+    public String getPath() { return author;}
 
 
 }
