@@ -1,4 +1,7 @@
 Duties for this week:
-- implement feature menu
+- implement effect menu
+- implement an effect
 
 Achievements for this week:
+- effect menu implemented and working, but not completely finished
+- delay effect working
