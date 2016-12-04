@@ -111,7 +111,7 @@ public class TrackView extends AppCompatActivity {
         audioEffect.make();
 
         // init player with wav
-        player.init(track.getProductPath() + File.separator + track.getName() + "_final.wav");
+        player.init(track.getProductPath() + File.separator + track.getName() + ".wav");
 
         // set adapter for effect fragments
         //initialize fragment list

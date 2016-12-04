@@ -80,7 +80,7 @@ public class ProjectView extends AppCompatActivity {
 
         //
         mixer = new Mixer(project);
-        if (project.getTrackListSize() != 0 && !mixer.masterExists()) {
+        if (project.getTrackListSize() != 0) {
             mixer.init();
             mixer.make();
         }

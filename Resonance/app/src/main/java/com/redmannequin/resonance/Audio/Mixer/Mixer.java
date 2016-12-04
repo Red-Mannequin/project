@@ -63,7 +63,7 @@ public class Mixer {
         track = project.getTrack(id);
         audioFormat = new TarsosDSPAudioFormat(track.getSampleRate(), 16, 1, true, false);
         path = track.getSourcePath() + File.separator + track.getName() + ".pcm";
-        newPath = track.getProductPath() + File.separator + track.getName() + "_final.wav";
+        newPath = track.getProductPath() + File.separator + track.getName() + ".wav";
         try {
             source = new RandomAccessFile(path, "r");
             source.seek(0);
@@ -106,7 +106,7 @@ public class Mixer {
     }
 
     public void make() {
-        for (int i=0; i < project.getTrackListSize(); ++i) addAudioToMerge(project.getTrack(i));
+        if (track == null) for (int i=0; i < project.getTrackListSize(); ++i) addAudioToMerge(project.getTrack(i));
         try {
             audioInputStream = new UniversalAudioInputStream(new FileInputStream(path), audioFormat);
             dispatcher = new AudioDispatcher(audioInputStream, 1024, 0);
