@@ -1,0 +1,7 @@
+Duties for this week:
+- Research and possibly implement more effects
+- Fix effect menu
+
+Achievements for this week:
+- effect menu fixed and working perfectly
+- Researched Flanger and Pitch-Shift effect 
