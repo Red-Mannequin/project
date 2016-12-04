@@ -1,0 +1,7 @@
+Duties for this week:
+- Change effect menu to work with a navigation drawer 
+- Drawer must add new effect fragments
+
+Achievements for this week:
+- Navigation drawer works but effect menu has a small index bug to be fixed
+- Modified effect menu xml to work with the new drawer
