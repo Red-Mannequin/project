@@ -1,0 +1,9 @@
+Modified Track class
+- Remove "path" member
+- Added "sourcePath" and "productPath" member
+- Modified all code in project where Track "path" was being used
+- Added member to JSON save/load
+
+Modified Project
+- Added "path" member
+- Added member to JSON save/load
