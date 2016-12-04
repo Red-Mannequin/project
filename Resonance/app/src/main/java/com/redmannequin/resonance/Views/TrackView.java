@@ -19,9 +19,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 // project imports
-import com.redmannequin.resonance.Audio.AudioEffect;
 import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.MediaPlayer;
+import com.redmannequin.resonance.Audio.Mixer.Mixer;
 import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
@@ -80,7 +80,7 @@ public class TrackView extends AppCompatActivity {
     private Runnable seek;
 
     // audio effect
-    private AudioEffect audioEffect;
+    private Mixer audioEffect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +106,8 @@ public class TrackView extends AppCompatActivity {
         waveView = (AudioWaveView) findViewById(R.id.track_wave_view);
 
         // make wav file from pcm
-        audioEffect = new AudioEffect(track);
-        audioEffect.init();
+        audioEffect = new Mixer(project);
+        audioEffect.init(trackID);
         audioEffect.make();
 
         // init player with wav

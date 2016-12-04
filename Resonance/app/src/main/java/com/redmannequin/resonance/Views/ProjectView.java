@@ -1,10 +1,8 @@
 package com.redmannequin.resonance.Views;
 
 // android imports
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,13 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 // project imports
-import com.redmannequin.resonance.Audio.AudioEffect;
-import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.Audio.Mixer.Mixer;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
-import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.R;
 
 // java imports
