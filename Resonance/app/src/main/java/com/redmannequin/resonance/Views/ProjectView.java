@@ -1,11 +1,16 @@
 package com.redmannequin.resonance.Views;
 
 // android imports
+import android.app.FragmentManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,6 +65,8 @@ public class ProjectView extends AppCompatActivity {
     private MediaPlayer player;
     private Handler handle;
     private Runnable seek;
+
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,19 +175,16 @@ public class ProjectView extends AppCompatActivity {
         projectJson = loadJson("projects");  // load project json
         backend = new Backend(projectJson, trackJson); // init backend
 
-        if(resultCode == RESULT_OK) {
-            projectID = data.getIntExtra("projectID", 0);
-            project = backend.getProject(projectID);
+        project = backend.getProject(projectID);
 
-            trackList.clear();
-            trackList.addAll(project.getTrackNames());
-            trackList.add("+");
-            TrackAdapter.notifyDataSetChanged();
+        trackList.clear();
+        trackList.addAll(project.getTrackNames());
+        trackList.add("+");
+        TrackAdapter.notifyDataSetChanged();
 
-            mixer = new Mixer(project);
-            mixer.init();
-            mixer.make();
-        }
+        mixer = new Mixer(project);
+        mixer.init();
+        mixer.make();
     }
 
     // get backend from activity stack
@@ -234,6 +238,34 @@ public class ProjectView extends AppCompatActivity {
             if (position == parent.getCount()-1) {
                 // switch to NewTrackView and passes project and backend
                 intent = new Intent(getApplicationContext(), NewTrackView.class);
+
+                final Intent intentCreate = new Intent(getApplicationContext(), NewTrackView.class);
+                intentCreate.putExtra("projectID", projectID);
+
+                final Intent intentLoad = new Intent(getApplicationContext(), LoadTrackView.class);
+                intentLoad.putExtra("projectID", projectID);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Choose an option");
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Load",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                //startActivity(intentLoad);
+                            }
+                        })
+                        .setNegativeButton("Create",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                startActivity(intentCreate);
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
             } else {
                 intent = new Intent(getApplicationContext(), TrackView.class);
                 intent.putExtra("trackID", position);

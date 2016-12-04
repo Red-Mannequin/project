@@ -38,9 +38,8 @@ public class NewTrackView extends AppCompatActivity {
     // ui elements
     private EditText trackNameInput;
     private EditText trackAuthorInput;
-    private EditText trackPathInput;
     private EditText sampleRateInput;
-    private Button createTrackButton;
+    private Button TrackButton;
 
     // backend
     private String projectJson;
@@ -48,8 +47,6 @@ public class NewTrackView extends AppCompatActivity {
     private int projectID;
     private Project project;
     private Backend backend;
-
-    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +65,22 @@ public class NewTrackView extends AppCompatActivity {
         // get ui textfild
         trackNameInput = (EditText) findViewById(R.id.track_name_input);
         trackAuthorInput = (EditText) findViewById(R.id.track_author_input);
-        trackPathInput = (EditText) findViewById(R.id.track_path_input);
         sampleRateInput = (EditText) findViewById(R.id.track_sampleRate_input);
 
         // load TrackView when createTrackButton is pressed
-        createTrackButton = (Button) findViewById(R.id.create_track_button);
+        TrackButton = (Button) findViewById(R.id.create_track_button);
         setListeners();
-        createTrackButton.setEnabled (false);
-
     }
 
     private void setListeners() {
-        trackPathInput.setOnClickListener(new View.OnClickListener() {
+        TrackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 trackName = trackNameInput.getText().toString();
                 trackAuthor = trackAuthorInput.getText().toString();
                 trackSampleRate = sampleRateInput.getText().toString();
 
                 if (checkInputs(trackName, trackAuthor, trackSampleRate)) {
+<<<<<<< HEAD
                     trackNameInput.setFocusable(false);
 
                     File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
@@ -132,29 +127,49 @@ public class NewTrackView extends AppCompatActivity {
                 }
             }
         });
+=======
+                    if (TrackButton.getText().toString().equals("record")) {
+>>>>>>> Issue saving tracks
 
-        createTrackButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                trackAuthor = trackAuthorInput.getText().toString();
-                trackSampleRate = sampleRateInput.getText().toString();
-                Track track;
-                //Checks if the string is an integer and acts accordingly
-                if (trackSampleRate.matches("^-?\\d+$")) {
-                    track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
+                        File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
+                        File projectPath = new File(path, project.getName() + File.separator);
+                        File sourcePathFile = new File(path, "samples");
+                        File trackPathFile = new File(projectPath, "tracks" + File.separator);
+
+                        if (!path.exists()) path.mkdirs();
+                        if (!projectPath.exists()) projectPath.mkdirs();
+                        if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
+                        if (!trackPathFile.exists()) trackPathFile.mkdirs();
+
+                        File file = new File(sourcePathFile, trackName + ".pcm");
+
+                        final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
+                        intent.putExtra("path", file.getPath());
+
+                        startActivity(intent);
+
+                        trackSourcePath = sourcePathFile.getPath();
+                        trackProductPath = trackPathFile.getPath();
+
+                        TrackButton.setText("create");
+                    } else {
+                        trackAuthor = trackAuthorInput.getText().toString();
+                        trackSampleRate = sampleRateInput.getText().toString();
+                        Track track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
+
+                        if (projectID != -1) project.add(track);
+
+                        String[] JSONfiles = backend.toWrite();
+                        outputToFile(JSONfiles[0], "projects");
+                        outputToFile(JSONfiles[1], "tracks");
+
+                        Intent intent = new Intent(getApplicationContext(), TrackView.class);
+                        intent.putExtra("trackID", project.getTrackListSize() - 1);
+                        intent.putExtra("projectID", projectID);
+                        startActivityForResult(intent, TRACK_VIEW_RETURN);
+                        TrackButton.setText("record");
+                    }
                 }
-                else {
-                    track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
-                }
-                if (projectID != -1) project.add(track);
-
-                String[] JSONfiles = backend.toWrite();
-                outputToFile(JSONfiles[0], "projects");
-                outputToFile(JSONfiles[1], "tracks");
-
-                Intent intent = new Intent(getApplicationContext(), TrackView.class);
-                intent.putExtra("trackID", project.getTrackListSize()-1);
-                intent.putExtra("projectID", projectID);
-                startActivityForResult(intent, TRACK_VIEW_RETURN);
             }
         });
     }
@@ -184,6 +199,7 @@ public class NewTrackView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == TRACK_VIEW_RETURN) {
             if (resultCode == RESULT_OK) {
                 projectID = getIntent().getIntExtra("projectID", 0);
