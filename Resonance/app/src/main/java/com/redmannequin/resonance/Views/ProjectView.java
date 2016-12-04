@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 // project imports
+import com.redmannequin.resonance.Audio.AudioEffect;
+import com.redmannequin.resonance.Audio.Mixer.Mixer;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
+import com.redmannequin.resonance.Backend.Track;
 import com.redmannequin.resonance.R;
 
 // java imports
@@ -54,6 +57,9 @@ public class ProjectView extends AppCompatActivity {
     private Button play_button;
     private Button stop_button;
 
+    //
+    private Mixer mixer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,12 @@ public class ProjectView extends AppCompatActivity {
 
         // set title
         setTitle(project.getName());
+
+        if (project.getTrackListSize() != 0) {
+            mixer = new Mixer(project);
+            mixer.init();
+            mixer.make();
+        }
 
         // list view stuff
         trackList = new ArrayList<>();

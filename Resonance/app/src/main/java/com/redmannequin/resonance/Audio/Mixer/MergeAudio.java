@@ -1,4 +1,4 @@
-package com.redmannequin.resonance.Audio;
+package com.redmannequin.resonance.Audio.Mixer;
 
 import com.redmannequin.resonance.Backend.Track;
 import java.io.File;
