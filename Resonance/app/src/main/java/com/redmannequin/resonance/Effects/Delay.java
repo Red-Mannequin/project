@@ -8,19 +8,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.redmannequin.resonance.Backend.Effects.DelayEffect;
 import com.redmannequin.resonance.R;
 import com.redmannequin.resonance.Views.TrackView;
 
 public class Delay extends Fragment {
 
+    private Button enter;
+    private EditText delay;
+    private String delayText;
+    private EditText decay;
+    private String decayText;
+
     public static Delay getFragment() {
         Delay fragment = new Delay();
         return fragment;
     }
-
-    private Button enter;
-    private EditText delay;
-    private EditText decay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +34,9 @@ public class Delay extends Fragment {
         decay = (EditText) rootView.findViewById(R.id.decay);
         enter = (Button) rootView.findViewById(R.id.delay_enter);
 
+        delay.setText(delayText);
+        decay.setText(decayText);
+
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((TrackView)getActivity()).setDelay(Double.parseDouble(delay.getText().toString()), Double.parseDouble((decay.getText().toString())));
@@ -38,5 +44,13 @@ public class Delay extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void setDelayText(DelayEffect effect) {
+        delayText = (Double.toString(effect.getDelay()));
+    }
+
+    public void setDecayText(DelayEffect effect) {
+        decayText = (Double.toString(effect.getFactor()));
     }
 }

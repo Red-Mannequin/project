@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 // project imports
@@ -157,6 +158,7 @@ public class TrackView extends AppCompatActivity {
         play_button = (Button) findViewById(R.id.track_play_button);
         stop_button = (Button) findViewById(R.id.track_stop_button);
         setupListeners();
+        loadEffects();
     }
 
     // sets up the listeners for the ui elements
@@ -234,9 +236,38 @@ public class TrackView extends AppCompatActivity {
          } catch (IOException e) {}
      }
 
+    public void loadEffects() {
+        for(int i=0; i < track.numEffects(); ++i) {
+            if(track.getEffect(i).getID() == 0) {
+                DelayEffect delay = (DelayEffect) track.getEffect(i);
+
+                Delay delayFragment = Delay.getFragment();
+
+                delayFragment.setDelayText(delay);
+                delayFragment.setDecayText(delay);
+
+                addFragment(delayFragment);
+
+                audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
+                audioEffect.make();
+            } else {
+                FlangerEffect flanger = (FlangerEffect) track.getEffect(i);
+
+                Flanger flangerFragment = Flanger.getFragment();
+
+                flangerFragment.setLengthText(flanger);
+                flangerFragment.setWetText(flanger);
+                flangerFragment.setFrequencyText(flanger);
+
+                addFragment(flangerFragment);
+
+                audioEffect.addFlangerEffect(flanger.getMaxLength(), flanger.getWetness(), flanger.getLowFilterFrequency());
+                audioEffect.make();
+            }
+        }
+    }
 
     public void setDelay(double del, double dec) {
-
         DelayEffect delay = new DelayEffect(del, dec);
         track.addEffect(delay);
         audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
@@ -244,7 +275,6 @@ public class TrackView extends AppCompatActivity {
     }
 
     public void setFlanger(double length, double wet, double frequency) {
-
         FlangerEffect flanger = new FlangerEffect(length, wet, 0, frequency);
         track.addEffect(flanger);
         audioEffect.addFlangerEffect(flanger.getMaxLength(), flanger.getWetness(), flanger.getLowFilterFrequency());
