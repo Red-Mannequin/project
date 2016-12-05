@@ -67,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/delay_text"
-        android:text="Apply"/>
+        android:text="Apply"
+        android:freezesText="true"/>
 
 </RelativeLayout>

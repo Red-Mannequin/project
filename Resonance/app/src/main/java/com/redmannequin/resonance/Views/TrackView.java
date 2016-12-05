@@ -250,6 +250,7 @@ public class TrackView extends AppCompatActivity {
                 addFragment(delayFragment);
 
                 audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
+
             } else {
                 FlangerEffect flanger = (FlangerEffect) track.getEffect(i);
 
@@ -380,11 +381,11 @@ public class TrackView extends AppCompatActivity {
         Fragment newfragment;
         if(position == 0) {
             Delay temp = Delay.getFragment();
-            temp.setFragmentIndex(numFragments-1);
+            temp.setFragmentIndex(numFragments-2);
             newfragment = temp;
         } else if(position == 1) {
             Flanger temp = Flanger.getFragment();
-            temp.setFragmentIndex(numFragments-1);
+            temp.setFragmentIndex(numFragments-2);
             newfragment = temp;
         } else {
             PitchShift temp = PitchShift.getFragment();
