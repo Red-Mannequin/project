@@ -251,12 +251,12 @@ public class ProjectView extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Load",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                //startActivity(intentLoad);
+                                startActivityForResult(intentLoad, 0);
                             }
                         })
                         .setNegativeButton("Create",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                startActivity(intentCreate);
+                                startActivityForResult(intentCreate, 0);
                             }
                         });
 
