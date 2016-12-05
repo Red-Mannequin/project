@@ -80,43 +80,45 @@ public class NewTrackView extends AppCompatActivity {
                 trackSampleRate = sampleRateInput.getText().toString();
 
                 if (checkInputs(trackName, trackAuthor, trackSampleRate)) {
-                    File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
-                    File projectPath = new File(path, project.getName() + File.separator);
-                    File sourcePathFile = new File(path, "samples");
-                    File trackPathFile = new File(projectPath, "tracks" + File.separator);
+                    if (TrackButton.getText().toString().equals("record")) {
+                        File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
+                        File projectPath = new File(path, project.getName() + File.separator);
+                        File sourcePathFile = new File(path, "samples");
+                        File trackPathFile = new File(projectPath, "tracks" + File.separator);
 
-                    if (!path.exists()) path.mkdirs();
-                    if (!projectPath.exists()) projectPath.mkdirs();
-                    if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
-                    if (!trackPathFile.exists()) trackPathFile.mkdirs();
+                        if (!path.exists()) path.mkdirs();
+                        if (!projectPath.exists()) projectPath.mkdirs();
+                        if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
+                        if (!trackPathFile.exists()) trackPathFile.mkdirs();
 
-                    File file = new File(sourcePathFile, trackName + ".pcm");
+                        File file = new File(sourcePathFile, trackName + ".pcm");
 
-                    final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
-                    intent.putExtra("path", file.getPath());
+                        final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
+                        intent.putExtra("path", file.getPath());
 
-                    startActivity(intent);
+                        startActivity(intent);
 
-                    trackSourcePath = sourcePathFile.getPath();
-                    trackProductPath = trackPathFile.getPath();
+                        trackSourcePath = sourcePathFile.getPath();
+                        trackProductPath = trackPathFile.getPath();
 
-                    TrackButton.setText("create");
-                } else {
-                    trackAuthor = trackAuthorInput.getText().toString();
-                    trackSampleRate = sampleRateInput.getText().toString();
-                    Track track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
+                        TrackButton.setText("create");
+                    } else {
+                        trackAuthor = trackAuthorInput.getText().toString();
+                        trackSampleRate = sampleRateInput.getText().toString();
+                        Track track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
 
-                    if (projectID != -1) project.add(track);
+                        if (projectID != -1) project.add(track);
 
-                    String[] JSONfiles = backend.toWrite();
-                    outputToFile(JSONfiles[0], "projects");
-                    outputToFile(JSONfiles[1], "tracks");
+                        String[] JSONfiles = backend.toWrite();
+                        outputToFile(JSONfiles[0], "projects");
+                        outputToFile(JSONfiles[1], "tracks");
 
-                    Intent intent = new Intent(getApplicationContext(), TrackView.class);
-                    intent.putExtra("trackID", project.getTrackListSize() - 1);
-                    intent.putExtra("projectID", projectID);
-                    startActivityForResult(intent, TRACK_VIEW_RETURN);
-                    TrackButton.setText("record");
+                        Intent intent = new Intent(getApplicationContext(), TrackView.class);
+                        intent.putExtra("trackID", project.getTrackListSize() - 1);
+                        intent.putExtra("projectID", projectID);
+                        startActivityForResult(intent, TRACK_VIEW_RETURN);
+                        TrackButton.setText("record");
+                    }
                 }
             }
         });

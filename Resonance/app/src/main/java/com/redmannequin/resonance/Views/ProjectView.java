@@ -273,10 +273,10 @@ public class ProjectView extends AppCompatActivity {
             } else {
                 intent = new Intent(getApplicationContext(), TrackView.class);
                 intent.putExtra("trackID", position);
+                intent.putExtra("projectID", projectID);
+                startActivityForResult(intent, 0);
             }
 
-            intent.putExtra("projectID", projectID);
-            startActivityForResult(intent, 0);
             TrackDrawerList.setItemChecked(position, true);
         }
     }
