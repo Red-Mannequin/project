@@ -34,6 +34,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProjectView extends AppCompatActivity {
+
+    private static final int LOAD_VIEW_RETURN = 0;
+    private static final int NEW_TRACK_VIEW_RETURN = 1;
+
     // json paths
     private String projectJson;
     private String trackJson;
@@ -251,12 +255,12 @@ public class ProjectView extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Load",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                startActivityForResult(intentLoad, 0);
+                                startActivityForResult(intentLoad, LOAD_VIEW_RETURN);
                             }
                         })
                         .setNegativeButton("Create",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                startActivityForResult(intentCreate, 0);
+                                startActivityForResult(intentCreate, NEW_TRACK_VIEW_RETURN);
                             }
                         });
 

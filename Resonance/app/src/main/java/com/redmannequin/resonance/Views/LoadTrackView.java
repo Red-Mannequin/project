@@ -85,7 +85,8 @@ public class LoadTrackView extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // add track to current project, save JSON, go back to project view
 
-                project.add(trackList.get(position));
+                Track dupTrack = new Track(trackList.get(position));
+                project.add(dupTrack);
 
                 String[] JSONfiles = backend.toWrite();
                 outputToFile(JSONfiles[0], "projects");
