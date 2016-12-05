@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 // project imports
 import com.redmannequin.resonance.Audio.AudioHelper;
+import com.redmannequin.resonance.Audio.Config;
 import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.Audio.Mixer.Mixer;
 import com.redmannequin.resonance.AudioWaveView;
@@ -249,7 +250,6 @@ public class TrackView extends AppCompatActivity {
                 addFragment(delayFragment);
 
                 audioEffect.addDelayEffect(delay.getDelay(), delay.getFactor());
-                audioEffect.make();
             } else {
                 FlangerEffect flanger = (FlangerEffect) track.getEffect(i);
 
@@ -261,10 +261,10 @@ public class TrackView extends AppCompatActivity {
 
                 addFragment(flangerFragment);
 
-                audioEffect.addFlangerEffect(flanger.getMaxLength(), flanger.getWetness(), flanger.getLowFilterFrequency());
-                audioEffect.make();
+                audioEffect.addFlangerEffect(flanger.getWetness(), flanger.getMaxLength(), flanger.getLowFilterFrequency());
             }
         }
+        audioEffect.make();
     }
 
     public void setDelay(double del, double dec) {
@@ -275,9 +275,14 @@ public class TrackView extends AppCompatActivity {
     }
 
     public void setFlanger(double length, double wet, double frequency) {
-        FlangerEffect flanger = new FlangerEffect(length, wet, 0, frequency);
+        FlangerEffect flanger = new FlangerEffect(wet, length, Config.FREQUENCY, frequency);
         track.addEffect(flanger);
         audioEffect.addFlangerEffect(flanger.getMaxLength(), flanger.getWetness(), flanger.getLowFilterFrequency());
+        audioEffect.make();
+    }
+
+    public void toggleEffect(int index) {
+        audioEffect.toggle(index);
         audioEffect.make();
     }
 
@@ -374,11 +379,17 @@ public class TrackView extends AppCompatActivity {
     private void selectItem(int position) {
         Fragment newfragment;
         if(position == 0) {
-            newfragment = Delay.getFragment();
+            Delay temp = Delay.getFragment();
+            temp.setFragmentIndex(numFragments-1);
+            newfragment = temp;
         } else if(position == 1) {
-            newfragment = Flanger.getFragment();
+            Flanger temp = Flanger.getFragment();
+            temp.setFragmentIndex(numFragments-1);
+            newfragment = temp;
         } else {
-            newfragment = PitchShift.getFragment();
+            PitchShift temp = PitchShift.getFragment();
+            //temp.setFragmentIndex(numFragments);
+            newfragment = temp;
         }
 
         addFragment(newfragment);

@@ -29,6 +29,8 @@ public class Flanger extends Fragment {
     private EditText frequency;
     private String frequencyText;
 
+    private int fragmentIndex;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,15 +41,20 @@ public class Flanger extends Fragment {
         frequency = (EditText) rootView.findViewById(R.id.flanger_frequency);
         enter = (Button) rootView.findViewById(R.id.flanger_enter);
 
-        length.setText(wetText);
-        wet.setText(lengthText);
+        length.setText(lengthText);
+        wet.setText(wetText);
         frequency.setText(frequencyText);
 
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.w("test", "frag");
-                ((TrackView)getActivity()).setFlanger(Double.parseDouble(length.getText().toString()),
-                        Double.parseDouble((wet.getText().toString())), Double.parseDouble(frequency.getText().toString()));
+                if(enter.getText().equals("Apply")) {
+                    ((TrackView) getActivity()).setFlanger(Double.parseDouble(length.getText().toString()),
+                            Double.parseDouble((wet.getText().toString())), Double.parseDouble(frequency.getText().toString()));
+                    enter.setText("Disable");
+                } else {
+                    ((TrackView) getActivity()).toggleEffect(fragmentIndex);
+                    enter.setText(enter.getText().equals("Disable") ? "Enable" : "Disable");
+                }
             }
         });
 
@@ -64,5 +71,9 @@ public class Flanger extends Fragment {
 
     public void setFrequencyText(FlangerEffect effect) {
         frequencyText = (Double.toString(effect.getLowFilterFrequency()));
+    }
+
+    public void setFragmentIndex(int i) {
+        fragmentIndex = i;
     }
 }

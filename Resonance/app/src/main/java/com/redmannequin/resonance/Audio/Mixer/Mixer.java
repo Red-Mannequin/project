@@ -35,6 +35,7 @@ public class Mixer {
 
 
     private ArrayList<AudioProcessor> processors;
+    private ArrayList<Boolean> flags;
 
     public Mixer(Project project) {
         this.project = project;
@@ -42,6 +43,7 @@ public class Mixer {
         audioInputStream = null;
         dispatcher = null;
         processors = new ArrayList<>();
+        flags = new ArrayList<>();
     }
 
     public void init() {
@@ -84,6 +86,7 @@ public class Mixer {
             source = new RandomAccessFile(path, "rw");
             DelayEffect delayEffect = new DelayEffect(length, decay, Config.FREQUENCY);
             processors.add(delayEffect);
+            flags.add(true);
             source.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,6 +96,7 @@ public class Mixer {
     public void addFlangerEffect(double length, double wet, double frequency) {
         FlangerEffect flangerEffect = new FlangerEffect(length/1000.0, wet/100.0, Config.FREQUENCY, frequency/10.0);
         processors.add(flangerEffect);
+        flags.add(true);
     }
 
     public void addPitchShiftEffect(double factor,int size) {
@@ -105,6 +109,14 @@ public class Mixer {
         processors.add(audio);
     }
 
+    public void remove(int i) {
+        processors.remove(i);
+    }
+
+    public void toggle(int i) {
+        flags.set(i, !flags.get(i));
+    }
+
     public void make() {
         if (track == null) for (int i=0; i < project.getTrackListSize(); ++i) addAudioToMerge(project.getTrack(i));
         try {
@@ -113,7 +125,8 @@ public class Mixer {
             RandomAccessFile audio = new RandomAccessFile(newPath, "rw");
             audio.seek(0);
             audio.setLength(0);
-            for (AudioProcessor ap : processors) dispatcher.addAudioProcessor(ap);
+            for(int i=0; i < processors.size(); ++i)
+                if(flags.get(i)) dispatcher.addAudioProcessor(processors.get(i));
             dispatcher.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false), audio));
             dispatcher.run();
             dispatcher.stop();

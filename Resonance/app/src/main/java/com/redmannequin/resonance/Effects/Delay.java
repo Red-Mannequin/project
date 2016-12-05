@@ -20,6 +20,8 @@ public class Delay extends Fragment {
     private EditText decay;
     private String decayText;
 
+    private int fragmentIndex;
+
     public static Delay getFragment() {
         Delay fragment = new Delay();
         return fragment;
@@ -39,7 +41,13 @@ public class Delay extends Fragment {
 
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((TrackView)getActivity()).setDelay(Double.parseDouble(delay.getText().toString()), Double.parseDouble((decay.getText().toString())));
+                if (enter.getText().equals("Apply")) {
+                    ((TrackView) getActivity()).setDelay(Double.parseDouble(delay.getText().toString()), Double.parseDouble((decay.getText().toString())));
+                    enter.setText("Disable");
+                } else {
+                    ((TrackView) getActivity()).toggleEffect(fragmentIndex);
+                    enter.setText(enter.getText().equals("Disable") ? "Enable" : "Disable");
+                }
             }
         });
 
@@ -52,5 +60,9 @@ public class Delay extends Fragment {
 
     public void setDecayText(DelayEffect effect) {
         decayText = (Double.toString(effect.getFactor()));
+    }
+
+    public void setFragmentIndex(int i) {
+        fragmentIndex = i;
     }
 }
