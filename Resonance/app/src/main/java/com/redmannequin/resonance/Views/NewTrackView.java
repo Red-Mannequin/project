@@ -80,95 +80,43 @@ public class NewTrackView extends AppCompatActivity {
                 trackSampleRate = sampleRateInput.getText().toString();
 
                 if (checkInputs(trackName, trackAuthor, trackSampleRate)) {
-<<<<<<< HEAD
-                    trackNameInput.setFocusable(false);
-
                     File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
+                    File projectPath = new File(path, project.getName() + File.separator);
                     File sourcePathFile = new File(path, "samples");
-                    File trackPathFile = new File(project.getPath(), "tracks" + File.separator);
+                    File trackPathFile = new File(projectPath, "tracks" + File.separator);
 
+                    if (!path.exists()) path.mkdirs();
+                    if (!projectPath.exists()) projectPath.mkdirs();
                     if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
                     if (!trackPathFile.exists()) trackPathFile.mkdirs();
 
-                    File file = new File(sourcePathFile, trackName+".pcm");
+                    File file = new File(sourcePathFile, trackName + ".pcm");
 
                     final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
                     intent.putExtra("path", file.getPath());
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                    alertDialogBuilder.setTitle("Choose an option");
-                    alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("Load",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("Record",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                startActivity(intent);
-                            }
-                        });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();
+                    startActivity(intent);
 
                     trackSourcePath = sourcePathFile.getPath();
                     trackProductPath = trackPathFile.getPath();
-                    trackPathInput.setText(trackName);
-                    trackPathInput.setClickable(true);
-                    createTrackButton.setEnabled(true);
 
+                    TrackButton.setText("create");
                 } else {
-                    trackNameInput.setError("Track Name Taken");
-                }
-            }
-        });
-=======
-                    if (TrackButton.getText().toString().equals("record")) {
->>>>>>> Issue saving tracks
+                    trackAuthor = trackAuthorInput.getText().toString();
+                    trackSampleRate = sampleRateInput.getText().toString();
+                    Track track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
 
-                        File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Resonance" + File.separator);
-                        File projectPath = new File(path, project.getName() + File.separator);
-                        File sourcePathFile = new File(path, "samples");
-                        File trackPathFile = new File(projectPath, "tracks" + File.separator);
+                    if (projectID != -1) project.add(track);
 
-                        if (!path.exists()) path.mkdirs();
-                        if (!projectPath.exists()) projectPath.mkdirs();
-                        if (!sourcePathFile.exists()) sourcePathFile.mkdirs();
-                        if (!trackPathFile.exists()) trackPathFile.mkdirs();
+                    String[] JSONfiles = backend.toWrite();
+                    outputToFile(JSONfiles[0], "projects");
+                    outputToFile(JSONfiles[1], "tracks");
 
-                        File file = new File(sourcePathFile, trackName + ".pcm");
-
-                        final Intent intent = new Intent(getApplicationContext(), RecordTrackView.class);
-                        intent.putExtra("path", file.getPath());
-
-                        startActivity(intent);
-
-                        trackSourcePath = sourcePathFile.getPath();
-                        trackProductPath = trackPathFile.getPath();
-
-                        TrackButton.setText("create");
-                    } else {
-                        trackAuthor = trackAuthorInput.getText().toString();
-                        trackSampleRate = sampleRateInput.getText().toString();
-                        Track track = new Track(trackName, trackSourcePath, trackProductPath, 0, 0, 0, 0, 0, Config.FREQUENCY);
-
-                        if (projectID != -1) project.add(track);
-
-                        String[] JSONfiles = backend.toWrite();
-                        outputToFile(JSONfiles[0], "projects");
-                        outputToFile(JSONfiles[1], "tracks");
-
-                        Intent intent = new Intent(getApplicationContext(), TrackView.class);
-                        intent.putExtra("trackID", project.getTrackListSize() - 1);
-                        intent.putExtra("projectID", projectID);
-                        startActivityForResult(intent, TRACK_VIEW_RETURN);
-                        TrackButton.setText("record");
-                    }
+                    Intent intent = new Intent(getApplicationContext(), TrackView.class);
+                    intent.putExtra("trackID", project.getTrackListSize() - 1);
+                    intent.putExtra("projectID", projectID);
+                    startActivityForResult(intent, TRACK_VIEW_RETURN);
+                    TrackButton.setText("record");
                 }
             }
         });
