@@ -178,7 +178,7 @@ public class ProjectView extends AppCompatActivity {
         trackJson = loadJson("tracks");      // load track json
         projectJson = loadJson("projects");  // load project json
         backend = new Backend(projectJson, trackJson); // init backend
-
+        
         project = backend.getProject(projectID);
 
         trackList.clear();
