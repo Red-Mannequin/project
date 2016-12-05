@@ -139,9 +139,7 @@ public class LoadTrackView extends AppCompatActivity {
     private ArrayList<Project> getOtherProjects() {
         ArrayList<Project> otherProjects = new ArrayList<Project>();
         for(int i=0; i < backend.getProjectListSize(); ++i) {
-            if(i == projectID) {
-                ++i;
-            } else {
+            if(i != projectID) {
                 otherProjects.add(backend.getProject(i));
             }
         }
@@ -153,7 +151,6 @@ public class LoadTrackView extends AppCompatActivity {
         for(int i=0; i < otherProjects.size(); ++i) {
             for(int x=0; x < otherProjects.get(i).getTrackListSize(); ++x) {
                 otherTracks.add(otherProjects.get(i).getTrack(x));
-                ++x;
             }
         }
         return otherTracks;
