@@ -117,6 +117,7 @@ public class Mixer {
     public void addAudioToMerge(Track track) {
         MergeAudio audio = new MergeAudio(track);
         processors.add(audio);
+        flags.add(true);
     }
 
     public void remove(int i) {
@@ -135,7 +136,7 @@ public class Mixer {
             RandomAccessFile audio = new RandomAccessFile(newPath, "rw");
             audio.seek(0);
             audio.setLength(0);
-            if (flags.size() != 0)
+            if (processors.size() != 0)
                 for(int i=0; i < processors.size(); ++i)
                     if(flags.get(i)) dispatcher.addAudioProcessor(processors.get(i));
             dispatcher.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false), audio));

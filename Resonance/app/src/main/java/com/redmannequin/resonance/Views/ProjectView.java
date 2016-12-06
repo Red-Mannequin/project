@@ -19,8 +19,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 // project imports
+import com.redmannequin.resonance.Audio.AudioHelper;
 import com.redmannequin.resonance.Audio.MediaPlayer;
 import com.redmannequin.resonance.Audio.Mixer.Mixer;
+import com.redmannequin.resonance.AudioWaveView;
 import com.redmannequin.resonance.Backend.Backend;
 import com.redmannequin.resonance.Backend.Project;
 import com.redmannequin.resonance.R;
@@ -72,6 +74,8 @@ public class ProjectView extends AppCompatActivity {
 
     final Context context = this;
 
+    private AudioWaveView waveView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,11 +103,15 @@ public class ProjectView extends AppCompatActivity {
         player = new MediaPlayer();
         player.init(project.getPath() + File.separator + project.getName() + ".wav");
 
+        waveView = (AudioWaveView) findViewById(R.id.project_wave_view);
+
         handle = new Handler();
         seek = new Runnable() {
             @Override
             public void run() {
                 if (player.isPlaying()) {
+                    short temp[] = AudioHelper.byte2short(player.getBuffer());
+                    waveView.update(temp);
                     handle.postDelayed(this, 50);
                 } else {
                     play_button.setText("play");
