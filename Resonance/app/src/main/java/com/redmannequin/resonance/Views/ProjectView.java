@@ -97,7 +97,7 @@ public class ProjectView extends AppCompatActivity {
         }
 
         player = new MediaPlayer();
-        player.init(project.getPath() + File.separator + project.getName() + ".wav");
+        player.init(project.getPath() + File.separator + project.getName() + "_final.wav");
 
         handle = new Handler();
         seek = new Runnable() {

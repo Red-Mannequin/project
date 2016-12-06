@@ -113,7 +113,7 @@ public class TrackView extends AppCompatActivity {
         audioEffect.make();
 
         // init player with wav
-        player.init(track.getProductPath() + File.separator + track.getName() + ".wav");
+        player.init(track.getProductPath() + File.separator + track.getName() + "_final.wav");
 
         // set adapter for effect fragments
         //initialize fragment list
@@ -381,11 +381,11 @@ public class TrackView extends AppCompatActivity {
         Fragment newfragment;
         if(position == 0) {
             Delay temp = Delay.getFragment();
-            temp.setFragmentIndex(numFragments-2);
+            temp.setFragmentIndex(numFragments-1);
             newfragment = temp;
         } else if(position == 1) {
             Flanger temp = Flanger.getFragment();
-            temp.setFragmentIndex(numFragments-2);
+            temp.setFragmentIndex(numFragments-1);
             newfragment = temp;
         } else {
             PitchShift temp = PitchShift.getFragment();

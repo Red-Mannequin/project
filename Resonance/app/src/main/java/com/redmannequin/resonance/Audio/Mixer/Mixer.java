@@ -65,11 +65,21 @@ public class Mixer {
         track = project.getTrack(id);
         audioFormat = new TarsosDSPAudioFormat(track.getSampleRate(), 16, 1, true, false);
         path = track.getSourcePath() + File.separator + track.getName() + ".pcm";
-        newPath = track.getProductPath() + File.separator + track.getName() + ".wav";
+        newPath = track.getProductPath() + File.separator + track.getName() + "_final.wav";
         try {
-            source = new RandomAccessFile(path, "r");
-            source.seek(0);
-            source.close();
+
+            String test = track.getProductPath() + File.separator + track.getName() + ".wav";
+
+            audioInputStream = new UniversalAudioInputStream(new FileInputStream(path), audioFormat);
+
+            dispatcher = new AudioDispatcher(audioInputStream, 1024, 0);
+            RandomAccessFile sourcen = new RandomAccessFile(test, "rw");
+
+            dispatcher.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false), sourcen));
+            dispatcher.run();
+
+            path = test;
+
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -114,7 +124,7 @@ public class Mixer {
     }
 
     public void toggle(int i) {
-        flags.set(i, !flags.get(i));
+        if (i < flags.size() && i >= 0)flags.set(i, !flags.get(i));
     }
 
     public void make() {
@@ -125,14 +135,13 @@ public class Mixer {
             RandomAccessFile audio = new RandomAccessFile(newPath, "rw");
             audio.seek(0);
             audio.setLength(0);
-            for(int i=0; i < processors.size(); ++i)
-                if(flags.get(i)) dispatcher.addAudioProcessor(processors.get(i));
+            if (flags.size() != 0)
+                for(int i=0; i < processors.size(); ++i)
+                    if(flags.get(i)) dispatcher.addAudioProcessor(processors.get(i));
             dispatcher.addAudioProcessor(new WriterProcessor(new TarsosDSPAudioFormat(Config.FREQUENCY, 16, 2, true, false), audio));
             dispatcher.run();
             dispatcher.stop();
 
-            source = new RandomAccessFile(path, "rw");
-            source.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

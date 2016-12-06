@@ -2,6 +2,7 @@ package com.redmannequin.resonance.Effects;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class Delay extends Fragment {
                     ((TrackView) getActivity()).setDelay(Double.parseDouble(delay.getText().toString()), Double.parseDouble((decay.getText().toString())));
                     enter.setText("Disable");
                 } else {
+                    Log.w("test", ""+fragmentIndex);
                     ((TrackView) getActivity()).toggleEffect(fragmentIndex);
                     enter.setText(enter.getText().equals("Disable") ? "Enable" : "Disable");
                 }
